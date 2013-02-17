@@ -7,6 +7,7 @@ public class Post {
   
     private BigInteger id;
     private String reblog_key;
+    private String blog_name;
     
     private JumblrClient client;
     
@@ -22,6 +23,13 @@ public class Post {
         return this.reblog_key;
     }
 
+    /**
+     * Delete this post
+     */
+    public void delete() {
+        client.postDelete(blog_name, id);
+    }
+    
     /**
      * Like this post
      */

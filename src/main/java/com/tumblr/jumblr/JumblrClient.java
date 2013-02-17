@@ -247,6 +247,17 @@ public final class JumblrClient {
     }
     
     /**
+     * Delete a given post
+     * @param blogName the name of the blog the post is in
+     * @param postId the id of the post to delete
+     */
+    public void postDelete(String blogName, BigInteger postId) {
+        Map map = new HashMap<String, String>();
+        map.put("id", postId);
+        this.clearPost(JumblrClient.blogPath(blogName, "/post/delete"), map);
+    }
+    
+    /**
      **
      **
      */
