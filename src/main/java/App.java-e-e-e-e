@@ -2,6 +2,7 @@ import com.tumblr.jumblr.JumblrClient;
 import com.tumblr.jumblr.types.Blog;
 import com.tumblr.jumblr.types.Post;
 import com.tumblr.jumblr.types.User;
+import java.util.HashMap;
 
 public class App {
 
@@ -22,9 +23,13 @@ public class App {
         User user = client.userInfo();
         System.out.printf("%s is following %d blogs!\n", user.getName(), user.getFollowing());
         
-        for (Post post : client.userDashboard()) {
+        HashMap<String, Integer> options = new HashMap<String, Integer>();
+        options.put("limit", 2);
+        for (Post post : client.userDashboard(options)) {
             System.out.println(post.getReblogKey());
         }
+       
+        System.exit(0);
         
         Blog my = null;
         for (Blog blog : user.getBlogs()) {

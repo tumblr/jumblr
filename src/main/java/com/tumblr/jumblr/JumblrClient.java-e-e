@@ -70,17 +70,22 @@ public final class JumblrClient {
     
     /**
      * Get the user dashboard for the authenticated User
+     * @param options the options for the call (or null)
      * @return A List of posts
      */
+    public List<Post> userDashboard(Map<String, ?> options) {
+        return this.clearGet("/user/dashboard", options).getPosts();
+    }
+    
     public List<Post> userDashboard() {
-        return this.clearGet("/user/dashboard").getPosts();
+        return this.userDashboard(null);
     }
     
     /**
      * Get the blogs the given user is following
      * @return a List of blogs
      */
-    public List<Blog> userFollowing(Map options) {
+    public List<Blog> userFollowing(Map<String, ?> options) {
         return this.clearGet("/user/following", options).getBlogs();
     }
 
@@ -102,7 +107,7 @@ public final class JumblrClient {
      * @param blogName the name of the blog
      * @return the blog object for this blog
      */
-    public List<User> blogFollowers(String blogName, Map<String, String> options) {
+    public List<User> blogFollowers(String blogName, Map<String, ?> options) {
         return this.clearGet(JumblrClient.blogPath(blogName, "/followers"), options).getUsers();
     }
 
@@ -114,11 +119,12 @@ public final class JumblrClient {
      * @param options the options for this call (or null)
      * @return a List of posts
      */
-    public List<Post> blogLikes(String blogName, Map<String, String> options) {
+    public List<Post> blogLikes(String blogName, Map<String, ?> options) {
         if (options == null) {
             options = new HashMap<String, String>();
         }
-        options.put("api_key", this.apiKey);
+        Map<String, String> soptions = (Map<String, String>)options;
+        soptions.put("api_key", this.apiKey);
         return this.clearGet(JumblrClient.blogPath(blogName, "/likes"), options).getLikedPosts();
     }
     
@@ -132,7 +138,7 @@ public final class JumblrClient {
      * @param options the options for this call (or null)
      * @return a List of posts
      */
-    public List<Post> blogQueuedPosts(String blogName, Map<String, String> options) {
+    public List<Post> blogQueuedPosts(String blogName, Map<String, ?> options) {
         return this.clearGet(JumblrClient.blogPath(blogName, "/posts/queue"), options).getPosts();
     }
     
@@ -146,7 +152,7 @@ public final class JumblrClient {
      * @param options the options for this call (or null)
      * @return a List of posts
      */
-    public List<Post> blogDraftPosts(String blogName, Map<String, String> options) {
+    public List<Post> blogDraftPosts(String blogName, Map<String, ?> options) {
         return this.clearGet(JumblrClient.blogPath(blogName, "/posts/draft"), options).getPosts();
     }
     
@@ -160,7 +166,7 @@ public final class JumblrClient {
      * @param options the options for this call (or null)
      * @return a List of posts
      */
-    public List<Post> blogSubmissions(String blogName, Map<String, String> options) {
+    public List<Post> blogSubmissions(String blogName, Map<String, ?> options) {
         return this.clearGet(JumblrClient.blogPath(blogName, "/posts/submission"), options).getPosts();
     }
     
@@ -173,7 +179,7 @@ public final class JumblrClient {
      * @param options the options for this call (or null)
      * @return a List of posts
      */
-    public List<Post> userLikes(Map<String, String> options) {
+    public List<Post> userLikes(Map<String, ?> options) {
         return this.clearGet("/user/likes", options).getLikedPosts();
     }
     
@@ -208,7 +214,7 @@ public final class JumblrClient {
      * @param reblogKey The reblog key for the post
      */
     public void like(BigInteger postId, String reblogKey) {
-        HashMap<String, String> map = new HashMap<String, String>();
+        Map map = new HashMap<String, String>();
         map.put("id", postId.toString());
         map.put("reblog_key", reblogKey);
         this.clearPost("/user/like", map);
@@ -231,7 +237,7 @@ public final class JumblrClient {
      * @param blogName The name of the blog to follow
      */
     public void follow(String blogName) {
-        HashMap<String, String> map = new HashMap<String, String>();
+        Map map = new HashMap<String, String>();
         map.put("url", JumblrClient.blogUrl(blogName));
         this.clearPost("/user/follow", map);
     }
@@ -266,13 +272,13 @@ public final class JumblrClient {
         return this.clearGet(path, null);
     }
     
-    private ResponseWrapper clearPost(String path, Map<String, String> bodyMap) {
+    private ResponseWrapper clearPost(String path, Map<String, ?> bodyMap) {
         Response response = this.post(path, bodyMap);
         System.out.println(response.getBody());
         return this.clear(response);
     }
     
-    private ResponseWrapper clearGet(String path, Map<String, String> map) {
+    private ResponseWrapper clearGet(String path, Map<String, ?> map) {
         Response response = this.get(path, map);
         return this.clear(response);
     }
@@ -299,24 +305,24 @@ public final class JumblrClient {
         return this.get(path, null);
     }
     
-    private Response get(String path, Map<String, String> queryParams) {
+    private Response get(String path, Map<String, ?> queryParams) {
         String url = "http://api.tumblr.com/v2" + path;
         OAuthRequest request = new OAuthRequest(Verb.GET, url);
         if (queryParams != null) {
             for (String key : queryParams.keySet()) {
-                request.addQuerystringParameter(key, queryParams.get(key));
+                request.addQuerystringParameter(key, queryParams.get(key).toString());
             }
         }
         service.signRequest(token, request);
         return request.send();
     }
 
-    private Response post(String path, Map<String, String> bodyMap) {
+    private Response post(String path, Map<String, ?> bodyMap) {
         String url = "http://api.tumblr.com/v2" + path;
         OAuthRequest request = new OAuthRequest(Verb.POST, url);
         if (bodyMap != null) {
             for (String key : bodyMap.keySet()) {
-                request.addBodyParameter(key, bodyMap.get(key));
+                request.addBodyParameter(key, bodyMap.get(key).toString());
             }
         }
         service.signRequest(token, request);
