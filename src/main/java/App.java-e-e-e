@@ -50,16 +50,16 @@ public class App {
         // Play with a blog
         Blog blog = client.blogInfo("seejohnrun.tumblr.com");
         System.out.println(blog.getTitle());
-        System.out.println(blog.getAvatar());
+        System.out.println(blog.avatar());
         
         // Get our followers
-        for (User follower : blog.getFollowers()) {
+        for (User follower : blog.followers()) {
             System.out.println(follower.getName());
         }
         
         // Get our likes
         Post last = null;
-        for (Post post : blog.getLikedPosts()) {
+        for (Post post : blog.likedPosts()) {
             System.out.println(post.getId());
             last = post;
         }

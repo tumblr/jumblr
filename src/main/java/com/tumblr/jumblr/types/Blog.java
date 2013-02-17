@@ -39,7 +39,7 @@ public class Blog {
      * Get the avatar for this blog
      * @return A String URL for the avatar
      */
-    public String getAvatar() {
+    public String avatar() {
         return client.blogAvatar(this.name);
     }
     
@@ -48,7 +48,7 @@ public class Blog {
      * @param size the size to get the avatar for
      * @return A string URL for the avatar
      */
-    public String getAvatar(int size) {
+    public String avatar(int size) {
         return client.blogAvatar(this.name, size);
     }
 
@@ -57,22 +57,22 @@ public class Blog {
      * @param options a map of options (or null)
      * @return A List of users
      */
-    public List<User> getFollowers(Map options) {
+    public List<User> followers(Map options) {
         return client.blogFollowers(this.name, options);
     }
     
-    public List<User> getFollowers() { return this.getFollowers(null); }
+    public List<User> followers() { return this.followers(null); }
     
     /**
      * Get likes posts for this blog
      * @param options a map of options (or null)
      * @return A List of posts
      */
-    public List<Post> getLikedPosts(Map options) {
+    public List<Post> likedPosts(Map options) {
         return client.blogLikes(this.name, options);
     }
     
-    public List<Post> getLikedPosts() { return this.getLikedPosts(null); }
+    public List<Post> likedPosts() { return this.likedPosts(null); }
 
     /**
      * Follow this blog
