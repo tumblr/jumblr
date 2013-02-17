@@ -4,6 +4,7 @@ import com.tumblr.jumblr.JumblrClient;
 import com.tumblr.jumblr.types.Blog;
 import com.tumblr.jumblr.types.Post;
 import com.tumblr.jumblr.types.User;
+import java.util.List;
 
 public class ResponseWrapper {
 
@@ -26,30 +27,30 @@ public class ResponseWrapper {
         this.client = client;
     }
 
-    public Iterable<Post> getPosts() {
-        Iterable<Post> posts = response.getPosts();
+    public List<Post> getPosts() {
+        List<Post> posts = response.getPosts();
         for (Post post : posts) {
             post.setClient(client);
         }
         return posts;
     }
 
-    public Iterable<User> getUsers() {
-        Iterable<User> users = response.getUsers();
+    public List<User> getUsers() {
+        List<User> users = response.getUsers();
         for (User user : users) {
             user.setClient(client);
         }
         return users;
     }
 
-    public Iterable<Post> getLikedPosts() {
-        Iterable<Post> posts = response.getLikedPosts();
+    public List<Post> getLikedPosts() {
+        List<Post> posts = response.getLikedPosts();
         for (Post post : posts) { post.setClient(client); }
         return posts;
     }
 
-    public Iterable<Blog> getBlogs() {
-        Iterable<Blog> blogs = response.getBlogs();
+    public List<Blog> getBlogs() {
+        List<Blog> blogs = response.getBlogs();
         for (Blog blog : blogs) {
             blog.setClient(client);
         }

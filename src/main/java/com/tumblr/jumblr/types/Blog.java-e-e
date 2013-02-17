@@ -1,6 +1,7 @@
 package com.tumblr.jumblr.types;
 
 import com.tumblr.jumblr.JumblrClient;
+import java.util.List;
 import java.util.Map;
 
 public class Blog {
@@ -54,24 +55,24 @@ public class Blog {
     /**
      * Get followers for this blog
      * @param options a map of options (or null)
-     * @return A collection of users
+     * @return A List of users
      */
-    public Iterable<User> getFollowers(Map options) {
+    public List<User> getFollowers(Map options) {
         return client.blogFollowers(this.name, options);
     }
     
-    public Iterable<User> getFollowers() { return this.getFollowers(null); }
+    public List<User> getFollowers() { return this.getFollowers(null); }
     
     /**
      * Get likes posts for this blog
      * @param options a map of options (or null)
-     * @return A collection of posts
+     * @return A List of posts
      */
-    public Iterable<Post> getLikedPosts(Map options) {
+    public List<Post> getLikedPosts(Map options) {
         return client.blogLikes(this.name, options);
     }
     
-    public Iterable<Post> getLikedPosts() { return this.getLikedPosts(null); }
+    public List<Post> getLikedPosts() { return this.getLikedPosts(null); }
 
     /**
      * Follow this blog
@@ -90,26 +91,26 @@ public class Blog {
     /**
      * Get the queued posts for this blog
      * @param options the options (or null)
-     * @return a collection of posts
+     * @return a List of posts
      */
-    public Iterable<Post> queuedPosts(Map options) {
+    public List<Post> queuedPosts(Map options) {
         return client.blogQueuedPosts(name, options);
     }
 
-    public Iterable<Post> queuedPosts() {
+    public List<Post> queuedPosts() {
         return client.blogQueuedPosts(name, null);
     }    
     
     /**
      * Get the draft posts for this blog
      * @param options the options (or null)
-     * @return a collection of posts
+     * @return a List of posts
      */
-    public Iterable<Post> draftPosts(Map options) {
+    public List<Post> draftPosts(Map options) {
         return client.blogDraftPosts(name, options);
     }
     
-    public Iterable<Post> draftPosts() {
+    public List<Post> draftPosts() {
         return client.blogDraftPosts(name, null);
     }
 

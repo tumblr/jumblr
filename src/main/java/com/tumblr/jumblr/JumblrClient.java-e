@@ -8,7 +8,9 @@ import com.tumblr.jumblr.types.Post;
 import com.tumblr.jumblr.types.User;
 import java.math.BigInteger;
 import java.net.HttpURLConnection;
+import java.util.List;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.scribe.builder.ServiceBuilder;
 import org.scribe.builder.api.TumblrApi;
@@ -68,13 +70,13 @@ public final class JumblrClient {
     
     /**
      * Get the blogs the given user is following
-     * @return a collection of blogs
+     * @return a List of blogs
      */
-    public Iterable<Blog> userFollowing(Map options) {
+    public List<Blog> userFollowing(Map options) {
         return this.clearGet("/user/following", options).getBlogs();
     }
 
-    public Iterable<Blog> userFollowing() { return this.userFollowing(null); }
+    public List<Blog> userFollowing() { return this.userFollowing(null); }
     
     /**
      * Get the blog info for a given blog
@@ -92,19 +94,19 @@ public final class JumblrClient {
      * @param blogName the name of the blog
      * @return the blog object for this blog
      */
-    public Iterable<User> blogFollowers(String blogName, Map<String, String> options) {
+    public List<User> blogFollowers(String blogName, Map<String, String> options) {
         return this.clearGet(JumblrClient.blogPath(blogName, "/followers"), options).getUsers();
     }
 
-    public Iterable<User> blogFollowers(String blogName) { return this.blogFollowers(blogName, null); }
+    public List<User> blogFollowers(String blogName) { return this.blogFollowers(blogName, null); }
     
     /**
      * Get the public likes for a given blog
      * @param blogName the name of the blog
      * @param options the options for this call (or null)
-     * @return a collection of posts
+     * @return a List of posts
      */
-    public Iterable<Post> blogLikes(String blogName, Map<String, String> options) {
+    public List<Post> blogLikes(String blogName, Map<String, String> options) {
         if (options == null) {
             options = new HashMap<String, String>();
         }
@@ -112,7 +114,7 @@ public final class JumblrClient {
         return this.clearGet(JumblrClient.blogPath(blogName, "/likes"), options).getLikedPosts();
     }
     
-    public Iterable<Post> blogLikes(String blogName) {
+    public List<Post> blogLikes(String blogName) {
         return this.blogLikes(blogName, null);
     }
     
@@ -120,13 +122,13 @@ public final class JumblrClient {
      * Get the queued posts for a given blog
      * @param blogName the name of the blog
      * @param options the options for this call (or null)
-     * @return a collection of posts
+     * @return a List of posts
      */
-    public Iterable<Post> blogQueuedPosts(String blogName, Map<String, String> options) {
+    public List<Post> blogQueuedPosts(String blogName, Map<String, String> options) {
         return this.clearGet(JumblrClient.blogPath(blogName, "/posts/queue"), options).getPosts();
     }
     
-    public Iterable<Post> blogQueuedPosts(String blogName) {
+    public List<Post> blogQueuedPosts(String blogName) {
         return this.blogQueuedPosts(blogName, null);
     }
     
@@ -134,26 +136,26 @@ public final class JumblrClient {
      * Get the draft posts for a given blog
      * @param blogName the name of the blog
      * @param options the options for this call (or null)
-     * @return a collection of posts
+     * @return a List of posts
      */
-    public Iterable<Post> blogDraftPosts(String blogName, Map<String, String> options) {
+    public List<Post> blogDraftPosts(String blogName, Map<String, String> options) {
         return this.clearGet(JumblrClient.blogPath(blogName, "/posts/draft"), options).getPosts();
     }
     
-    public Iterable<Post> blogDraftPosts(String blogName) {
+    public List<Post> blogDraftPosts(String blogName) {
         return this.blogDraftPosts(blogName, null);
     }
     
     /**
      * Get the likes for the authenticated user
      * @param options the options for this call (or null)
-     * @return a collection of posts
+     * @return a List of posts
      */
-    public Iterable<Post> userLikes(Map<String, String> options) {
+    public List<Post> userLikes(Map<String, String> options) {
         return this.clearGet("/user/likes", options).getLikedPosts();
     }
     
-    public Iterable<Post> userLikes() {
+    public List<Post> userLikes() {
         return this.userLikes(null);
     }
     
