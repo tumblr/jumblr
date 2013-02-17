@@ -98,7 +98,7 @@ public class Blog {
     }
 
     public List<Post> queuedPosts() {
-        return client.blogQueuedPosts(name, null);
+        return this.queuedPosts(null);
     }    
     
     /**
@@ -111,7 +111,20 @@ public class Blog {
     }
     
     public List<Post> draftPosts() {
-        return client.blogDraftPosts(name, null);
+        return this.draftPosts(null);
+    }
+    
+    /**
+     * Get the submissions for this blog
+     * @param options the options (or null)
+     * @return a List of posts
+     */
+    public List<Post> submissions(Map options) {
+        return client.blogSubmissions(name, options);
+    }
+    
+    public List<Post> submissions() {
+        return this.submissions(null);
     }
 
 }

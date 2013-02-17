@@ -28,11 +28,19 @@ public class App {
             my = blog;
         }
 
+        for (Post post : client.blogSubmissions(my.getName())) {
+            System.out.println(post.getId());
+        }
+        
         for (Post post : client.blogQueuedPosts(my.getName())) {
             System.out.println(post.getId());
         }
         
         for (Post post : my.draftPosts()) {
+            System.out.println(post.getId());
+        }
+        
+        for (Post post : my.submissions()) {
             System.out.println(post.getId());
         }
         

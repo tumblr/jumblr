@@ -145,6 +145,20 @@ public final class JumblrClient {
     public List<Post> blogDraftPosts(String blogName) {
         return this.blogDraftPosts(blogName, null);
     }
+
+    /**
+     * Get the submissions for a given blog
+     * @param blogName the name of the blog
+     * @param options the options for this call (or null)
+     * @return a List of posts
+     */
+    public List<Post> blogSubmissions(String blogName, Map<String, String> options) {
+        return this.clearGet(JumblrClient.blogPath(blogName, "/posts/submission"), options).getPosts();
+    }
+    
+    public List<Post> blogSubmissions(String blogName) {
+        return this.blogSubmissions(blogName, null);
+    }    
     
     /**
      * Get the likes for the authenticated user
@@ -298,5 +312,5 @@ public final class JumblrClient {
     private static String blogUrl(String blogName) {
         return blogName.contains(".") ? blogName : blogName + ".tumblr.com";
     }
-    
+
 }
