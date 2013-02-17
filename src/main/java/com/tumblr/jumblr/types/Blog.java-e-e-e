@@ -72,6 +72,45 @@ public class Blog {
     }
     
     public Iterable<Post> getLikedPosts() { return this.getLikedPosts(null); }
+
+    /**
+     * Follow this blog
+     */
+    public void follow() {
+        client.follow(this.name);
+    }
     
+    /**
+     * Unfollow this blog
+     */
+    public void unfollow() {
+        client.unfollow(this.name);
+    }
+
+    /**
+     * Get the queued posts for this blog
+     * @param options the options (or null)
+     * @return a collection of posts
+     */
+    public Iterable<Post> queuedPosts(Map options) {
+        return client.blogQueuedPosts(name, options);
+    }
+
+    public Iterable<Post> queuedPosts() {
+        return client.blogQueuedPosts(name, null);
+    }    
     
+    /**
+     * Get the draft posts for this blog
+     * @param options the options (or null)
+     * @return a collection of posts
+     */
+    public Iterable<Post> draftPosts(Map options) {
+        return client.blogDraftPosts(name, options);
+    }
+    
+    public Iterable<Post> draftPosts() {
+        return client.blogDraftPosts(name, null);
+    }
+
 }

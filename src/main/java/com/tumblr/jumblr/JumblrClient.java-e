@@ -1,10 +1,12 @@
 package com.tumblr.jumblr;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.tumblr.jumblr.responses.ResponseWrapper;
 import com.tumblr.jumblr.types.Blog;
 import com.tumblr.jumblr.types.Post;
 import com.tumblr.jumblr.types.User;
+import java.math.BigInteger;
 import java.net.HttpURLConnection;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,7 +19,7 @@ import org.scribe.model.Verb;
 import org.scribe.oauth.OAuthService;
 
 public final class JumblrClient {
-    
+
     private final OAuthService service;
     private Token token = null;
     private String apiKey;
@@ -98,7 +100,9 @@ public final class JumblrClient {
     
     /**
      * Get the public likes for a given blog
-     * @
+     * @param blogName the name of the blog
+     * @param options the options for this call (or null)
+     * @return a collection of posts
      */
     public Iterable<Post> blogLikes(String blogName, Map<String, String> options) {
         if (options == null) {
@@ -106,6 +110,51 @@ public final class JumblrClient {
         }
         options.put("api_key", this.apiKey);
         return this.clearGet(JumblrClient.blogPath(blogName, "/likes"), options).getLikedPosts();
+    }
+    
+    public Iterable<Post> blogLikes(String blogName) {
+        return this.blogLikes(blogName, null);
+    }
+    
+    /**
+     * Get the queued posts for a given blog
+     * @param blogName the name of the blog
+     * @param options the options for this call (or null)
+     * @return a collection of posts
+     */
+    public Iterable<Post> blogQueuedPosts(String blogName, Map<String, String> options) {
+        return this.clearGet(JumblrClient.blogPath(blogName, "/posts/queue"), options).getPosts();
+    }
+    
+    public Iterable<Post> blogQueuedPosts(String blogName) {
+        return this.blogQueuedPosts(blogName, null);
+    }
+    
+    /**
+     * Get the draft posts for a given blog
+     * @param blogName the name of the blog
+     * @param options the options for this call (or null)
+     * @return a collection of posts
+     */
+    public Iterable<Post> blogDraftPosts(String blogName, Map<String, String> options) {
+        return this.clearGet(JumblrClient.blogPath(blogName, "/posts/draft"), options).getPosts();
+    }
+    
+    public Iterable<Post> blogDraftPosts(String blogName) {
+        return this.blogDraftPosts(blogName, null);
+    }
+    
+    /**
+     * Get the likes for the authenticated user
+     * @param options the options for this call (or null)
+     * @return a collection of posts
+     */
+    public Iterable<Post> userLikes(Map<String, String> options) {
+        return this.clearGet("/user/likes", options).getLikedPosts();
+    }
+    
+    public Iterable<Post> userLikes() {
+        return this.userLikes(null);
     }
     
     /**
@@ -130,6 +179,50 @@ public final class JumblrClient {
     public String blogAvatar(String blogName) { return this.blogAvatar(blogName, null); }
  
     /**
+     * Like a given post
+     * @param postId the ID of the post to like
+     * @param reblogKey The reblog key for the post
+     */
+    public void like(BigInteger postId, String reblogKey) {
+        HashMap<String, String> map = new HashMap<String, String>();
+        map.put("id", postId.toString());
+        map.put("reblog_key", reblogKey);
+        this.clearPost("/user/like", map);
+    }
+    
+    /**
+     * Unlike a given post
+     * @param postId the ID of the post to unlike
+     * @param reblogKey The reblog key for the post
+     */
+    public void unlike(BigInteger postId, String reblogKey) {
+        Map map = new HashMap<String, String>();
+        map.put("id", postId.toString());
+        map.put("reblog_key", reblogKey);
+        this.clearPost("/user/unlike", map);
+    }
+    
+    /**
+     * Follow a given blog
+     * @param blogName The name of the blog to follow
+     */
+    public void follow(String blogName) {
+        HashMap<String, String> map = new HashMap<String, String>();
+        map.put("url", JumblrClient.blogUrl(blogName));
+        this.clearPost("/user/follow", map);
+    }
+    
+    /**
+     * Unfollow a given blog
+     * @param blogName the name of the blog to unfollow
+     */
+    public void unfollow(String blogName) {
+        Map map = new HashMap<String, String>();
+        map.put("url", JumblrClient.blogUrl(blogName));
+        this.clearPost("/user/follow", map);
+    }
+    
+    /**
      **
      **
      */
@@ -138,16 +231,30 @@ public final class JumblrClient {
         return this.clearGet(path, null);
     }
     
+    private ResponseWrapper clearPost(String path, Map<String, String> bodyMap) {
+        Response response = this.post(path, bodyMap);
+        System.out.println(response.getBody());
+        return this.clear(response);
+    }
+    
     private ResponseWrapper clearGet(String path, Map<String, String> map) {
         Response response = this.get(path, map);
+        return this.clear(response);
+    }
+    
+    private ResponseWrapper clear(Response response) {
         if (response.getCode() == 200) {
             String json = response.getBody();
-            Gson gson = new Gson();
-            ResponseWrapper wrapper = gson.fromJson(json, ResponseWrapper.class);
-            wrapper.setClient(this);
-            return wrapper;
+            System.out.println(json);
+            try {
+                Gson gson = new Gson();
+                ResponseWrapper wrapper = gson.fromJson(json, ResponseWrapper.class);
+                wrapper.setClient(this);
+                return wrapper;
+            } catch (JsonSyntaxException ex) {
+                return null;
+            }
         } else {
-            System.out.println(path);
             System.out.println(response.getCode());
             return null; // @TODO
         }
@@ -169,9 +276,25 @@ public final class JumblrClient {
         return request.send();
     }
 
+    private Response post(String path, Map<String, String> bodyMap) {
+        String url = "http://api.tumblr.com/v2" + path;
+        OAuthRequest request = new OAuthRequest(Verb.POST, url);
+        if (bodyMap != null) {
+            for (String key : bodyMap.keySet()) {
+                request.addBodyParameter(key, bodyMap.get(key));
+            }
+        }
+        service.signRequest(token, request);
+        return request.send();
+    }
+    
     private static String blogPath(String blogName, String extPath) {
         String bn = blogName.contains(".") ? blogName : blogName + ".tumblr.com";
         return "/blog/" + bn + extPath;
     }
 
+    private static String blogUrl(String blogName) {
+        return blogName.contains(".") ? blogName : blogName + ".tumblr.com";
+    }
+    
 }

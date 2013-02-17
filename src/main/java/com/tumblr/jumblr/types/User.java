@@ -32,6 +32,9 @@ public class User {
      * @return The blog collection for this user
      */
     public Iterable<Blog> getBlogs() {
+        for (Blog blog : blogs) {
+            blog.setClient(client);
+        }
         return this.blogs;
     }
 
