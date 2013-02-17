@@ -69,6 +69,14 @@ public final class JumblrClient {
     }
     
     /**
+     * Get the user dashboard for the authenticated User
+     * @return A List of posts
+     */
+    public List<Post> userDashboard() {
+        return this.clearGet("/user/dashboard").getPosts();
+    }
+    
+    /**
      * Get the blogs the given user is following
      * @return a List of blogs
      */

@@ -22,6 +22,10 @@ public class App {
         User user = client.userInfo();
         System.out.printf("%s is following %d blogs!\n", user.getName(), user.getFollowing());
         
+        for (Post post : client.userDashboard()) {
+            System.out.println(post.getReblogKey());
+        }
+        
         Blog my = null;
         for (Blog blog : user.getBlogs()) {
             System.out.println(blog.getName());
