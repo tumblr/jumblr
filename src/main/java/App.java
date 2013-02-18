@@ -34,7 +34,7 @@ public class App {
             obj.getAsJsonPrimitive("oauth_token_secret").getAsString()
         );        
 
-        for (Blog blog : client.userInfo().getBlogs()) {
+        for (Blog blog : client.user().getBlogs()) {
             System.out.println(blog.getTitle());
             
             for (Post post : blog.posts()) {
@@ -55,7 +55,7 @@ public class App {
         client.postReblog("apeyes.tumblr.com", rpost.getId(), rpost.getReblogKey());
         
         // Play with users
-        User user = client.userInfo();
+        User user = client.user();
         System.out.printf("%s is following %d blogs!\n", user.getName(), user.getFollowing());
         
         HashMap<String, Integer> options = new HashMap<String, Integer>();

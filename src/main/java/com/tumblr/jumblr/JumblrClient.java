@@ -64,7 +64,7 @@ public final class JumblrClient {
      * Get the user info for the authenticated User
      * @return The authenticated user
      */
-    public User userInfo() {
+    public User user() {
         return this.clearGet("/user/info").getUser();
     }
     
