@@ -9,8 +9,43 @@ public class Post {
     private BigInteger id;
     private String reblog_key;
     private String blog_name;
+    private String post_url;
+    private String type;
+    private int timestamp;
+    private String state;
+    private String format;    
+    private String date;
+    private String[] tags;
     
     private JumblrClient client;
+    
+    public String getFormat() {
+        return format;
+    }
+    
+    public String getState() {
+        return state;
+    }
+    
+    public String getPostUrl() {
+        return post_url;
+    }
+    
+    public String[] getTags() {
+        return tags;
+    }
+    
+    public String getDateGMT() {
+        return date;
+    }
+    
+    public int getTimestamp() {
+        return timestamp;
+    }
+    
+    public String getType() {
+        return type;
+    }
     
     public BigInteger getId() {
         return id;
@@ -57,6 +92,15 @@ public class Post {
      */
     public void unlike() {
         client.unlike(this.id, this.reblog_key);
+    }
+    
+    /**
+     * Post toString
+     * @return a nice representation of this post
+     */
+    @Override
+    public String toString() {
+        return "[" + this.getClass().getName() + " (" + blog_name + ":" + id + ")]";
     }
     
 }

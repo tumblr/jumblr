@@ -38,7 +38,7 @@ public class App {
             System.out.println(blog.getTitle());
             
             for (Post post : blog.posts()) {
-                System.out.println(post.getId().toString());
+                System.out.println(post.toString());
             }
             
             System.exit(0);

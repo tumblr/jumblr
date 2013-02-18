@@ -1,6 +1,7 @@
 package com.tumblr.jumblr;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import com.tumblr.jumblr.exceptions.JumblrException;
 import com.tumblr.jumblr.responses.ResponseWrapper;
@@ -332,7 +333,7 @@ public final class JumblrClient {
         if (response.getCode() == 200 || response.getCode() == 201) {
             String json = response.getBody();
             try {
-                Gson gson = new Gson();
+                Gson gson = new GsonBuilder().registerTypeAdapter(Post.class, new PostDeserializer()).create();
                 ResponseWrapper wrapper = gson.fromJson(json, ResponseWrapper.class);
                 wrapper.setClient(this);
                 return wrapper;
