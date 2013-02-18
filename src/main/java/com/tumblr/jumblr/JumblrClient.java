@@ -2,6 +2,7 @@ package com.tumblr.jumblr;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
+import com.tumblr.jumblr.exceptions.JumblrException;
 import com.tumblr.jumblr.responses.ResponseWrapper;
 import com.tumblr.jumblr.types.Blog;
 import com.tumblr.jumblr.types.Post;
@@ -202,7 +203,7 @@ public final class JumblrClient {
         if (response.getCode() == 301) {
             return response.getHeader("Location");
         } else {
-            return null; // @TODO
+            throw new JumblrException(response);
         }        
     }
 
@@ -296,8 +297,7 @@ public final class JumblrClient {
                 return null;
             }
         } else {
-            System.out.println(response.getCode());
-            return null; // @TODO
+            throw new JumblrException(response);
         }
     }
     
