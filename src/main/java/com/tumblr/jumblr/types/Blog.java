@@ -8,6 +8,10 @@ public class Blog {
 
     private String name;
     private String title;
+    private String description;
+    private int posts, likes;
+    private int updated;
+    private boolean ask, ask_anon;
     
     private JumblrClient client;
     
@@ -17,6 +21,54 @@ public class Blog {
      */
     public void setClient(JumblrClient client) {
         this.client = client;
+    }
+    
+    /**
+     * Get the description of this blog
+     * @return String description
+     */
+    public String getDescription() {
+        return this.description;
+    }
+    
+    /**
+     * Can we ask questions on this blog?
+     * @return boolean
+     */
+    public boolean canAsk() {
+        return this.ask;
+    }
+    
+    /**
+     * Can we ask questions on this blog anonymously?
+     * @return boolean
+     */
+    public boolean canAskAnonymously() {
+        return this.ask_anon;
+    }
+    
+    /**
+     * Get the number of posts for this blog
+     * @return int the number of posts
+     */
+    public int getPostCount() {
+        return this.posts;
+    }
+    
+    /**
+     * Get the number of likes for this blog
+     * @return int the number of likes
+     */
+    public int getLikeCount() {
+        return this.likes;
+    }
+    
+    /**
+     * Get the time of the most recent post (in seconds since epoch)
+     * @return int of time
+     */
+    public int getUpdated() {
+        return updated;
     }
     
     /**

@@ -295,7 +295,6 @@ public final class JumblrClient {
     
     private ResponseWrapper clearPost(String path, Map<String, ?> bodyMap) {
         Response response = this.post(path, bodyMap);
-        System.out.println(response.getBody());
         return this.clear(response);
     }
     
@@ -307,7 +306,6 @@ public final class JumblrClient {
     private ResponseWrapper clear(Response response) {
         if (response.getCode() == 200 || response.getCode() == 201) {
             String json = response.getBody();
-            System.out.println(json);
             try {
                 Gson gson = new Gson();
                 ResponseWrapper wrapper = gson.fromJson(json, ResponseWrapper.class);

@@ -34,14 +34,18 @@ public class App {
             obj.getAsJsonPrimitive("oauth_token_secret").getAsString()
         );        
 
-        Post rpost = client.userLikes().get(0);
-        client.postReblog("apeyes.tumblr.com", rpost.getId(), rpost.getReblogKey());
+        for (Blog blog : client.userInfo().getBlogs()) {
+            System.out.println(blog.getTitle());
+        }
         
         System.exit(0);
         
         /**
          * Other calls
          */
+
+        Post rpost = client.userLikes().get(0);
+        client.postReblog("apeyes.tumblr.com", rpost.getId(), rpost.getReblogKey());
         
         // Play with users
         User user = client.userInfo();
