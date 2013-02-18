@@ -264,6 +264,27 @@ public final class JumblrClient {
     }
     
     /**
+     * Reblog a given post
+     * @param blogName the name of the blog the post is in
+     * @param postId the id of the post
+     * @param reblogKey the reblog_key of the post
+     * @param options Additional options (or null)
+     */
+    public Post postReblog(String blogName, BigInteger postId, String reblogKey, Map<String, ?> options) {
+        if (options == null) {
+            options = new HashMap<String, String>();
+        }
+        Map<String, String> soptions = (Map<String, String>)options;
+        soptions.put("id", postId.toString());
+        soptions.put("reblog_key", reblogKey);
+        return this.clearPost(JumblrClient.blogPath(blogName, "/post/reblog"), options).getPost();
+    }
+    
+    public Post postReblog(String blogName, BigInteger postId, String reblogKey) {
+        return this.postReblog(blogName, postId, reblogKey, null);
+    }
+    
+    /**
      **
      **
      */
@@ -284,7 +305,7 @@ public final class JumblrClient {
     }
     
     private ResponseWrapper clear(Response response) {
-        if (response.getCode() == 200) {
+        if (response.getCode() == 200 || response.getCode() == 201) {
             String json = response.getBody();
             System.out.println(json);
             try {

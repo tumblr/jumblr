@@ -9,6 +9,7 @@ class SuccessResponse {
     
     private User user;
     private Blog blog;
+    private Post post;
     
     private List<User> users;
     private List<Post> posts;
@@ -37,6 +38,10 @@ class SuccessResponse {
 
     List<Blog> getBlogs() {
         return this.blogs;
+    }
+
+    Post getPost() {
+        return this.post;
     }
     
 }

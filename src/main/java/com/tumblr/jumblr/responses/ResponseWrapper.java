@@ -57,4 +57,10 @@ public class ResponseWrapper {
         return blogs;
     }
 
+    public Post getPost() {
+        Post post = response.getPost();
+        post.setClient(client);
+        return post;
+    }
+
 }

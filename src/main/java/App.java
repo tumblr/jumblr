@@ -8,6 +8,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.util.HashMap;
 
 public class App {
@@ -32,6 +33,15 @@ public class App {
             obj.getAsJsonPrimitive("oauth_token").getAsString(),
             obj.getAsJsonPrimitive("oauth_token_secret").getAsString()
         );        
+
+        Post rpost = client.userLikes().get(0);
+        client.postReblog("apeyes.tumblr.com", rpost.getId(), rpost.getReblogKey());
+        
+        System.exit(0);
+        
+        /**
+         * Other calls
+         */
         
         // Play with users
         User user = client.userInfo();
@@ -43,8 +53,6 @@ public class App {
             System.out.println(post.getReblogKey());
         }
        
-        System.exit(0);
-        
         Blog my = null;
         for (Blog blog : user.getBlogs()) {
             System.out.println(blog.getName());

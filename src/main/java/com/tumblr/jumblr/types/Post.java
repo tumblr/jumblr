@@ -2,6 +2,7 @@ package com.tumblr.jumblr.types;
 
 import com.tumblr.jumblr.JumblrClient;
 import java.math.BigInteger;
+import java.util.Map;
 
 public class Post {
   
@@ -28,6 +29,20 @@ public class Post {
      */
     public void delete() {
         client.postDelete(blog_name, id);
+    }
+    
+    /**
+     * Reblog this post
+     * @param blogName the blog name to reblog onto
+     * @param options options to reblog with (or null)
+     * @return reblogged post
+     */
+    public Post reblog(String blogName, Map<String, ?> options) {
+        return client.postReblog(blogName, id, reblog_key, options);
+    }
+    
+    public Post reblog(String blogName) {
+        return this.reblog(blogName, null);
     }
     
     /**

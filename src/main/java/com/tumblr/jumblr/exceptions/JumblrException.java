@@ -3,6 +3,7 @@ package com.tumblr.jumblr.exceptions;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonPrimitive;
 import org.scribe.model.Response;
 
 public class JumblrException extends RuntimeException {
@@ -19,7 +20,15 @@ public class JumblrException extends RuntimeException {
         try {
             JsonObject object = parser.parse(body).getAsJsonObject();
             JsonObject meta = object.getAsJsonObject("meta");
-            this.message = meta.getAsJsonPrimitive("msg").getAsString();            
+            if (meta != null) {
+                this.message = meta.getAsJsonPrimitive("msg").getAsString();
+                return;
+            }
+            JsonPrimitive error = object.getAsJsonPrimitive("error");
+            if (error != null) {
+                this.message = error.getAsString();
+                return;
+            }
         } catch (JsonParseException ex) {
             this.message = body;
         }
