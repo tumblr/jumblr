@@ -116,6 +116,19 @@ public class Blog {
     public List<User> followers() { return this.followers(null); }
     
     /**
+     * Get the posts for this blog
+     * @param options a map of options (or null)
+     * @return A List of posts
+     */
+    public List<Post> posts(Map options) {
+        return client.blogPosts(name, options);
+    }
+    
+    public List<Post> posts() {
+        return this.posts(null);
+    }
+    
+    /**
      * Get likes posts for this blog
      * @param options a map of options (or null)
      * @return A List of posts

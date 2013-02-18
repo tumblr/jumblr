@@ -36,6 +36,13 @@ public class App {
 
         for (Blog blog : client.userInfo().getBlogs()) {
             System.out.println(blog.getTitle());
+            
+            for (Post post : blog.posts()) {
+                System.out.println(post.getId().toString());
+            }
+            
+            System.exit(0);
+            
         }
         
         System.exit(0);

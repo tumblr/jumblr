@@ -133,6 +133,31 @@ public final class JumblrClient {
     }
     
     /**
+     * Get the posts for a given blog
+     * @param blogName the name of the blog
+     * @param options the options for this call (or null)
+     * @return a List of posts
+     */
+    public List<Post> blogPosts(String blogName, Map<String, ?> options) {
+        if (options == null) {
+            options = new HashMap<String, String>();
+        }
+        Map<String, String> soptions = (Map<String, String>) options;
+        soptions.put("api_key", apiKey);
+
+        String path = "/posts";
+        if (options.containsKey("type")) {
+            path += "/" + options.get("type").toString();
+            options.remove("type");
+        }
+        return this.clearGet(JumblrClient.blogPath(blogName, path), options).getPosts();
+    }
+    
+    public List<Post> blogPosts(String blogName) {
+        return this.blogPosts(blogName, null);
+    }
+    
+    /**
      * Get the queued posts for a given blog
      * @param blogName the name of the blog
      * @param options the options for this call (or null)
