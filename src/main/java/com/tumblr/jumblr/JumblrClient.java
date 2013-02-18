@@ -9,7 +9,6 @@ import com.tumblr.jumblr.types.Post;
 import com.tumblr.jumblr.types.User;
 import java.math.BigInteger;
 import java.net.HttpURLConnection;
-import java.util.List;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
