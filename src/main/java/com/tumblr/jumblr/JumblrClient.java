@@ -325,7 +325,7 @@ public final class JumblrClient {
 
     /**
      * Create a post
-     * @param blog_name The blog name for the post
+     * @param blogName The blog name for the post
      * @param detail the detail to save
      */
     public Long postCreate(String blogName, Map<String, ?> detail) {

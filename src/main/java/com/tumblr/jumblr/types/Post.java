@@ -125,8 +125,8 @@ public class Post {
      * Set the blog name for this post
      * @param blogName the blog name to set
      */
-    public void setBlogName(String bn) {
-        blog_name = bn;
+    public void setBlogName(String blogName) {
+        blog_name = blogName;
     }
 
     /**
