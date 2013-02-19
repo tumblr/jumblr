@@ -97,7 +97,7 @@ public final class JumblrClient {
      * @return The Blog object for this blog
      */
     public Blog blogInfo(String blogName) {
-        HashMap map = new HashMap<String, String>();
+        Map<String, String> map = new HashMap<String, String>();
         map.put("api_key", this.apiKey);
         return this.clearGet(JumblrClient.blogPath(blogName, "/info"), map).getBlog();
     }
@@ -239,7 +239,7 @@ public final class JumblrClient {
      * @param reblogKey The reblog key for the post
      */
     public void like(Long postId, String reblogKey) {
-        Map map = new HashMap<String, String>();
+        Map<String, String> map = new HashMap<String, String>();
         map.put("id", postId.toString());
         map.put("reblog_key", reblogKey);
         this.clearPost("/user/like", map);
@@ -251,7 +251,7 @@ public final class JumblrClient {
      * @param reblogKey The reblog key for the post
      */
     public void unlike(Long postId, String reblogKey) {
-        Map map = new HashMap<String, String>();
+        Map<String, String> map = new HashMap<String, String>();
         map.put("id", postId.toString());
         map.put("reblog_key", reblogKey);
         this.clearPost("/user/unlike", map);
@@ -262,7 +262,7 @@ public final class JumblrClient {
      * @param blogName The name of the blog to follow
      */
     public void follow(String blogName) {
-        Map map = new HashMap<String, String>();
+        Map<String, String> map = new HashMap<String, String>();
         map.put("url", JumblrClient.blogUrl(blogName));
         this.clearPost("/user/follow", map);
     }
@@ -272,7 +272,7 @@ public final class JumblrClient {
      * @param blogName the name of the blog to unfollow
      */
     public void unfollow(String blogName) {
-        Map map = new HashMap<String, String>();
+        Map<String, String> map = new HashMap<String, String>();
         map.put("url", JumblrClient.blogUrl(blogName));
         this.clearPost("/user/follow", map);
     }
@@ -283,8 +283,8 @@ public final class JumblrClient {
      * @param postId the id of the post to delete
      */
     public void postDelete(String blogName, Long postId) {
-        Map map = new HashMap<String, String>();
-        map.put("id", postId);
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("id", postId.toString());
         this.clearPost(JumblrClient.blogPath(blogName, "/post/delete"), map);
     }
 
