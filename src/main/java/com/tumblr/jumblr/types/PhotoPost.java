@@ -1,11 +1,17 @@
 package com.tumblr.jumblr.types;
 
+import java.util.Map;
+
 public class PhotoPost extends Post {
 
-    // @TODO make editable
+    // @TODO make data editable
 
     private String caption;
     private int width, height;
+
+    private String source;
+    private String data;
+    private String link;
 
     private Photo[] photos;
 
@@ -27,6 +33,30 @@ public class PhotoPost extends Post {
 
     public int getHeight() {
         return height;
+    }
+
+    public void setCaption(String caption) {
+        this.caption = caption;
+    }
+
+    public void setSource(String source) {
+        if (this.data != null) {
+            throw new IllegalArgumentException("Cannot supply both data & source");
+        }
+        this.source = source;
+    }
+
+    public void setLinkUrl(String linkUrl) {
+        this.link = linkUrl;
+    }
+
+    @Override
+    public Map<String, String> detail() {
+        Map<String, String> details = super.detail();
+        details.put("type", "photo");
+        details.put("caption", caption);
+        details.put("source", source);
+        return details;
     }
 
 }

@@ -2,8 +2,6 @@ package com.tumblr.jumblr.types;
 
 public class AnswerPost extends Post {
 
-    // @TODO make editable
-
     private String asking_name, asking_url;
     private String question;
     private String answer;

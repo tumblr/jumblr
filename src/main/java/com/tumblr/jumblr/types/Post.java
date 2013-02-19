@@ -1,6 +1,7 @@
 package com.tumblr.jumblr.types;
 
 import com.tumblr.jumblr.JumblrClient;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -170,6 +171,9 @@ public class Post {
      * Add a tag
      */
     public void addTag(String tag) {
+        if (this.tags == null) {
+            tags = new ArrayList<String>();
+        }
         this.tags.add(tag);
     }
 
@@ -204,7 +208,7 @@ public class Post {
     }
 
     private String getTagString() {
-        return StringUtils.join((String[]) tags.toArray(), ",");
+        return tags == null ? "" : StringUtils.join((String[]) tags.toArray(), ",");
     }
 
     /**

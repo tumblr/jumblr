@@ -52,17 +52,11 @@ public class App {
 
         // @TODO play more with usage to ensure usability
 
-        Map<String, String> options = new HashMap<String, String>();
-        options.put("type", "photo");
-        options.put("limit", "1");
-        Blog blog = client.blogInfo("david.tumblr.com");
-
-        Post post = blog.posts(options).get(0);
-        PhotoPost cpost = (PhotoPost) post;
-
-        Photo firstPhoto = cpost.getPhotos()[0];
-        System.out.println(cpost.isPhotoset() ? firstPhoto.getCaption() : cpost.getCaption());
-        System.out.println(firstPhoto.getSizes()[0].getUrl());
+        PhotoPost post = new PhotoPost();
+        post.setBlogName("apeyes.tumblr.com");
+        post.setClient(client);
+        post.setSource("http://www.petfinder.com/wp-content/uploads/2012/11/99059361-choose-cat-litter-632x475.jpg");
+        post.save();
 
     }
 
