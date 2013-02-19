@@ -1,11 +1,6 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.tumblr.jumblr;
 
 import com.google.gson.*;
-import com.tumblr.jumblr.types.Post;
 import com.tumblr.jumblr.types.UnknownTypePost;
 import java.lang.reflect.Type;
 
@@ -28,5 +23,5 @@ public class PostDeserializer implements JsonDeserializer<Object> {
             return jdc.deserialize(je, UnknownTypePost.class);
         }
     }
-    
+
 }

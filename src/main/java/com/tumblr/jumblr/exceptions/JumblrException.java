@@ -7,14 +7,14 @@ import com.google.gson.JsonPrimitive;
 import org.scribe.model.Response;
 
 public class JumblrException extends RuntimeException {
-    
+
     private final int responseCode;
     private String message;
-    
+
     public JumblrException(Response response) {
         this.responseCode = response.getCode();
         String body = response.getBody();
-        
+
         String msg;
         JsonParser parser = new JsonParser();
         try {
@@ -29,18 +29,19 @@ public class JumblrException extends RuntimeException {
                 this.message = error.getAsString();
                 return;
             }
+            throw new JsonParseException("Appropriate error field not found");
         } catch (JsonParseException ex) {
             this.message = body;
         }
     }
-    
+
     public int getResponseCode() {
         return this.responseCode;
     }
-    
+
     @Override
     public String getMessage() {
         return this.message;
     }
-    
+
 }
