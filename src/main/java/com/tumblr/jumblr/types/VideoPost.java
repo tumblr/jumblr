@@ -3,6 +3,12 @@ package com.tumblr.jumblr.types;
 public class VideoPost extends Post {
 
     // @TODO make editable
-    // @TODO fill out fields
+
+    private String caption;
+    private Video[] player;
+
+    public Video[] getVideos() {
+        return this.player;
+    }
 
 }

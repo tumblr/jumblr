@@ -6,6 +6,8 @@ import com.tumblr.jumblr.types.ChatPost;
 import com.tumblr.jumblr.types.Dialogue;
 import com.tumblr.jumblr.types.Post;
 import com.tumblr.jumblr.types.QuotePost;
+import com.tumblr.jumblr.types.Video;
+import com.tumblr.jumblr.types.VideoPost;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -54,15 +56,15 @@ public class App {
         // @TODO play more with usage to ensure usability
 
         Map<String, String> options = new HashMap<String, String>();
-        options.put("type", "chat");
+        options.put("type", "video");
         options.put("limit", "1");
         Blog blog = client.blogInfo("david.tumblr.com");
 
         Post post = blog.posts(options).get(0);
-        ChatPost cpost = (ChatPost) post;
+        VideoPost cpost = (VideoPost) post;
 
-        for (Dialogue d : cpost.getDialogue()) {
-            System.out.println(d.getName() + ": " + d.getPhrase());
+        for (Video v : cpost.getVideos()) {
+            System.out.println(v.getEmbedCode());
         }
 
 
