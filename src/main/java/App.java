@@ -4,6 +4,9 @@ import com.tumblr.jumblr.JumblrClient;
 import com.tumblr.jumblr.types.Blog;
 import com.tumblr.jumblr.types.ChatPost;
 import com.tumblr.jumblr.types.Dialogue;
+import com.tumblr.jumblr.types.Photo;
+import com.tumblr.jumblr.types.PhotoPost;
+import com.tumblr.jumblr.types.PhotoSize;
 import com.tumblr.jumblr.types.Post;
 import com.tumblr.jumblr.types.QuotePost;
 import com.tumblr.jumblr.types.Video;
@@ -56,17 +59,16 @@ public class App {
         // @TODO play more with usage to ensure usability
 
         Map<String, String> options = new HashMap<String, String>();
-        options.put("type", "video");
+        options.put("type", "photo");
         options.put("limit", "1");
         Blog blog = client.blogInfo("david.tumblr.com");
 
         Post post = blog.posts(options).get(0);
-        VideoPost cpost = (VideoPost) post;
+        PhotoPost cpost = (PhotoPost) post;
 
-        for (Video v : cpost.getVideos()) {
-            System.out.println(v.getEmbedCode());
-        }
-
+        Photo firstPhoto = cpost.getPhotos()[0];
+        System.out.println(cpost.isPhotoset() ? firstPhoto.getCaption() : cpost.getCaption());
+        System.out.println(firstPhoto.getSizes()[0].getUrl());
 
     }
 
