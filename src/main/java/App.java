@@ -3,7 +3,7 @@ import com.google.gson.JsonParser;
 import com.tumblr.jumblr.JumblrClient;
 import com.tumblr.jumblr.types.Blog;
 import com.tumblr.jumblr.types.Post;
-import com.tumblr.jumblr.types.User;
+import com.tumblr.jumblr.types.QuotePost;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -48,6 +48,18 @@ public class App {
             }
 
         }
+
+        // @TODO play more with usage to ensure usability
+
+        // Create a post
+        QuotePost post = new QuotePost();
+        post.setClient(client);
+        post.setBlogName("apeyes.tumblr.com");
+        post.setText("hello world1");
+        post.save();
+
+        post.setText("hello world2");
+        post.save();
 
     }
 

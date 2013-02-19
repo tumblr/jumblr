@@ -22,6 +22,8 @@ import org.scribe.oauth.OAuthService;
 
 public final class JumblrClient {
 
+    // @TODO tagged support
+
     private final OAuthService service;
     private Token token = null;
     private String apiKey;
@@ -310,6 +312,27 @@ public final class JumblrClient {
     }
 
     /**
+     * Save edits for a given post
+     * @param blogName The blog name of the post
+     * @param id the Post id
+     * @param detail The detail to save
+     */
+    public void postEdit(String blogName, Long id, Map<String, ?> detail) {
+        Map<String, String> sdetail = (Map<String, String>)detail;
+        sdetail.put("id", id.toString());
+        this.clearPost(JumblrClient.blogPath(blogName, "/post/edit"), detail);
+    }
+
+    /**
+     * Create a post
+     * @param blog_name The blog name for the post
+     * @param detail the detail to save
+     */
+    public Long postCreate(String blogName, Map<String, ?> detail) {
+        return this.clearPost(JumblrClient.blogPath(blogName, "/post"), detail).getId();
+    }
+
+    /**
      **
      **
      */
@@ -320,6 +343,7 @@ public final class JumblrClient {
 
     private ResponseWrapper clearPost(String path, Map<String, ?> bodyMap) {
         Response response = this.post(path, bodyMap);
+        System.out.println(response.getBody());
         return this.clear(response);
     }
 
@@ -365,7 +389,10 @@ public final class JumblrClient {
         OAuthRequest request = new OAuthRequest(Verb.POST, url);
         if (bodyMap != null) {
             for (String key : bodyMap.keySet()) {
-                request.addBodyParameter(key, bodyMap.get(key).toString());
+                Object value = bodyMap.get(key);
+                if (value != null) {
+                    request.addBodyParameter(key, value.toString());
+                }
             }
         }
         service.signRequest(token, request);

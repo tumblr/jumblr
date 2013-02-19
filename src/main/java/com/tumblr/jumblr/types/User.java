@@ -4,13 +4,15 @@ import com.tumblr.jumblr.JumblrClient;
 import java.util.List;
 
 public class User {
-    
+
+    // @TODO fill out fields
+
     private List<Blog> blogs;
     private String name;
     private int following;
-    
+
     private JumblrClient client;
-    
+
     /**
      * Get the name for this User object
      * @return The name
@@ -18,7 +20,7 @@ public class User {
     public String getName() {
         return this.name;
     }
-    
+
     /**
      * Get the number of users this user is following
      * @return The following count

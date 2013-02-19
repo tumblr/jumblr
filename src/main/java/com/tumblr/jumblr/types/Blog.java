@@ -6,6 +6,8 @@ import java.util.Map;
 
 public class Blog {
 
+    // @TODO ensure fields filled out
+
     private String name;
     private String title;
     private String description;

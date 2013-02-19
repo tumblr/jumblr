@@ -10,7 +10,7 @@ public class ResponseWrapper {
 
     private SuccessResponse response;
     private JumblrClient client;
-    
+
     public User getUser() {
         User user = response.getUser();
         user.setClient(client);
@@ -61,6 +61,10 @@ public class ResponseWrapper {
         Post post = response.getPost();
         post.setClient(client);
         return post;
+    }
+
+    public Long getId() {
+        return response.getId();
     }
 
 }

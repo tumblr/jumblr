@@ -1,9 +1,13 @@
 package com.tumblr.jumblr.types;
 
 import com.tumblr.jumblr.JumblrClient;
+import java.util.HashMap;
 import java.util.Map;
 
 public class Post {
+
+    // @TODO make base params editable
+    // @TODO ensure fields
 
     private Long id;
     private String reblog_key;
@@ -16,7 +20,7 @@ public class Post {
     private String date;
     private String[] tags;
 
-    private JumblrClient client;
+    protected JumblrClient client;
 
     public String getFormat() {
         return format;
@@ -91,6 +95,41 @@ public class Post {
      */
     public void unlike() {
         client.unlike(this.id, this.reblog_key);
+    }
+
+    /**
+     * Set the blog name for this post
+     * @param blogName the blog name to set
+     */
+    public void setBlogName(String bn) {
+        blog_name = bn;
+    }
+
+    /**
+     * Set the id for this post
+     * @param id The id of the post
+     */
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    /**
+     * Save this post
+     */
+    public void save() {
+        if (id == null) {
+            this.id = client.postCreate(blog_name, detail());
+        } else {
+            client.postEdit(blog_name, id, detail());
+        }
+    }
+
+    /**
+     * Detail for this post
+     */
+    protected Map<String, String> detail() {
+        Map<String, String> map = new HashMap<String, String>();
+        return map;
     }
 
     /**
