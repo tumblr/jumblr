@@ -22,4 +22,9 @@ public class AnswerPost extends Post {
         return answer;
     }
 
+    @Override
+    public void save() {
+        throw new IllegalArgumentException("Cannot save AnswerPost");
+    }
+
 }
