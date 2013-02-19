@@ -2,6 +2,8 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.tumblr.jumblr.JumblrClient;
 import com.tumblr.jumblr.types.Blog;
+import com.tumblr.jumblr.types.ChatPost;
+import com.tumblr.jumblr.types.Dialogue;
 import com.tumblr.jumblr.types.Post;
 import com.tumblr.jumblr.types.QuotePost;
 import java.io.BufferedReader;
@@ -51,15 +53,18 @@ public class App {
 
         // @TODO play more with usage to ensure usability
 
-        // Create a post
-        QuotePost post = new QuotePost();
-        post.setClient(client);
-        post.setBlogName("apeyes.tumblr.com");
-        post.setText("hello world1");
-        post.save();
+        Map<String, String> options = new HashMap<String, String>();
+        options.put("type", "chat");
+        options.put("limit", "1");
+        Blog blog = client.blogInfo("david.tumblr.com");
 
-        post.setText("hello world2");
-        post.save();
+        Post post = blog.posts(options).get(0);
+        ChatPost cpost = (ChatPost) post;
+
+        for (Dialogue d : cpost.getDialogue()) {
+            System.out.println(d.getName() + ": " + d.getPhrase());
+        }
+
 
     }
 
