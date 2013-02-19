@@ -5,13 +5,20 @@ import java.util.List;
 
 public class User {
 
-    // @TODO fill out fields
-
     private List<Blog> blogs;
     private String name;
-    private int following;
+    private int following, likes;
+    private String default_post_format;
 
     private JumblrClient client;
+
+    /**
+     * Return the default post format for this user
+     * @return String format
+     */
+    public String getDefaultPostFormat() {
+        return default_post_format;
+    }
 
     /**
      * Get the name for this User object
@@ -22,10 +29,18 @@ public class User {
     }
 
     /**
+     * Get the number of likes for this user
+     * @return the likes count
+     */
+    public int getLikeCount() {
+        return this.likes;
+    }
+
+    /**
      * Get the number of users this user is following
      * @return The following count
      */
-    public int getFollowing() {
+    public int getFollowingCount() {
         return this.following;
     }
 
