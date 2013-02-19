@@ -1,8 +1,8 @@
 package com.tumblr.jumblr.types;
 
-public class ChatPost extends Post {
+import java.util.Map;
 
-    // @TODO make editable
+public class ChatPost extends Post {
 
     private String title;
     private String body;
@@ -18,6 +18,19 @@ public class ChatPost extends Post {
 
     public String getBody() {
         return body;
+    }
+
+    public void setBody(String body) {
+        this.body = body;
+    }
+
+    @Override
+    public Map<String, String> detail() {
+        Map<String, String> details = super.detail();
+        details.put("title", title);
+        details.put("conversation", body);
+        details.put("type", "chat");
+        return details;
     }
 
 }
