@@ -7,20 +7,42 @@ import java.util.Map;
 public class Post {
 
     // @TODO make base params editable
-    // @TODO ensure fields
 
     private Long id;
     private String reblog_key;
     private String blog_name;
     private String post_url;
     private String type;
-    private int timestamp;
+    private Long timestamp;
     private String state;
     private String format;
     private String date;
     private String[] tags;
+    private Boolean bookmarklet, mobile;
+    private String source_url, source_title;
+    private Boolean liked;
 
     protected JumblrClient client;
+
+    public Boolean isLiked() {
+        return liked;
+    }
+
+    public String getSourceTitle() {
+        return source_title;
+    }
+
+    public String getSourceUrl() {
+        return source_url;
+    }
+
+    public Boolean isMobile() {
+        return mobile;
+    }
+
+    public Boolean isBookmarklet() {
+        return bookmarklet;
+    }
 
     public String getFormat() {
         return format;
@@ -42,7 +64,7 @@ public class Post {
         return date;
     }
 
-    public int getTimestamp() {
+    public Long getTimestamp() {
         return timestamp;
     }
 
