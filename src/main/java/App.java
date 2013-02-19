@@ -9,6 +9,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 
 public class App {
 
@@ -36,7 +37,9 @@ public class App {
         for (Blog blog : client.user().getBlogs()) {
             System.out.println(blog.getTitle());
 
-            for (Post post : blog.posts()) {
+            Map<String, Integer> map = new HashMap<String, Integer>();
+            map.put("limit", 2);
+            for (Post post : blog.posts(map)) {
                 System.out.println(post.toString());
             }
 
