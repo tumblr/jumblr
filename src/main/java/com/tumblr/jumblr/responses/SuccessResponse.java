@@ -3,17 +3,18 @@ package com.tumblr.jumblr.responses;
 import com.tumblr.jumblr.types.Blog;
 import com.tumblr.jumblr.types.Post;
 import com.tumblr.jumblr.types.User;
-import java.util.Collection;
+import java.util.List;
 
 class SuccessResponse {
     
     private User user;
     private Blog blog;
+    private Post post;
     
-    private Collection<User> users;
-    private Collection<Post> posts;
-    private Collection<Post> liked_posts;
-    private Collection<Blog> blogs;
+    private List<User> users;
+    private List<Post> posts;
+    private List<Post> liked_posts;
+    private List<Blog> blogs;
     
     User getUser() {
         return this.user;
@@ -23,20 +24,24 @@ class SuccessResponse {
         return this.blog;
     }
 
-    Collection<Post> getPosts() {
+    List<Post> getPosts() {
         return this.posts;
     }
 
-    Iterable<User> getUsers() {
+    List<User> getUsers() {
         return this.users;
     }
 
-    Iterable<Post> getLikedPosts() {
+    List<Post> getLikedPosts() {
         return this.liked_posts;
     }
 
-    Iterable<Blog> getBlogs() {
+    List<Blog> getBlogs() {
         return this.blogs;
+    }
+
+    Post getPost() {
+        return this.post;
     }
     
 }

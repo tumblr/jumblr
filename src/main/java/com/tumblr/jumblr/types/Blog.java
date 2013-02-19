@@ -1,12 +1,17 @@
 package com.tumblr.jumblr.types;
 
 import com.tumblr.jumblr.JumblrClient;
+import java.util.List;
 import java.util.Map;
 
 public class Blog {
 
     private String name;
     private String title;
+    private String description;
+    private int posts, likes;
+    private int updated;
+    private boolean ask, ask_anon;
     
     private JumblrClient client;
     
@@ -16,6 +21,54 @@ public class Blog {
      */
     public void setClient(JumblrClient client) {
         this.client = client;
+    }
+    
+    /**
+     * Get the description of this blog
+     * @return String description
+     */
+    public String getDescription() {
+        return this.description;
+    }
+    
+    /**
+     * Can we ask questions on this blog?
+     * @return boolean
+     */
+    public boolean canAsk() {
+        return this.ask;
+    }
+    
+    /**
+     * Can we ask questions on this blog anonymously?
+     * @return boolean
+     */
+    public boolean canAskAnonymously() {
+        return this.ask_anon;
+    }
+    
+    /**
+     * Get the number of posts for this blog
+     * @return int the number of posts
+     */
+    public int getPostCount() {
+        return this.posts;
+    }
+    
+    /**
+     * Get the number of likes for this blog
+     * @return int the number of likes
+     */
+    public int getLikeCount() {
+        return this.likes;
+    }
+    
+    /**
+     * Get the time of the most recent post (in seconds since epoch)
+     * @return int of time
+     */
+    public int getUpdated() {
+        return updated;
     }
     
     /**
@@ -38,7 +91,7 @@ public class Blog {
      * Get the avatar for this blog
      * @return A String URL for the avatar
      */
-    public String getAvatar() {
+    public String avatar() {
         return client.blogAvatar(this.name);
     }
     
@@ -47,31 +100,96 @@ public class Blog {
      * @param size the size to get the avatar for
      * @return A string URL for the avatar
      */
-    public String getAvatar(int size) {
+    public String avatar(int size) {
         return client.blogAvatar(this.name, size);
     }
 
     /**
      * Get followers for this blog
      * @param options a map of options (or null)
-     * @return A collection of users
+     * @return A List of users
      */
-    public Iterable<User> getFollowers(Map options) {
+    public List<User> followers(Map options) {
         return client.blogFollowers(this.name, options);
     }
     
-    public Iterable<User> getFollowers() { return this.getFollowers(null); }
+    public List<User> followers() { return this.followers(null); }
+    
+    /**
+     * Get the posts for this blog
+     * @param options a map of options (or null)
+     * @return A List of posts
+     */
+    public List<Post> posts(Map options) {
+        return client.blogPosts(name, options);
+    }
+    
+    public List<Post> posts() {
+        return this.posts(null);
+    }
     
     /**
      * Get likes posts for this blog
      * @param options a map of options (or null)
-     * @return A collection of posts
+     * @return A List of posts
      */
-    public Iterable<Post> getLikedPosts(Map options) {
+    public List<Post> likedPosts(Map options) {
         return client.blogLikes(this.name, options);
     }
     
-    public Iterable<Post> getLikedPosts() { return this.getLikedPosts(null); }
+    public List<Post> likedPosts() { return this.likedPosts(null); }
+
+    /**
+     * Follow this blog
+     */
+    public void follow() {
+        client.follow(this.name);
+    }
     
+    /**
+     * Unfollow this blog
+     */
+    public void unfollow() {
+        client.unfollow(this.name);
+    }
+
+    /**
+     * Get the queued posts for this blog
+     * @param options the options (or null)
+     * @return a List of posts
+     */
+    public List<Post> queuedPosts(Map options) {
+        return client.blogQueuedPosts(name, options);
+    }
+
+    public List<Post> queuedPosts() {
+        return this.queuedPosts(null);
+    }    
     
+    /**
+     * Get the draft posts for this blog
+     * @param options the options (or null)
+     * @return a List of posts
+     */
+    public List<Post> draftPosts(Map options) {
+        return client.blogDraftPosts(name, options);
+    }
+    
+    public List<Post> draftPosts() {
+        return this.draftPosts(null);
+    }
+    
+    /**
+     * Get the submissions for this blog
+     * @param options the options (or null)
+     * @return a List of posts
+     */
+    public List<Post> submissions(Map options) {
+        return client.blogSubmissions(name, options);
+    }
+    
+    public List<Post> submissions() {
+        return this.submissions(null);
+    }
+
 }

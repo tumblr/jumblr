@@ -1,11 +1,11 @@
 package com.tumblr.jumblr.types;
 
 import com.tumblr.jumblr.JumblrClient;
-import java.util.ArrayList;
+import java.util.List;
 
 public class User {
     
-    private ArrayList<Blog> blogs;
+    private List<Blog> blogs;
     private String name;
     private int following;
     
@@ -28,10 +28,13 @@ public class User {
     }
 
     /**
-     * Get the blog collection for this user
-     * @return The blog collection for this user
+     * Get the blog List for this user
+     * @return The blog List for this user
      */
-    public Iterable<Blog> getBlogs() {
+    public List<Blog> getBlogs() {
+        for (Blog blog : blogs) {
+            blog.setClient(client);
+        }
         return this.blogs;
     }
 
