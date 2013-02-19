@@ -2,11 +2,11 @@ package com.tumblr.jumblr.types;
 
 import com.tumblr.jumblr.JumblrClient;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import org.apache.commons.lang3.StringUtils;
 
 public class Post {
-
-    // @TODO make base params editable
 
     private Long id;
     private String reblog_key;
@@ -17,10 +17,11 @@ public class Post {
     private String state;
     private String format;
     private String date;
-    private String[] tags;
+    private List<String> tags;
     private Boolean bookmarklet, mobile;
     private String source_url, source_title;
     private Boolean liked;
+    private String slug;
 
     protected JumblrClient client;
 
@@ -56,7 +57,7 @@ public class Post {
         return post_url;
     }
 
-    public String[] getTags() {
+    public List<String> getTags() {
         return tags;
     }
 
@@ -136,6 +137,50 @@ public class Post {
     }
 
     /**
+     * Set the format
+     * @param format the format
+     */
+    public void setFormat(String format) {
+        this.format = format;
+    }
+
+    /**
+     * Set the slug
+     */
+    public void setSlug(String slug) {
+        this.slug = slug;
+    }
+
+    /**
+     * Set the state for this post
+     * @param state the state
+     */
+    public void setState(String state) {
+        this.state = state;
+    }
+
+    /**
+     * Set the tags for this post
+     */
+    public void setTags(List<String> tags) {
+        this.tags = tags;
+    }
+
+    /**
+     * Add a tag
+     */
+    public void addTag(String tag) {
+        this.tags.add(tag);
+    }
+
+    /**
+     * Remove a tag
+     */
+    public void removeTag(String tag) {
+        this.tags.remove(tag);
+    }
+
+    /**
      * Save this post
      */
     public void save() {
@@ -151,7 +196,15 @@ public class Post {
      */
     protected Map<String, String> detail() {
         Map<String, String> map = new HashMap<String, String>();
+        map.put("state", state);
+        map.put("tags", getTagString());
+        map.put("format", format);
+        map.put("slug", slug);
         return map;
+    }
+
+    private String getTagString() {
+        return StringUtils.join((String[]) tags.toArray(), ",");
     }
 
     /**
