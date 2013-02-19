@@ -6,13 +6,11 @@ import java.util.Map;
 
 public class Blog {
 
-    // @TODO ensure fields filled out
-
     private String name;
     private String title;
     private String description;
     private int posts, likes;
-    private int updated;
+    private Long updated;
     private boolean ask, ask_anon;
 
     private JumblrClient client;
@@ -67,9 +65,9 @@ public class Blog {
 
     /**
      * Get the time of the most recent post (in seconds since epoch)
-     * @return int of time
+     * @return Long of time
      */
-    public int getUpdated() {
+    public Long getUpdated() {
         return updated;
     }
 
