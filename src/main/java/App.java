@@ -17,7 +17,7 @@ import java.util.Map;
  */
 public class App {
 
-    public static void main(String[] args) throws FileNotFoundException, IOException {
+    public static void main(String[] args) throws FileNotFoundException, IOException, InstantiationException, IllegalAccessException {
 
         // Read in the JSON data for the credentials
         FileReader fr = new FileReader("credentials.json");
@@ -55,9 +55,7 @@ public class App {
 
         // @TODO play more with usage to ensure usability
 
-        PhotoPost post = new PhotoPost();
-        post.setBlogName("apeyes.tumblr.com");
-        post.setClient(client);
+        PhotoPost post = (PhotoPost) client.newPost("apeyes.tumblr.com", PhotoPost.class);
         post.setSource("http://www.petfinder.com/wp-content/uploads/2012/11/99059361-choose-cat-litter-632x475.jpg");
         post.save();
 

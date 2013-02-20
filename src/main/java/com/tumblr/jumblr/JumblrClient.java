@@ -339,6 +339,19 @@ public final class JumblrClient {
     }
 
     /**
+     * Set up a new post of a given type
+     * @param blogName the name of the blog for this post (or null)
+     * @param klass the type of Post to instantiate
+     * @return the new post with the client set
+     */
+    public Post newPost(String blogName, Class<? extends Post> klass) throws InstantiationException, IllegalAccessException {
+        Post post = klass.newInstance();
+        post.setClient(this);
+        post.setBlogName(blogName);
+        return post;
+    }
+
+    /**
      **
      **
      */

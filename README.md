@@ -132,8 +132,7 @@ client.postEdit(blogName, postId, detail);
 Just as easy as creating them:
 
 ``` java
-QuotePost post = new QuotePost();
-post.setClient(client);
+QuotePost post = (QuotePost) client.newPost(blogName, QuotePost.class);
 post.setQuote("hello world");
 post.save();
 
