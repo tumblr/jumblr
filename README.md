@@ -2,6 +2,8 @@
 
 A pleasant and complete Java wrapper for the Tumblr V2 API.
 
+## Example
+
 ``` java
 // Create a new client
 JumblrClient client = new JumblrClient("consumer_key", "consumer_secret");
@@ -20,7 +22,9 @@ for (Blog blog : user.getBlogs()) {
 client.tagged("lol").get(0).like();
 ```
 
-## User
+## Basic Usage
+
+### User
 
 Information about the authenticating user
 
@@ -50,7 +54,7 @@ Or the things we like:
 List<Post> posts = client.userLikes();
 ```
 
-## Blog
+### Blog
 
 Get information about a given blog
 
@@ -90,7 +94,7 @@ blog.follow();
 blog.unfollow();
 ```
 
-## Post
+### Post
 
 Again:
 
@@ -122,10 +126,25 @@ post.save();
 // or if you like..
 Map<String, String> detail = new HashMap<String, String>();
 detail.put("title", "hello");
-client.postEdit(postId, detail);
+client.postEdit(blogName, postId, detail);
 ```
 
-## Pagination
+Just as easy as creating them:
+
+``` java
+QuotePost post = new QuotePost();
+post.setClient(client);
+post.setQuote("hello world");
+post.save();
+
+// or if you like...
+Map<String, String> detail = new HashMap<String, String>();
+detail.put("quote", "hello world");
+detail.put("type", "quote");
+client.postCreate(blogName, detail);
+```
+
+### Pagination
 
 Pagination and additional options are on most calls, and you can just pass them
 to the overloaded form:
@@ -137,7 +156,7 @@ options.put("offset", 5);
 List<Post> posts = blog.posts(options);
 ```
 
-## Errors
+### Errors
 
 Any connection errors will raise a `JumblrException`, which you can get more
 information from:
