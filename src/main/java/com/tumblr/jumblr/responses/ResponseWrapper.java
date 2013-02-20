@@ -1,72 +1,104 @@
 package com.tumblr.jumblr.responses;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 import com.tumblr.jumblr.JumblrClient;
 import com.tumblr.jumblr.types.Blog;
 import com.tumblr.jumblr.types.Post;
+import com.tumblr.jumblr.types.Resource;
 import com.tumblr.jumblr.types.User;
 import java.util.List;
 
 public class ResponseWrapper {
 
-    // @TODO replace
-
-    private SuccessResponse response;
+    private JsonElement response;
     private JumblrClient client;
-
-    public User getUser() {
-        User user = response.getUser();
-        user.setClient(client);
-        return user;
-    }
-
-    public Blog getBlog() {
-        Blog blog = response.getBlog();
-        blog.setClient(client);
-        return blog;
-    }
 
     public void setClient(JumblrClient client) {
         this.client = client;
     }
 
-    public List<Post> getPosts() {
-        List<Post> posts = response.getPosts();
-        for (Post post : posts) {
-            post.setClient(client);
-        }
-        return posts;
+    public User getUser() {
+        return get("user", User.class);
     }
 
-    public List<User> getUsers() {
-        List<User> users = response.getUsers();
-        for (User user : users) {
-            user.setClient(client);
-        }
-        return users;
-    }
-
-    public List<Post> getLikedPosts() {
-        List<Post> posts = response.getLikedPosts();
-        for (Post post : posts) { post.setClient(client); }
-        return posts;
-    }
-
-    public List<Blog> getBlogs() {
-        List<Blog> blogs = response.getBlogs();
-        for (Blog blog : blogs) {
-            blog.setClient(client);
-        }
-        return blogs;
+    public Blog getBlog() {
+        return get("blog", Blog.class);
     }
 
     public Post getPost() {
-        Post post = response.getPost();
-        post.setClient(client);
-        return post;
+        return get("post", Post.class);
     }
 
+    // TODO re-test
     public Long getId() {
-        return response.getId();
+        JsonObject object = (JsonObject) response;
+        return object.get("id").getAsLong();
+    }
+
+    // NOTE: needs to be duplicated logic due to Java erasure of generic types
+    public List<Post> getPosts() {
+        Gson gson = gsonParser();
+        JsonObject object = (JsonObject) response;
+        List<Post> l = gson.fromJson(object.get("posts"), new TypeToken<List<Post>>() {}.getType());
+        for (Post e : l) { e.setClient(client); }
+        return l;
+    }
+
+    // NOTE: needs to be duplicated logic due to Java erasure of generic types
+    public List<User> getUsers() {
+        Gson gson = gsonParser();
+        JsonObject object = (JsonObject) response;
+        List<User> l = gson.fromJson(object.get("users"), new TypeToken<List<User>>() {}.getType());
+        for (User e : l) { e.setClient(client); }
+        return l;
+    }
+
+    // NOTE: needs to be duplicated logic due to Java erasure of generic types
+    public List<Post> getLikedPosts() {
+        Gson gson = gsonParser();
+        JsonObject object = (JsonObject) response;
+        List<Post> l = gson.fromJson(object.get("liked_posts"), new TypeToken<List<Post>>() {}.getType());
+        for (Post e : l) { e.setClient(client); }
+        return l;
+    }
+
+    // NOTE: needs to be duplicated logic due to Java erasure of generic types
+    public List<Post> getTaggedPosts() {
+        Gson gson = gsonParser();
+        List<Post> l = gson.fromJson(response.getAsJsonArray(), new TypeToken<List<Post>>() {}.getType());
+        for (Post e : l) { e.setClient(client); }
+        return l;
+    }
+
+    // NOTE: needs to be duplicated logic due to Java erasure of generic types
+    public List<Blog> getBlogs() {
+        Gson gson = gsonParser();
+        JsonObject object = (JsonObject) response;
+        List<Blog> l = gson.fromJson(object.get("blogs"), new TypeToken<List<Blog>>() {}.getType());
+        for (Blog e : l) { e.setClient(client); }
+        return l;
+    }
+
+    /**
+     **
+     **/
+
+    private <T extends Resource> T get(String field, Class<T> k) {
+        Gson gson = gsonParser();
+        JsonObject object = (JsonObject) response;
+        T e = gson.fromJson(object.get(field).toString(), k);
+        e.setClient(client);
+        return e;
+    }
+
+    private Gson gsonParser() {
+        return new GsonBuilder().
+            registerTypeAdapter(Post.class, new PostDeserializer()).
+            create();
     }
 
 }

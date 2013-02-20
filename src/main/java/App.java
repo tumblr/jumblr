@@ -40,14 +40,12 @@ public class App {
 
         // Get a blog by name
         Blog blog = client.blogInfo("seejohnrun");
+        System.out.println(blog.getTitle());
 
-        // Get the most recent post
-        Post post = blog.posts().get(0);
-        System.out.println(post.getId());
-
-        // Then re-get it by id
-        Post postById = blog.getPost(post.getId());
-        System.out.println(postById.getId());
+        // Get the posts with a given tag
+        for (Post post : client.tagged("hello")) {
+            System.out.println(post.getId().toString() + ": " + post.getClass().getName());
+        }
 
     }
 

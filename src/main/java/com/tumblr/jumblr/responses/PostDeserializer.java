@@ -1,4 +1,4 @@
-package com.tumblr.jumblr;
+package com.tumblr.jumblr.responses;
 
 import com.google.gson.*;
 import com.tumblr.jumblr.types.UnknownTypePost;

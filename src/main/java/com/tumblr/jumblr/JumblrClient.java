@@ -2,8 +2,10 @@ package com.tumblr.jumblr;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonSyntaxException;
 import com.tumblr.jumblr.exceptions.JumblrException;
+import com.tumblr.jumblr.responses.JsonElementDeserializer;
 import com.tumblr.jumblr.responses.ResponseWrapper;
 import com.tumblr.jumblr.types.Blog;
 import com.tumblr.jumblr.types.Post;
@@ -98,6 +100,26 @@ public final class JumblrClient {
     }
 
     public List<Blog> userFollowing() { return this.userFollowing(null); }
+
+    /**
+     * Tagged posts
+     * @param tag the tag to search
+     * @param options the options for the call (or null)
+     * @return a list of posts
+     */
+    public List<Post> tagged(String tag, Map<String, ?> options) {
+        if (options == null) {
+            options = new HashMap<String, String>();
+        }
+        Map<String, String> soptions = (Map<String, String>) options;
+        soptions.put("api_key", apiKey);
+        soptions.put("tag", tag);
+        return this.clearGet("/tagged", options).getTaggedPosts();
+    }
+
+    public List<Post> tagged(String tag) {
+        return this.tagged(tag, null);
+    }
 
     /**
      * Get the blog info for a given blog
@@ -357,8 +379,8 @@ public final class JumblrClient {
      * @param klass the type of Post to instantiate
      * @return the new post with the client set
      */
-    public Post newPost(String blogName, Class<? extends Post> klass) throws InstantiationException, IllegalAccessException {
-        Post post = klass.newInstance();
+    public <T extends Post> T newPost(String blogName, Class<T> klass) throws IllegalAccessException, InstantiationException {
+        T post = klass.newInstance();
         post.setClient(this);
         post.setBlogName(blogName);
         return post;
@@ -388,7 +410,9 @@ public final class JumblrClient {
         if (response.getCode() == 200 || response.getCode() == 201) {
             String json = response.getBody();
             try {
-                Gson gson = new GsonBuilder().registerTypeAdapter(Post.class, new PostDeserializer()).create();
+                Gson gson = new GsonBuilder().
+                        registerTypeAdapter(JsonElement.class, new JsonElementDeserializer()).
+                        create();
                 ResponseWrapper wrapper = gson.fromJson(json, ResponseWrapper.class);
                 wrapper.setClient(this);
                 return wrapper;
