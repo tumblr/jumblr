@@ -2,14 +2,11 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.tumblr.jumblr.JumblrClient;
 import com.tumblr.jumblr.types.Blog;
-import com.tumblr.jumblr.types.PhotoPost;
 import com.tumblr.jumblr.types.Post;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Example usage of Jumblr
@@ -41,22 +38,16 @@ public class App {
             obj.getAsJsonPrimitive("oauth_token_secret").getAsString()
         );
 
-        // And make some calls - 2 posts for each blog
-        for (Blog blog : client.user().getBlogs()) {
-            System.out.println(blog.getTitle());
+        // Get a blog by name
+        Blog blog = client.blogInfo("seejohnrun");
 
-            Map<String, Integer> map = new HashMap<String, Integer>();
-            map.put("limit", 2);
-            for (Post post : blog.posts(map)) {
-                System.out.println(post.toString());
-            }
-        }
+        // Get the most recent post
+        Post post = blog.posts().get(0);
+        System.out.println(post.getId());
 
-        // @TODO play more with usage to ensure usability
-
-        PhotoPost post = (PhotoPost) client.newPost("apeyes.tumblr.com", PhotoPost.class);
-        post.setSource("http://www.petfinder.com/wp-content/uploads/2012/11/99059361-choose-cat-litter-632x475.jpg");
-        post.save();
+        // Then re-get it by id
+        Post postById = blog.getPost(post.getId());
+        System.out.println(postById.getId());
 
     }
 
