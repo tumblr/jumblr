@@ -50,7 +50,6 @@ public class App {
             for (Post post : blog.posts(map)) {
                 System.out.println(post.toString());
             }
-
         }
 
         // @TODO play more with usage to ensure usability

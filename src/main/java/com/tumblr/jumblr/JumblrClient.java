@@ -166,6 +166,19 @@ public final class JumblrClient {
     }
 
     /**
+     * Get an individual post by id
+     * @param blogName the name of the blog
+     * @param id the id of the post to get
+     * @return the Post or null
+     */
+    public Post blogPost(String blogName, Long postId) {
+        HashMap<String, String> options = new HashMap<String, String>();
+        options.put("id", postId.toString());
+        List<Post> posts = this.blogPosts(blogName, options);
+        return posts.size() > 0 ? posts.get(0) : null;
+    }
+
+    /**
      * Get the queued posts for a given blog
      * @param blogName the name of the blog
      * @param options the options for this call (or null)

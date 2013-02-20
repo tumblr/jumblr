@@ -122,6 +122,15 @@ public class Blog extends Resource {
     }
 
     /**
+     * Get an individual post by id
+     * @param postId the id of the post to retrieve
+     * @return the post (or null)
+     */
+    public Post getPost(Long postId) {
+        return client.blogPost(name, postId);
+    }
+
+    /**
      * Get likes posts for this blog
      * @param options a map of options (or null)
      * @return A List of posts
