@@ -8,6 +8,8 @@ import java.util.List;
 
 public class ResponseWrapper {
 
+    // @TODO replace
+
     private SuccessResponse response;
     private JumblrClient client;
 

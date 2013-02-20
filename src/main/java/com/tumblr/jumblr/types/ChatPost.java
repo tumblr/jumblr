@@ -2,7 +2,13 @@ package com.tumblr.jumblr.types;
 
 import java.util.Map;
 
+/**
+ * This class represents a post of type "chat"
+ * @author jc
+ */
 public class ChatPost extends Post {
+
+    // @TODO comment
 
     private String title;
     private String body;

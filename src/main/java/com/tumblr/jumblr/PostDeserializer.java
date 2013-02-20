@@ -5,8 +5,10 @@ import com.tumblr.jumblr.types.UnknownTypePost;
 import java.lang.reflect.Type;
 
 /**
- *
- * @author john
+ * Posts come back to us as a collection, so this Deserializer is here
+ * to make it so that the collection consists of the proper subclasses
+ * of Post (ie: QuotePost, PhotoPost)
+ * @author jc
  */
 public class PostDeserializer implements JsonDeserializer<Object> {
 

@@ -1,13 +1,18 @@
 package com.tumblr.jumblr.types;
 
-import com.tumblr.jumblr.JumblrClient;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.commons.lang3.StringUtils;
 
-public class Post {
+/**
+ * This class is the base of all post types on Tumblr
+ * @author jc
+ */
+public class Post extends Resource {
+
+    // TODO comment
 
     private Long id;
     private String reblog_key;
@@ -23,8 +28,6 @@ public class Post {
     private String source_url, source_title;
     private Boolean liked;
     private String slug;
-
-    protected JumblrClient client;
 
     public Boolean isLiked() {
         return liked;
@@ -76,10 +79,6 @@ public class Post {
 
     public Long getId() {
         return id;
-    }
-
-    public void setClient(JumblrClient client) {
-        this.client = client;
     }
 
     public String getReblogKey() {

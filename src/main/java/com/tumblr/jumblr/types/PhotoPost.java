@@ -2,9 +2,14 @@ package com.tumblr.jumblr.types;
 
 import java.util.Map;
 
+/**
+ * This class represents a post of type "photo"
+ * @author jc
+ */
 public class PhotoPost extends Post {
 
     // @TODO make data editable
+    // @TODO comment
 
     private String caption;
     private int width, height;

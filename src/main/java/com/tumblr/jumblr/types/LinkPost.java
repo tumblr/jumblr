@@ -2,7 +2,13 @@ package com.tumblr.jumblr.types;
 
 import java.util.Map;
 
+/**
+ * This class represents a Post of type "link"
+ * @author jc
+ */
 public class LinkPost extends Post {
+
+    // @TODO comment
 
     private String title;
     private String url;

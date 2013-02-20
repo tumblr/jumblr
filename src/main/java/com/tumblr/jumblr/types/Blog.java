@@ -1,10 +1,13 @@
 package com.tumblr.jumblr.types;
 
-import com.tumblr.jumblr.JumblrClient;
 import java.util.List;
 import java.util.Map;
 
-public class Blog {
+/**
+ * This class represents an individual Tumbelog
+ * @author jc
+ */
+public class Blog extends Resource {
 
     private String name;
     private String title;
@@ -12,16 +15,6 @@ public class Blog {
     private int posts, likes;
     private Long updated;
     private boolean ask, ask_anon;
-
-    private JumblrClient client;
-
-    /**
-     * Set the client for making relative requests from this Blog
-     * @param client The client to use
-     */
-    public void setClient(JumblrClient client) {
-        this.client = client;
-    }
 
     /**
      * Get the description of this blog

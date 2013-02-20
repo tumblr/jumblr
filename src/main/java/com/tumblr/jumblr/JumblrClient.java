@@ -20,6 +20,12 @@ import org.scribe.model.Token;
 import org.scribe.model.Verb;
 import org.scribe.oauth.OAuthService;
 
+/**
+ * This is the base JumblrClient that is used to make requests to the Tumblr
+ * API.  All calls that can be made from other Resource(s) can be made from
+ * here.
+ * @author jc
+ */
 public final class JumblrClient {
 
     // @TODO tagged support

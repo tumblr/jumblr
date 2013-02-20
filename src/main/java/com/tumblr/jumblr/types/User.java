@@ -1,16 +1,17 @@
 package com.tumblr.jumblr.types;
 
-import com.tumblr.jumblr.JumblrClient;
 import java.util.List;
 
-public class User {
+/**
+ * This class represents a User on Tumblr
+ * @author jc
+ */
+public class User extends Resource {
 
     private List<Blog> blogs;
     private String name;
     private int following, likes;
     private String default_post_format;
-
-    private JumblrClient client;
 
     /**
      * Return the default post format for this user
@@ -53,14 +54,6 @@ public class User {
             blog.setClient(client);
         }
         return this.blogs;
-    }
-
-    /**
-     * Set the client for this User
-     * @param client The client to use for relative requests
-     */
-    public void setClient(JumblrClient client) {
-        this.client = client;
     }
 
 }

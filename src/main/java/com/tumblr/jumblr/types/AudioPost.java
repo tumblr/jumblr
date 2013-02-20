@@ -2,8 +2,13 @@ package com.tumblr.jumblr.types;
 
 import java.util.Map;
 
+/**
+ * This class represents a post of type "audio"
+ * @author jc
+ */
 public class AudioPost extends Post {
 
+    // @TODO comment
     // @TODO make data editable
 
     private String caption, player;
