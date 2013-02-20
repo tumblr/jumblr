@@ -143,6 +143,16 @@ detail.put("type", "quote");
 client.postCreate(blogName, detail);
 ```
 
+### Tagged
+
+All of the posts tagged a given thing:
+
+``` java
+for (Post post : client.tagged("lol")) {
+  post.getId();
+}
+```
+
 ### Pagination
 
 Pagination and additional options are on most calls, and you can just pass them
