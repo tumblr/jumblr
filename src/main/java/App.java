@@ -3,6 +3,7 @@ import com.google.gson.JsonParser;
 import com.tumblr.jumblr.JumblrClient;
 import com.tumblr.jumblr.types.Blog;
 import com.tumblr.jumblr.types.Post;
+import com.tumblr.jumblr.types.QuotePost;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -46,6 +47,14 @@ public class App {
         for (Post post : client.tagged("hello")) {
             System.out.println(post.getId().toString() + ": " + post.getClass().getName());
         }
+
+        Blog apeyes = client.blogInfo("apeyes.tumblr.com");
+        QuotePost post = apeyes.newPost(QuotePost.class);
+        post.setText("hello world");
+        post.save();
+
+        Long id = post.getId();
+        System.out.println(id.toString());
 
     }
 

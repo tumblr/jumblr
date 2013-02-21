@@ -194,4 +194,13 @@ public class Blog extends Resource {
         return this.submissions(null);
     }
 
+    /**
+     * Create a new post of a given type for this blog
+     * @param klass the class of the post to make
+     * @return new post
+     */
+    public <T extends Post> T newPost(Class<T> klass) throws IllegalAccessException, InstantiationException {
+        return client.newPost(name, klass);
+    }
+
 }

@@ -397,7 +397,6 @@ public final class JumblrClient {
 
     private ResponseWrapper clearPost(String path, Map<String, ?> bodyMap) {
         Response response = this.post(path, bodyMap);
-        System.out.println(response.getBody());
         return this.clear(response);
     }
 

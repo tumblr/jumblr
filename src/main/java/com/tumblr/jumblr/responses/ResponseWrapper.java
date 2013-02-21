@@ -33,7 +33,6 @@ public class ResponseWrapper {
         return get("post", Post.class);
     }
 
-    // TODO re-test
     public Long getId() {
         JsonObject object = (JsonObject) response;
         return object.get("id").getAsLong();
