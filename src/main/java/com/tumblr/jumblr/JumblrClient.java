@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonSyntaxException;
 import com.tumblr.jumblr.exceptions.JumblrException;
+import com.tumblr.jumblr.request.MultipartConverter;
 import com.tumblr.jumblr.responses.JsonElementDeserializer;
 import com.tumblr.jumblr.responses.ResponseWrapper;
 import com.tumblr.jumblr.types.Blog;
@@ -472,81 +473,8 @@ public final class JumblrClient {
         return request;
     }
 
-    // TODO refactor out
     private static OAuthRequest convertToMultipart(OAuthRequest request, Map<String, ?> bodyMap) throws IOException {
-        // Generate a boundary
-        OAuthRequest newRequest = new OAuthRequest(request.getVerb(), request.getUrl());
-        newRequest.addHeader("Authorization", request.getHeaders().get("Authorization"));
-
-        String boundary = Long.toHexString(System.nanoTime());
-        newRequest.addHeader("Content-Type", "multipart/form-data, boundary=" + boundary);
-
-        List<Object> responsePieces = new ArrayList<Object>();
-
-        // Build up the contents
-        StringBuilder message = new StringBuilder();
-        message.append("Content-Type: multipart/form-data; boundary=").append(boundary).append("\r\n\r\n");
-        for (String key : bodyMap.keySet()) {
-            Object object = bodyMap.get(key);
-            if (object == null) { continue; }
-            if (object instanceof File) {
-                File f = (File) object;
-                String mime = URLConnection.guessContentTypeFromName(f.getName());
-
-                DataInputStream dis = null;
-                byte[] result = new byte[(int)f.length()];
-
-                try {
-                    dis = new DataInputStream(new BufferedInputStream(new FileInputStream(f)));
-                    dis.readFully(result);
-                } finally {
-                    dis.close();
-                }
-
-                message.append("--").append(boundary).append("\r\n");
-                message.append("Content-Disposition: form-data; name=\"").append(key).append("\"; filename=\"").append(f.getName()).append("\"\r\n");
-                message.append("Content-Type: ").append(mime).append("\r\n\r\n");
-                responsePieces.add(message);
-                responsePieces.add(result);
-                message = new StringBuilder("\r\n");
-            } else {
-                message.append("--").append(boundary).append("\r\n");
-                message.append("Content-Disposition: form-data; name=\"").append(key).append("\"\r\n\r\n");
-                message.append(object.toString()).append("\r\n");
-            }
-        }
-        message.append("--").append(boundary).append("--\r\n");
-        responsePieces.add(message);
-
-        // Get the full length
-        int length = 0;
-        for (Object piece : responsePieces) {
-            if (piece instanceof StringBuilder) {
-                length += ((StringBuilder) piece).toString().length();
-            } else {
-                length += ((byte[]) piece).length;
-            }
-        }
-
-        // Build the full payload
-        int used = 0;
-        byte[] payload = new byte[length];
-        byte[] local;
-        for (Object piece : responsePieces) {
-            if (piece instanceof StringBuilder) {
-                local = ((StringBuilder) piece).toString().getBytes();
-            } else {
-                local = (byte[]) piece;
-            }
-            System.arraycopy(local, 0, payload, used, local.length);
-            used += local.length;
-        }
-
-        // Set the payload
-        newRequest.addHeader("Content-length", new Long(length).toString());
-        newRequest.addPayload(payload);
-
-        return newRequest;
+        return new MultipartConverter(request, bodyMap).getRequest();
     }
 
     private static String blogPath(String blogName, String extPath) {
