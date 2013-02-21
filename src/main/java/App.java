@@ -1,15 +1,19 @@
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.tumblr.jumblr.JumblrClient;
+import com.tumblr.jumblr.exceptions.JumblrException;
 import com.tumblr.jumblr.types.Blog;
 import com.tumblr.jumblr.types.PhotoPost;
 import com.tumblr.jumblr.types.Post;
 import com.tumblr.jumblr.types.QuotePost;
+import com.tumblr.jumblr.types.User;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Example usage of Jumblr
@@ -43,17 +47,17 @@ public class App {
 
         // Write a photo post
 
-        Blog apeyes = client.blogInfo("apeyes.tumblr.com");
+        Map<String, Integer> options = new HashMap<String, Integer>();
+        options.put("limit", 2);
 
-        //QuotePost qpost = apeyes.newPost(QuotePost.class);
-        //qpost.setText("hello world!");
-        //qpost.save();
-
-        File file = new File("/Users/jc/Desktop/cat.jpg");
-        PhotoPost post = apeyes.newPost(PhotoPost.class);
-        post.setCaption("meow");
-        post.setData(file);
-        post.save();
+        User user = client.user();
+        System.out.println(user.getName());
+        for (Blog blog : user.getBlogs()) {
+            System.out.println("\t" + blog.getName());
+            for (Post post : blog.posts(options)) {
+                System.out.println("\t\t" + post.getId());
+            }
+        }
 
     }
 
