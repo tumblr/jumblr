@@ -439,7 +439,6 @@ public final class JumblrClient {
                 return null;
             }
         } else {
-            System.out.println(response.getBody());
             throw new JumblrException(response);
         }
     }
