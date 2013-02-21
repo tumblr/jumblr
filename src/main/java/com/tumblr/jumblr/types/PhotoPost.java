@@ -79,6 +79,10 @@ public class PhotoPost extends Post {
     }
 
     /**
+     * Set the
+     */
+
+    /**
      * Set the link URL for this post
      * @param linkUrl the link URL
      */

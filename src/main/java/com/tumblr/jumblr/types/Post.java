@@ -12,8 +12,6 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class Post extends Resource {
 
-    // TODO comment
-
     private Long id;
     private String reblog_key;
     private String blog_name;
@@ -29,58 +27,113 @@ public class Post extends Resource {
     private Boolean liked;
     private String slug;
 
+    /**
+     * Get whether or not this post is liked
+     * @return boolean
+     */
     public Boolean isLiked() {
         return liked;
     }
 
+    /**
+     * Get the source title for this post
+     * @return source title
     public String getSourceTitle() {
         return source_title;
     }
 
+    /**
+     * Get the source URL for this post
+     * @return source URL
+     */
     public String getSourceUrl() {
         return source_url;
     }
 
+    /**
+     * Get whether or not this post was from mobile
+     * @return boolean
+     */
     public Boolean isMobile() {
         return mobile;
     }
 
+    /**
+     * Get whether or not this post was from the bookmarklet
+     * @return boolean
+     */
     public Boolean isBookmarklet() {
         return bookmarklet;
     }
 
+    /**
+     * Get the format for this post
+     * @return the format
+     */
     public String getFormat() {
         return format;
     }
 
+    /**
+     * Get the current state for this post
+     * @return the state
+     */
     public String getState() {
         return state;
     }
 
+    /**
+     * Get the post URL for this post
+     * @return the URL
+     */
     public String getPostUrl() {
         return post_url;
     }
 
+    /**
+     * Get a list of the tags for this post
+     * @return the tags
+     */
     public List<String> getTags() {
         return tags;
     }
 
+    /**
+     * Get date of this post as String
+     * @return date GMT string
+     */
     public String getDateGMT() {
         return date;
     }
 
+    /**
+     * Get the timestamp of this post
+     * @return timestamp since epoch
+     */
     public Long getTimestamp() {
         return timestamp;
     }
 
+    /**
+     * Get the type of this post
+     * @return type as String
+     */
     public String getType() {
         return type;
     }
 
+    /**
+     * Get this post's ID
+     * @return the ID
+     */
     public Long getId() {
         return id;
     }
 
+    /**
+     * Get the reblog key
+     * @return the reblog key
+     */
     public String getReblogKey() {
         return this.reblog_key;
     }
@@ -196,6 +249,7 @@ public class Post extends Resource {
 
     /**
      * Detail for this post
+     * @return the detail
      */
     protected Map<String, String> detail() {
         Map<String, String> map = new HashMap<String, String>();
@@ -206,6 +260,10 @@ public class Post extends Resource {
         return map;
     }
 
+    /**
+     * Get the tags as a string
+     * @return a string of CSV tags
+     */
     private String getTagString() {
         return tags == null ? "" : StringUtils.join((String[]) tags.toArray(), ",");
     }
