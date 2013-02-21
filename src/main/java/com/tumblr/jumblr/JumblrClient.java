@@ -30,8 +30,6 @@ import org.scribe.oauth.OAuthService;
  */
 public final class JumblrClient {
 
-    // @TODO tagged support
-
     private final OAuthService service;
     private Token token = null;
     private String apiKey;
