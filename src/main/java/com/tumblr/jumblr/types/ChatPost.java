@@ -6,7 +6,7 @@ import java.util.Map;
  * This class represents a post of type "chat"
  * @author jc
  */
-public class ChatPost extends Post {
+public class ChatPost extends SafePost {
 
     private String title;
     private String body;
@@ -49,8 +49,8 @@ public class ChatPost extends Post {
      * @return the detail
      */
     @Override
-    public Map<String, String> detail() {
-        Map<String, String> details = super.detail();
+    public Map<String, Object> detail() {
+        Map<String, Object> details = super.detail();
         details.put("title", title);
         details.put("conversation", body);
         details.put("type", "chat");

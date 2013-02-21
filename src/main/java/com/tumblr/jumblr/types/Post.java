@@ -1,5 +1,6 @@
 package com.tumblr.jumblr.types;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -239,7 +240,7 @@ public class Post extends Resource {
     /**
      * Save this post
      */
-    public void save() {
+    public void save() throws IOException {
         if (id == null) {
             this.id = client.postCreate(blog_name, detail());
         } else {
@@ -251,8 +252,8 @@ public class Post extends Resource {
      * Detail for this post
      * @return the detail
      */
-    protected Map<String, String> detail() {
-        Map<String, String> map = new HashMap<String, String>();
+    protected Map<String, Object> detail() {
+        Map<String, Object> map = new HashMap<String, Object>();
         map.put("state", state);
         map.put("tags", getTagString());
         map.put("format", format);

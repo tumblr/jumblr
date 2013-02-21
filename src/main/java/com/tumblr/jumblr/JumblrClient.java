@@ -10,7 +10,14 @@ import com.tumblr.jumblr.responses.ResponseWrapper;
 import com.tumblr.jumblr.types.Blog;
 import com.tumblr.jumblr.types.Post;
 import com.tumblr.jumblr.types.User;
+import java.io.BufferedInputStream;
+import java.io.DataInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.net.URLConnection;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +36,15 @@ import org.scribe.oauth.OAuthService;
  * @author jc
  */
 public final class JumblrClient {
+
+    private static final List<String> MULTIPART_TYPES;
+
+    static {
+        MULTIPART_TYPES = new ArrayList<String>();
+        MULTIPART_TYPES.add("audio");
+        MULTIPART_TYPES.add("video");
+        MULTIPART_TYPES.add("photo");
+    }
 
     private final OAuthService service;
     private Token token = null;
@@ -263,7 +279,7 @@ public final class JumblrClient {
         String pathExt = size == null ? "" : "/" + size.toString();
         boolean presetVal = HttpURLConnection.getFollowRedirects();
         HttpURLConnection.setFollowRedirects(false);
-        Response response = this.get(JumblrClient.blogPath(blogName, "/avatar" + pathExt));
+        Response response = this.constructGet(JumblrClient.blogPath(blogName, "/avatar" + pathExt)).send();
         HttpURLConnection.setFollowRedirects(presetVal);
         if (response.getCode() == 301) {
             return response.getHeader("Location");
@@ -356,10 +372,10 @@ public final class JumblrClient {
      * @param id the Post id
      * @param detail The detail to save
      */
-    public void postEdit(String blogName, Long id, Map<String, ?> detail) {
+    public void postEdit(String blogName, Long id, Map<String, ?> detail) throws IOException {
         Map<String, String> sdetail = (Map<String, String>)detail;
         sdetail.put("id", id.toString());
-        this.clearPost(JumblrClient.blogPath(blogName, "/post/edit"), detail);
+        this.clearPostMultipart(JumblrClient.blogPath(blogName, "/post/edit"), detail);
     }
 
     /**
@@ -367,8 +383,8 @@ public final class JumblrClient {
      * @param blogName The blog name for the post
      * @param detail the detail to save
      */
-    public Long postCreate(String blogName, Map<String, ?> detail) {
-        return this.clearPost(JumblrClient.blogPath(blogName, "/post"), detail).getId();
+    public Long postCreate(String blogName, Map<String, ?> detail) throws IOException {
+        return this.clearPostMultipart(JumblrClient.blogPath(blogName, "/post"), detail).getId();
     }
 
     /**
@@ -393,13 +409,19 @@ public final class JumblrClient {
         return this.clearGet(path, null);
     }
 
+    private ResponseWrapper clearPostMultipart(String path, Map<String, ?> bodyMap) throws IOException {
+        OAuthRequest request = this.constructPost(path, bodyMap);
+        OAuthRequest newRequest = JumblrClient.convertToMultipart(request, bodyMap);
+        return this.clear(newRequest.send());
+    }
+
     private ResponseWrapper clearPost(String path, Map<String, ?> bodyMap) {
-        Response response = this.post(path, bodyMap);
+        Response response = this.constructPost(path, bodyMap).send();
         return this.clear(response);
     }
 
     private ResponseWrapper clearGet(String path, Map<String, ?> map) {
-        Response response = this.get(path, map);
+        Response response = this.constructGet(path, map).send();
         return this.clear(response);
     }
 
@@ -417,15 +439,16 @@ public final class JumblrClient {
                 return null;
             }
         } else {
+            System.out.println(response.getBody());
             throw new JumblrException(response);
         }
     }
 
-    private Response get(String path) {
-        return this.get(path, null);
+    private OAuthRequest constructGet(String path) {
+        return this.constructGet(path, null);
     }
 
-    private Response get(String path, Map<String, ?> queryParams) {
+    private OAuthRequest constructGet(String path, Map<String, ?> queryParams) {
         String url = "http://api.tumblr.com/v2" + path;
         OAuthRequest request = new OAuthRequest(Verb.GET, url);
         if (queryParams != null) {
@@ -434,22 +457,97 @@ public final class JumblrClient {
             }
         }
         service.signRequest(token, request);
-        return request.send();
+        return request;
     }
 
-    private Response post(String path, Map<String, ?> bodyMap) {
+    private OAuthRequest constructPost(String path, Map<String, ?> bodyMap) {
         String url = "http://api.tumblr.com/v2" + path;
         OAuthRequest request = new OAuthRequest(Verb.POST, url);
-        if (bodyMap != null) {
-            for (String key : bodyMap.keySet()) {
-                Object value = bodyMap.get(key);
-                if (value != null) {
-                    request.addBodyParameter(key, value.toString());
-                }
-            }
+
+        for (String key : bodyMap.keySet()) {
+            if (bodyMap.get(key) == null) { continue; }
+            if (bodyMap.get(key) instanceof File) { continue; }
+            request.addBodyParameter(key, bodyMap.get(key).toString());
         }
         service.signRequest(token, request);
-        return request.send();
+        return request;
+    }
+
+    // TODO refactor out
+    private static OAuthRequest convertToMultipart(OAuthRequest request, Map<String, ?> bodyMap) throws IOException {
+        // Generate a boundary
+        OAuthRequest newRequest = new OAuthRequest(request.getVerb(), request.getUrl());
+        newRequest.addHeader("Authorization", request.getHeaders().get("Authorization"));
+
+        String boundary = Long.toHexString(System.nanoTime());
+        newRequest.addHeader("Content-Type", "multipart/form-data, boundary=" + boundary);
+
+        List<Object> responsePieces = new ArrayList<Object>();
+
+        // Build up the contents
+        StringBuilder message = new StringBuilder();
+        message.append("Content-Type: multipart/form-data; boundary=").append(boundary).append("\r\n\r\n");
+        for (String key : bodyMap.keySet()) {
+            Object object = bodyMap.get(key);
+            if (object == null) { continue; }
+            if (object instanceof File) {
+                File f = (File) object;
+                String mime = URLConnection.guessContentTypeFromName(f.getName());
+
+                DataInputStream dis = null;
+                byte[] result = new byte[(int)f.length()];
+
+                try {
+                    dis = new DataInputStream(new BufferedInputStream(new FileInputStream(f)));
+                    dis.readFully(result);
+                } finally {
+                    dis.close();
+                }
+
+                message.append("--").append(boundary).append("\r\n");
+                message.append("Content-Disposition: form-data; name=\"").append(key).append("\"; filename=\"").append(f.getName()).append("\"\r\n");
+                message.append("Content-Type: ").append(mime).append("\r\n\r\n");
+                responsePieces.add(message);
+                responsePieces.add(result);
+                message = new StringBuilder("\r\n");
+            } else {
+                message.append("--").append(boundary).append("\r\n");
+                message.append("Content-Disposition: form-data; name=\"").append(key).append("\"\r\n\r\n");
+                message.append(object.toString()).append("\r\n");
+            }
+        }
+        message.append("--").append(boundary).append("--\r\n");
+        responsePieces.add(message);
+
+        // Get the full length
+        int length = 0;
+        for (Object piece : responsePieces) {
+            if (piece instanceof StringBuilder) {
+                length += ((StringBuilder) piece).toString().length();
+            } else {
+                length += ((byte[]) piece).length;
+            }
+        }
+
+        // Build the full payload
+        int used = 0;
+        byte[] payload = new byte[length];
+        byte[] local;
+        for (Object piece : responsePieces) {
+            if (piece instanceof StringBuilder) {
+                local = ((StringBuilder) piece).toString().getBytes();
+            } else {
+                local = (byte[]) piece;
+            }
+            System.arraycopy(local, 0, payload, used, local.length);
+            used += local.length;
+        }
+
+        // Set the payload
+        newRequest.addHeader("Content-length", new Long(length).toString());
+        newRequest.addPayload(payload);
+
+        return newRequest;
     }
 
     private static String blogPath(String blogName, String extPath) {

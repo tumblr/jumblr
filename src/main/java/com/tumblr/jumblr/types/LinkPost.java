@@ -6,7 +6,7 @@ import java.util.Map;
  * This class represents a Post of type "link"
  * @author jc
  */
-public class LinkPost extends Post {
+public class LinkPost extends SafePost {
 
     private String title;
     private String url;
@@ -65,8 +65,8 @@ public class LinkPost extends Post {
      * @return the details
      */
     @Override
-    public Map<String, String> detail() {
-        Map<String, String> detail = super.detail();
+    public Map<String, Object> detail() {
+        Map<String, Object> detail = super.detail();
         detail.put("title", title);
         detail.put("url", url);
         detail.put("description", description);

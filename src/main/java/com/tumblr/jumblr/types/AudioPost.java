@@ -1,5 +1,6 @@
 package com.tumblr.jumblr.types;
 
+import java.io.File;
 import java.util.Map;
 
 /**
@@ -8,15 +9,13 @@ import java.util.Map;
  */
 public class AudioPost extends Post {
 
-    // @TODO make data editable
-
     private String caption, player;
     private int plays;
     private String album_art, artist, album, track_name;
     private int track_number, year;
 
+    private File data;
     private String external_url;
-    private String data;
 
     /**
      * Get the play count for this post
@@ -103,6 +102,18 @@ public class AudioPost extends Post {
     }
 
     /**
+     * Set the data for this post
+     * @param file the file to read from
+     * @throws IllegalArgumentException source is already set
+     */
+    public void setData(File file) {
+        if (external_url != null) {
+            throw new IllegalArgumentException("Cannot supply both externalUrl & data");
+        }
+        this.data = file;
+    }
+
+    /**
      * Set the caption for this post
      * @param caption the caption
      */
@@ -115,10 +126,11 @@ public class AudioPost extends Post {
      * @return the detail
      */
     @Override
-    public Map<String, String> detail() {
-        Map<String, String> details = super.detail();
+    public Map<String, Object> detail() {
+        Map<String, Object> details = super.detail();
         details.put("type", "audio");
         details.put("caption", caption);
+        details.put("data", data);
         details.put("external_url", external_url);
         return details;
     }

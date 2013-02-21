@@ -1,5 +1,6 @@
 package com.tumblr.jumblr.types;
 
+import java.io.File;
 import java.util.Map;
 
 /**
@@ -8,11 +9,10 @@ import java.util.Map;
  */
 public class VideoPost extends Post {
 
-    // @TODO make data editable
-
     private Video[] player;
     private String caption;
-    private String data, embed;
+    private String embed;
+    private File data;
 
     /**
      * Get the videos from this post
@@ -43,6 +43,18 @@ public class VideoPost extends Post {
     }
 
     /**
+     * Set the data for this post
+     * @param file the file to read from
+     * @throws IllegalArgumentException source is already set
+     */
+    public void setData(File file) {
+        if (embed != null) {
+            throw new IllegalArgumentException("Cannot supply both embed & data");
+        }
+        this.data = file;
+    }
+
+    /**
      * Set the caption for this post
      * @param caption the caption to set
      */
@@ -55,10 +67,11 @@ public class VideoPost extends Post {
      * @return details of this post
      */
     @Override
-    public Map<String, String> detail() {
-        Map<String, String> details = super.detail();
+    public Map<String, Object> detail() {
+        Map<String, Object> details = super.detail();
         details.put("caption", caption);
         details.put("embed", embed);
+        details.put("data", data);
         details.put("type", "video");
         return details;
     }

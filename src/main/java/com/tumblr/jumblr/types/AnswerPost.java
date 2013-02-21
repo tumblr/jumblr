@@ -1,5 +1,9 @@
 package com.tumblr.jumblr.types;
 
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  * This class represents a Post of type "answer"
  * @author jc

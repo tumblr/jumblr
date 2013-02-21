@@ -1,5 +1,6 @@
 package com.tumblr.jumblr.types;
 
+import java.io.File;
 import java.util.Map;
 
 /**
@@ -8,13 +9,11 @@ import java.util.Map;
  */
 public class PhotoPost extends Post {
 
-    // @TODO make data editable
-
     private String caption;
     private int width, height;
 
     private String source;
-    private String data;
+    private File data;
     private String link;
     private Photo[] photos;
 
@@ -79,8 +78,16 @@ public class PhotoPost extends Post {
     }
 
     /**
-     * Set the
+     * Set the data for this post
+     * @param file the file to read from
+     * @throws IllegalArgumentException source is already set
      */
+    public void setData(File file) {
+        if (source != null) {
+            throw new IllegalArgumentException("Cannot supply both source & data");
+        }
+        this.data = file;
+    }
 
     /**
      * Set the link URL for this post
@@ -95,12 +102,13 @@ public class PhotoPost extends Post {
      * @return the details
      */
     @Override
-    public Map<String, String> detail() {
-        Map<String, String> details = super.detail();
+    public Map<String, Object> detail() {
+        Map<String, Object> details = super.detail();
         details.put("type", "photo");
         details.put("link", link);
         details.put("caption", caption);
         details.put("source", source);
+        details.put("data", data);
         return details;
     }
 
