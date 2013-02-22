@@ -1,5 +1,7 @@
 package com.tumblr.jumblr.types;
 
+import java.util.List;
+
 /**
  * This class represents a Photo in a PhotoPost
  * @author jc
@@ -7,13 +9,13 @@ package com.tumblr.jumblr.types;
 public class Photo {
 
     private String caption;
-    private PhotoSize[] alt_sizes;
+    private List<PhotoSize> alt_sizes;
 
     /**
      * Get the sizes of this Photo
      * @return PhotoSize[] sizes
      */
-    public PhotoSize[] getSizes() {
+    public List<PhotoSize> getSizes() {
         return alt_sizes;
     }
 

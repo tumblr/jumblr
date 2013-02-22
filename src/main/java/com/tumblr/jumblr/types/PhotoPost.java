@@ -1,6 +1,7 @@
 package com.tumblr.jumblr.types;
 
 import java.io.File;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -10,18 +11,18 @@ import java.util.Map;
 public class PhotoPost extends Post {
 
     private String caption;
-    private int width, height;
+    private Integer width, height;
 
     private String source;
     private File data;
     private String link;
-    private Photo[] photos;
+    private List<Photo> photos;
 
     /**
      * Get the Photo collection for this post
      * @return the photos
      */
-    public Photo[] getPhotos() {
+    public List<Photo> getPhotos() {
         return photos;
     }
 
@@ -30,7 +31,7 @@ public class PhotoPost extends Post {
      * @return boolean
      */
     public boolean isPhotoset() {
-        return photos.length > 1;
+        return photos.size() > 1;
     }
 
     /**
@@ -45,7 +46,7 @@ public class PhotoPost extends Post {
      * Return the photo width
      * @return width
      */
-    public int getWidth() {
+    public Integer getWidth() {
         return width;
     }
 
@@ -53,7 +54,7 @@ public class PhotoPost extends Post {
      * Return the photo height
      * @return height
      */
-    public int getHeight() {
+    public Integer getHeight() {
         return height;
     }
 
