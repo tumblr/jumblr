@@ -1,33 +1,18 @@
 package com.tumblr.jumblr;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonSyntaxException;
+import com.tumblr.jumblr.request.RequestBuilder;
 import com.tumblr.jumblr.exceptions.JumblrException;
-import com.tumblr.jumblr.request.MultipartConverter;
-import com.tumblr.jumblr.responses.JsonElementDeserializer;
-import com.tumblr.jumblr.responses.ResponseWrapper;
 import com.tumblr.jumblr.types.Blog;
 import com.tumblr.jumblr.types.Post;
 import com.tumblr.jumblr.types.User;
-import java.io.BufferedInputStream;
-import java.io.DataInputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.net.URLConnection;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.scribe.builder.ServiceBuilder;
-import org.scribe.builder.api.TumblrApi;
 import org.scribe.model.OAuthRequest;
 import org.scribe.model.Response;
 import org.scribe.model.Token;
-import org.scribe.model.Verb;
 import org.scribe.oauth.OAuthService;
 
 /**
@@ -38,18 +23,12 @@ import org.scribe.oauth.OAuthService;
  */
 public final class JumblrClient {
 
-    private static final List<String> MULTIPART_TYPES;
-
-    static {
-        MULTIPART_TYPES = new ArrayList<String>();
-        MULTIPART_TYPES.add("audio");
-        MULTIPART_TYPES.add("video");
-        MULTIPART_TYPES.add("photo");
-    }
-
-    private final OAuthService service;
-    private Token token = null;
+    private RequestBuilder requestBuilder;
     private String apiKey;
+
+    public JumblrClient() {
+        this.requestBuilder = new RequestBuilder(this);
+    }
 
     /**
      * Instantiate a new Jumblr Client with no token
@@ -57,11 +36,9 @@ public final class JumblrClient {
      * @param consumerSecret The consumer secret for the client
      */
     public JumblrClient(String consumerKey, String consumerSecret) {
+        this();
+        this.requestBuilder.setConsumer(consumerKey, consumerSecret);
         this.apiKey = consumerKey;
-        this.service = new ServiceBuilder().
-            provider(TumblrApi.class).
-            apiKey(consumerKey).apiSecret(consumerSecret).
-            build();
     }
 
     /**
@@ -82,7 +59,7 @@ public final class JumblrClient {
      * @param tokenSecret The token secret for the client
      */
     public void setToken(String token, String tokenSecret) {
-        this.token = new Token(token, tokenSecret);
+        this.requestBuilder.setToken(token, tokenSecret);
     }
 
     /**
@@ -90,7 +67,7 @@ public final class JumblrClient {
      * @return The authenticated user
      */
     public User user() {
-        return this.clearGet("/user/info").getUser();
+        return requestBuilder.get("/user/info", null).getUser();
     }
 
     /**
@@ -99,7 +76,7 @@ public final class JumblrClient {
      * @return A List of posts
      */
     public List<Post> userDashboard(Map<String, ?> options) {
-        return this.clearGet("/user/dashboard", options).getPosts();
+        return requestBuilder.get("/user/dashboard", options).getPosts();
     }
 
     public List<Post> userDashboard() {
@@ -111,7 +88,7 @@ public final class JumblrClient {
      * @return a List of blogs
      */
     public List<Blog> userFollowing(Map<String, ?> options) {
-        return this.clearGet("/user/following", options).getBlogs();
+        return requestBuilder.get("/user/following", options).getBlogs();
     }
 
     public List<Blog> userFollowing() { return this.userFollowing(null); }
@@ -129,7 +106,7 @@ public final class JumblrClient {
         Map<String, String> soptions = (Map<String, String>) options;
         soptions.put("api_key", apiKey);
         soptions.put("tag", tag);
-        return this.clearGet("/tagged", options).getTaggedPosts();
+        return requestBuilder.get("/tagged", options).getTaggedPosts();
     }
 
     public List<Post> tagged(String tag) {
@@ -144,7 +121,7 @@ public final class JumblrClient {
     public Blog blogInfo(String blogName) {
         Map<String, String> map = new HashMap<String, String>();
         map.put("api_key", this.apiKey);
-        return this.clearGet(JumblrClient.blogPath(blogName, "/info"), map).getBlog();
+        return requestBuilder.get(JumblrClient.blogPath(blogName, "/info"), map).getBlog();
     }
 
     /**
@@ -153,7 +130,7 @@ public final class JumblrClient {
      * @return the blog object for this blog
      */
     public List<User> blogFollowers(String blogName, Map<String, ?> options) {
-        return this.clearGet(JumblrClient.blogPath(blogName, "/followers"), options).getUsers();
+        return requestBuilder.get(JumblrClient.blogPath(blogName, "/followers"), options).getUsers();
     }
 
     public List<User> blogFollowers(String blogName) { return this.blogFollowers(blogName, null); }
@@ -170,7 +147,7 @@ public final class JumblrClient {
         }
         Map<String, String> soptions = (Map<String, String>)options;
         soptions.put("api_key", this.apiKey);
-        return this.clearGet(JumblrClient.blogPath(blogName, "/likes"), options).getLikedPosts();
+        return requestBuilder.get(JumblrClient.blogPath(blogName, "/likes"), options).getLikedPosts();
     }
 
     public List<Post> blogLikes(String blogName) {
@@ -195,7 +172,7 @@ public final class JumblrClient {
             path += "/" + options.get("type").toString();
             options.remove("type");
         }
-        return this.clearGet(JumblrClient.blogPath(blogName, path), options).getPosts();
+        return requestBuilder.get(JumblrClient.blogPath(blogName, path), options).getPosts();
     }
 
     public List<Post> blogPosts(String blogName) {
@@ -222,7 +199,7 @@ public final class JumblrClient {
      * @return a List of posts
      */
     public List<Post> blogQueuedPosts(String blogName, Map<String, ?> options) {
-        return this.clearGet(JumblrClient.blogPath(blogName, "/posts/queue"), options).getPosts();
+        return requestBuilder.get(JumblrClient.blogPath(blogName, "/posts/queue"), options).getPosts();
     }
 
     public List<Post> blogQueuedPosts(String blogName) {
@@ -236,7 +213,7 @@ public final class JumblrClient {
      * @return a List of posts
      */
     public List<Post> blogDraftPosts(String blogName, Map<String, ?> options) {
-        return this.clearGet(JumblrClient.blogPath(blogName, "/posts/draft"), options).getPosts();
+        return requestBuilder.get(JumblrClient.blogPath(blogName, "/posts/draft"), options).getPosts();
     }
 
     public List<Post> blogDraftPosts(String blogName) {
@@ -250,7 +227,7 @@ public final class JumblrClient {
      * @return a List of posts
      */
     public List<Post> blogSubmissions(String blogName, Map<String, ?> options) {
-        return this.clearGet(JumblrClient.blogPath(blogName, "/posts/submission"), options).getPosts();
+        return requestBuilder.get(JumblrClient.blogPath(blogName, "/posts/submission"), options).getPosts();
     }
 
     public List<Post> blogSubmissions(String blogName) {
@@ -263,7 +240,7 @@ public final class JumblrClient {
      * @return a List of posts
      */
     public List<Post> userLikes(Map<String, ?> options) {
-        return this.clearGet("/user/likes", options).getLikedPosts();
+        return requestBuilder.get("/user/likes", options).getLikedPosts();
     }
 
     public List<Post> userLikes() {
@@ -278,15 +255,7 @@ public final class JumblrClient {
      */
     public String blogAvatar(String blogName, Integer size) {
         String pathExt = size == null ? "" : "/" + size.toString();
-        boolean presetVal = HttpURLConnection.getFollowRedirects();
-        HttpURLConnection.setFollowRedirects(false);
-        Response response = this.constructGet(JumblrClient.blogPath(blogName, "/avatar" + pathExt)).send();
-        HttpURLConnection.setFollowRedirects(presetVal);
-        if (response.getCode() == 301) {
-            return response.getHeader("Location");
-        } else {
-            throw new JumblrException(response);
-        }
+        return requestBuilder.getRedirectUrl(JumblrClient.blogPath(blogName, "/avatar" + pathExt));
     }
 
     public String blogAvatar(String blogName) { return this.blogAvatar(blogName, null); }
@@ -300,7 +269,7 @@ public final class JumblrClient {
         Map<String, String> map = new HashMap<String, String>();
         map.put("id", postId.toString());
         map.put("reblog_key", reblogKey);
-        this.clearPost("/user/like", map);
+        requestBuilder.post("/user/like", map);
     }
 
     /**
@@ -312,7 +281,7 @@ public final class JumblrClient {
         Map<String, String> map = new HashMap<String, String>();
         map.put("id", postId.toString());
         map.put("reblog_key", reblogKey);
-        this.clearPost("/user/unlike", map);
+        requestBuilder.post("/user/unlike", map);
     }
 
     /**
@@ -322,7 +291,7 @@ public final class JumblrClient {
     public void follow(String blogName) {
         Map<String, String> map = new HashMap<String, String>();
         map.put("url", JumblrClient.blogUrl(blogName));
-        this.clearPost("/user/follow", map);
+        requestBuilder.post("/user/follow", map);
     }
 
     /**
@@ -332,7 +301,7 @@ public final class JumblrClient {
     public void unfollow(String blogName) {
         Map<String, String> map = new HashMap<String, String>();
         map.put("url", JumblrClient.blogUrl(blogName));
-        this.clearPost("/user/follow", map);
+        requestBuilder.post("/user/unfollow", map);
     }
 
     /**
@@ -343,7 +312,7 @@ public final class JumblrClient {
     public void postDelete(String blogName, Long postId) {
         Map<String, String> map = new HashMap<String, String>();
         map.put("id", postId.toString());
-        this.clearPost(JumblrClient.blogPath(blogName, "/post/delete"), map);
+        requestBuilder.post(JumblrClient.blogPath(blogName, "/post/delete"), map);
     }
 
     /**
@@ -360,7 +329,7 @@ public final class JumblrClient {
         Map<String, String> soptions = (Map<String, String>)options;
         soptions.put("id", postId.toString());
         soptions.put("reblog_key", reblogKey);
-        return this.clearPost(JumblrClient.blogPath(blogName, "/post/reblog"), options).getPost();
+        return requestBuilder.post(JumblrClient.blogPath(blogName, "/post/reblog"), options).getPost();
     }
 
     public Post postReblog(String blogName, Long postId, String reblogKey) {
@@ -376,7 +345,7 @@ public final class JumblrClient {
     public void postEdit(String blogName, Long id, Map<String, ?> detail) throws IOException {
         Map<String, String> sdetail = (Map<String, String>)detail;
         sdetail.put("id", id.toString());
-        this.clearPostMultipart(JumblrClient.blogPath(blogName, "/post/edit"), detail);
+        requestBuilder.postMultipart(JumblrClient.blogPath(blogName, "/post/edit"), detail);
     }
 
     /**
@@ -385,7 +354,7 @@ public final class JumblrClient {
      * @param detail the detail to save
      */
     public Long postCreate(String blogName, Map<String, ?> detail) throws IOException {
-        return this.clearPostMultipart(JumblrClient.blogPath(blogName, "/post"), detail).getId();
+        return requestBuilder.postMultipart(JumblrClient.blogPath(blogName, "/post"), detail).getId();
     }
 
     /**
@@ -406,77 +375,6 @@ public final class JumblrClient {
      **
      */
 
-    private ResponseWrapper clearGet(String path) {
-        return this.clearGet(path, null);
-    }
-
-    private ResponseWrapper clearPostMultipart(String path, Map<String, ?> bodyMap) throws IOException {
-        OAuthRequest request = this.constructPost(path, bodyMap);
-        OAuthRequest newRequest = JumblrClient.convertToMultipart(request, bodyMap);
-        return this.clear(newRequest.send());
-    }
-
-    private ResponseWrapper clearPost(String path, Map<String, ?> bodyMap) {
-        Response response = this.constructPost(path, bodyMap).send();
-        return this.clear(response);
-    }
-
-    private ResponseWrapper clearGet(String path, Map<String, ?> map) {
-        Response response = this.constructGet(path, map).send();
-        return this.clear(response);
-    }
-
-    private ResponseWrapper clear(Response response) {
-        if (response.getCode() == 200 || response.getCode() == 201) {
-            String json = response.getBody();
-            try {
-                Gson gson = new GsonBuilder().
-                        registerTypeAdapter(JsonElement.class, new JsonElementDeserializer()).
-                        create();
-                ResponseWrapper wrapper = gson.fromJson(json, ResponseWrapper.class);
-                wrapper.setClient(this);
-                return wrapper;
-            } catch (JsonSyntaxException ex) {
-                return null;
-            }
-        } else {
-            throw new JumblrException(response);
-        }
-    }
-
-    private OAuthRequest constructGet(String path) {
-        return this.constructGet(path, null);
-    }
-
-    private OAuthRequest constructGet(String path, Map<String, ?> queryParams) {
-        String url = "http://api.tumblr.com/v2" + path;
-        OAuthRequest request = new OAuthRequest(Verb.GET, url);
-        if (queryParams != null) {
-            for (String key : queryParams.keySet()) {
-                request.addQuerystringParameter(key, queryParams.get(key).toString());
-            }
-        }
-        service.signRequest(token, request);
-        return request;
-    }
-
-    private OAuthRequest constructPost(String path, Map<String, ?> bodyMap) {
-        String url = "http://api.tumblr.com/v2" + path;
-        OAuthRequest request = new OAuthRequest(Verb.POST, url);
-
-        for (String key : bodyMap.keySet()) {
-            if (bodyMap.get(key) == null) { continue; }
-            if (bodyMap.get(key) instanceof File) { continue; }
-            request.addBodyParameter(key, bodyMap.get(key).toString());
-        }
-        service.signRequest(token, request);
-        return request;
-    }
-
-    private static OAuthRequest convertToMultipart(OAuthRequest request, Map<String, ?> bodyMap) throws IOException {
-        return new MultipartConverter(request, bodyMap).getRequest();
-    }
-
     private static String blogPath(String blogName, String extPath) {
         String bn = blogName.contains(".") ? blogName : blogName + ".tumblr.com";
         return "/blog/" + bn + extPath;
@@ -484,6 +382,10 @@ public final class JumblrClient {
 
     private static String blogUrl(String blogName) {
         return blogName.contains(".") ? blogName : blogName + ".tumblr.com";
+    }
+
+    protected void setRequestBuilder(RequestBuilder builder) {
+        this.requestBuilder = builder;
     }
 
 }
