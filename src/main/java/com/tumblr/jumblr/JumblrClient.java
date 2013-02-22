@@ -1,19 +1,13 @@
 package com.tumblr.jumblr;
 
 import com.tumblr.jumblr.request.RequestBuilder;
-import com.tumblr.jumblr.exceptions.JumblrException;
 import com.tumblr.jumblr.types.Blog;
 import com.tumblr.jumblr.types.Post;
 import com.tumblr.jumblr.types.User;
 import java.io.IOException;
-import java.net.HttpURLConnection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.scribe.model.OAuthRequest;
-import org.scribe.model.Response;
-import org.scribe.model.Token;
-import org.scribe.oauth.OAuthService;
 
 /**
  * This is the base JumblrClient that is used to make requests to the Tumblr
@@ -21,7 +15,7 @@ import org.scribe.oauth.OAuthService;
  * here.
  * @author jc
  */
-public final class JumblrClient {
+public class JumblrClient {
 
     private RequestBuilder requestBuilder;
     private String apiKey;
@@ -384,7 +378,7 @@ public final class JumblrClient {
         return blogName.contains(".") ? blogName : blogName + ".tumblr.com";
     }
 
-    protected void setRequestBuilder(RequestBuilder builder) {
+    public void setRequestBuilder(RequestBuilder builder) {
         this.requestBuilder = builder;
     }
 

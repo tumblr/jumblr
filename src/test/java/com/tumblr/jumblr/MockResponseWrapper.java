@@ -16,7 +16,7 @@ import java.util.List;
  *
  * @author jc
  */
-class MockResponseWrapper extends ResponseWrapper {
+public class MockResponseWrapper extends ResponseWrapper {
 
     @Override
     public List<Post> getPosts() {

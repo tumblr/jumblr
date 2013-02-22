@@ -44,7 +44,7 @@ public class Blog extends Resource {
      * Get the number of posts for this blog
      * @return int the number of posts
      */
-    public int getPostCount() {
+    public Integer getPostCount() {
         return this.posts;
     }
 
@@ -52,7 +52,7 @@ public class Blog extends Resource {
      * Get the number of likes for this blog
      * @return int the number of likes
      */
-    public int getLikeCount() {
+    public Integer getLikeCount() {
         return this.likes;
     }
 
@@ -81,20 +81,16 @@ public class Blog extends Resource {
     }
 
     /**
-     * Get the avatar for this blog
-     * @return A String URL for the avatar
-     */
-    public String avatar() {
-        return client.blogAvatar(this.name);
-    }
-
-    /**
      * Get the avatar for this blog (of a given size
      * @param size the size to get the avatar for
      * @return A string URL for the avatar
      */
-    public String avatar(int size) {
+    public String avatar(Integer size) {
         return client.blogAvatar(this.name, size);
+    }
+
+    public String avatar() {
+        return this.avatar(null);
     }
 
     /**
