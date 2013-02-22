@@ -10,7 +10,7 @@ public class User extends Resource {
 
     private List<Blog> blogs;
     private String name;
-    private int following, likes;
+    private Integer following, likes;
     private String default_post_format;
 
     /**
@@ -33,7 +33,7 @@ public class User extends Resource {
      * Get the number of likes for this user
      * @return the likes count
      */
-    public int getLikeCount() {
+    public Integer getLikeCount() {
         return this.likes;
     }
 
@@ -41,7 +41,7 @@ public class User extends Resource {
      * Get the number of users this user is following
      * @return The following count
      */
-    public int getFollowingCount() {
+    public Integer getFollowingCount() {
         return this.following;
     }
 

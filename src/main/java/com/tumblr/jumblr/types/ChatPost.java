@@ -1,5 +1,6 @@
 package com.tumblr.jumblr.types;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -10,13 +11,13 @@ public class ChatPost extends SafePost {
 
     private String title;
     private String body;
-    private Dialogue[] dialogue;
+    private List<Dialogue> dialogue;
 
     /**
      * Get the dialogues for this post
      * @return an Array[Dialogue]
      */
-    public Dialogue[] getDialogue() {
+    public List<Dialogue> getDialogue() {
         return dialogue;
     }
 

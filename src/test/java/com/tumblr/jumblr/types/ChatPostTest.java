@@ -37,7 +37,7 @@ public class ChatPostTest extends TypeTest {
         assertEquals(title, post.getTitle());
         assertEquals(body, post.getBody());
 
-        Dialogue d = post.getDialogue()[0];
+        Dialogue d = post.getDialogue().get(0);
         assertEquals("name", d.getName());
         assertEquals("label", d.getLabel());
         assertEquals("phrase", d.getPhrase());

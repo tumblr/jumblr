@@ -2,19 +2,13 @@ package com.tumblr.jumblr.types;
 
 import com.google.gson.Gson;
 import com.tumblr.jumblr.JumblrClient;
-import com.tumblr.jumblr.MockResponseWrapper;
-import com.tumblr.jumblr.request.RequestBuilder;
-import com.tumblr.jumblr.responses.ResponseWrapper;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
-import static org.mockito.Matchers.anyMap;
-import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 import static org.junit.Assert.*;
 
 /**
@@ -45,6 +39,7 @@ public class BlogTest extends TypeTest {
 
         Gson gson = new Gson();
         blog = gson.fromJson(flatSerialize(flat), Blog.class);
+        blog.setName(blog.getName());
         client = mock(JumblrClient.class);
         blog.setClient(client);
     }
