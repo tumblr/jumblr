@@ -199,4 +199,12 @@ public class Blog extends Resource {
         return client.newPost(name, klass);
     }
 
+    /**
+     * Set the name of this blog
+     * @param name the name to set
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
 }
