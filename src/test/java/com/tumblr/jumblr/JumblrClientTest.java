@@ -6,8 +6,12 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.Before;
-import static org.mockito.Mockito.*;
 import org.junit.Test;
+import static org.mockito.Matchers.anyMap;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 /**
  * Tests for JumblrClient
