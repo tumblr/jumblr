@@ -54,6 +54,7 @@ public class ChatPostTest extends TypeTest {
         Map detail = post.detail();
         assertEquals(post.getTitle(), detail.get("title").toString());
         assertEquals(post.getBody(), detail.get("conversation").toString());
+        assertEquals("chat", detail.get("type"));
     }
 
 }

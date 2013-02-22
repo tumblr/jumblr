@@ -47,6 +47,7 @@ public class QuotePostTest extends TypeTest {
         Map detail = post.detail();
         assertEquals(post.getSource(), detail.get("source").toString());
         assertEquals(post.getText(), detail.get("quote").toString());
+        assertEquals("quote", detail.get("type"));
     }
 
 }

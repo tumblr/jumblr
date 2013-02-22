@@ -1,6 +1,7 @@
 package com.tumblr.jumblr.types;
 
 import java.io.File;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -9,7 +10,7 @@ import java.util.Map;
  */
 public class VideoPost extends Post {
 
-    private Video[] player;
+    private List<Video> player;
     private String caption;
     private String embed;
     private File data;
@@ -18,7 +19,7 @@ public class VideoPost extends Post {
      * Get the videos from this post
      * @return the videos
      */
-    public Video[] getVideos() {
+    public List<Video> getVideos() {
         return this.player;
     }
 

@@ -52,6 +52,7 @@ public class LinkPostTest extends TypeTest {
         assertEquals(post.getTitle(), detail.get("title").toString());
         assertEquals(post.getLinkUrl(), detail.get("url").toString());
         assertEquals(post.getDescription(), detail.get("description").toString());
+        assertEquals("link", detail.get("type"));
     }
 
 }
