@@ -2,9 +2,11 @@ package com.tumblr.jumblr;
 
 import com.tumblr.jumblr.request.RequestBuilder;
 import com.tumblr.jumblr.responses.ResponseWrapper;
+import com.tumblr.jumblr.types.QuotePost;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 import static org.mockito.Matchers.anyMap;
@@ -25,7 +27,7 @@ public class JumblrClientTest {
     @Before
     public void setup() throws IOException {
         builder = mock(RequestBuilder.class);
-        client = new JumblrClient("ck", "cs");
+        client = new JumblrClient("ck", "cs", "@", "@");
         client.setRequestBuilder(builder);
         ResponseWrapper rw = new MockResponseWrapper();
         when(builder.get(anyString(), anyMap())).thenReturn(rw);
@@ -275,6 +277,23 @@ public class JumblrClientTest {
         client.tagged(tag, options);
         options.putAll(getApiKeyOptions());
         verify(builder).get("/tagged", options);
+    }
+
+    /**
+     * Other methods
+     */
+
+    @Test
+    public void newPost() throws IllegalAccessException, InstantiationException {
+        QuotePost post = client.newPost("blog", QuotePost.class);
+        assertEquals("blog", post.getBlogName());
+        assertEquals(client, post.getClient());
+    }
+
+    @Test
+    public void setToken() {
+        client.setToken("t1", "t2");
+        verify(builder).setToken("t1", "t2");
     }
 
     /**

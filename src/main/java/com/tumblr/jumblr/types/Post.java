@@ -132,6 +132,14 @@ public class Post extends Resource {
     }
 
     /**
+     * Get the blog name
+     * @return the blog name for the post
+     */
+    public String getBlogName() {
+        return blog_name;
+    }
+
+    /**
      * Get the reblog key
      * @return the reblog key
      */

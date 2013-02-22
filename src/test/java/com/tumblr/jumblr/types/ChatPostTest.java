@@ -28,7 +28,6 @@ public class ChatPostTest extends TypeTest {
         flat.put("title", title);
         flat.put("body", body);
         flat.put("dialogue", dialogue);
-        System.out.println(flatSerialize(flat));
         Gson gson = new GsonBuilder().registerTypeAdapter(Post.class, new PostDeserializer()).create();
         post = (ChatPost) gson.fromJson(flatSerialize(flat), Post.class);
     }

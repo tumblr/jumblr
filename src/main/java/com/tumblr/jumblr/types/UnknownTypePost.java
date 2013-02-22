@@ -5,6 +5,6 @@ package com.tumblr.jumblr.types;
  * these bad boys so that people can still access the base Post attributes
  * @author john
  */
-public class UnknownTypePost extends Post {
+public class UnknownTypePost extends SafePost {
 
 }

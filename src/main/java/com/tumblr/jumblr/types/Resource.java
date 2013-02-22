@@ -18,4 +18,12 @@ public class Resource {
         this.client = client;
     }
 
+    /**
+     * Get the client for a particular resource
+     * @return the client
+     */
+    public JumblrClient getClient() {
+        return this.client;
+    }
+
 }
