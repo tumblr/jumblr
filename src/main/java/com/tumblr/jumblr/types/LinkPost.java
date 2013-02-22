@@ -32,7 +32,7 @@ public class LinkPost extends SafePost {
      * Get the description for this post
      * @return the description
      */
-    public String description() {
+    public String getDescription() {
         return description;
     }
 
