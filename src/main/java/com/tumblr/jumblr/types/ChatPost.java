@@ -45,6 +45,14 @@ public class ChatPost extends SafePost {
     }
 
     /**
+     * Set the title for this post
+     * @param title the title to set
+     */
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    /**
      * Get the details for this post (and the base details)
      * @return the detail
      */
