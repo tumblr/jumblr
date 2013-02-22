@@ -176,6 +176,10 @@ catch (JumblrException ex) {
 }
 ```
 
+## Runnings Tests
+
+`mvn test`
+
 ## More detail?
 
 Pop out that JavaDoc - full documentation awaits.
