@@ -274,7 +274,7 @@ public class Post extends Resource {
      * @return a string of CSV tags
      */
     private String getTagString() {
-        return tags == null ? "" : StringUtils.join((String[]) tags.toArray(), ",");
+        return tags == null ? "" : StringUtils.join(tags.toArray(new String[0]), ",");
     }
 
     /**
