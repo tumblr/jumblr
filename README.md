@@ -78,7 +78,7 @@ Same with likes, etc:
 blog.posts();
 blog.queuedPosts();
 blog.draftPosts();
-blog.submissions():
+blog.submissions();
 ```
 
 It's easy to get get the avatar of a blog too:
