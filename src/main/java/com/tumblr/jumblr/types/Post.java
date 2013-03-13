@@ -1,10 +1,14 @@
 package com.tumblr.jumblr.types;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -214,6 +218,24 @@ public class Post extends Resource {
     }
 
     /**
+     * Set the data as a string
+     * @param dateString the date to set
+     */
+    public void setDate(String dateString) {
+        this.date = dateString;
+    }
+
+    /**
+     * Set the date as a date
+     * @param date the date to set
+     */
+    public void setDate(Date date) {
+        DateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        df.setTimeZone(TimeZone.getTimeZone("GMT"));
+        setDate(df.format(date));
+    }
+
+    /**
      * Set the state for this post
      * @param state the state
      */
@@ -266,6 +288,7 @@ public class Post extends Resource {
         map.put("tags", getTagString());
         map.put("format", format);
         map.put("slug", slug);
+        map.put("date", date);
         return map;
     }
 
