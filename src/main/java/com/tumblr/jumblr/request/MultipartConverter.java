@@ -83,7 +83,9 @@ public class MultipartConverter {
                     dis = new DataInputStream(new BufferedInputStream(new FileInputStream(f)));
                     dis.readFully(result);
                 } finally {
-                    dis.close();
+                    if (dis != null) {
+                        dis.close();
+                    }
                 }
 
                 message.append("--").append(boundary).append("\r\n");

@@ -1,6 +1,8 @@
 package com.tumblr.jumblr.types;
 
+import com.tumblr.jumblr.types.Photo.PhotoType;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -13,10 +15,11 @@ public class PhotoPost extends Post {
     private String caption;
     private Integer width, height;
 
-    private String source;
-    private File data;
     private String link;
     private List<Photo> photos;
+
+    protected List<Photo> pendingPhotos;
+    protected PhotoType postType = null;
 
     /**
      * Get the Photo collection for this post
@@ -67,27 +70,35 @@ public class PhotoPost extends Post {
     }
 
     /**
+     * Set the photo for this post
+     * @param photo the photo to add
+     */
+    public void setPhoto(Photo photo) {
+        PhotoType type = photo.getType();
+        if (postType != null && !postType.equals(type)) {
+            throw new IllegalArgumentException("Photos must all be the same type (source or data)");
+        }
+        pendingPhotos = new ArrayList<Photo>();
+        pendingPhotos.add(photo);
+        this.postType = type;
+    }
+
+    /**
      * Set the source for this post
      * @param source the source to set
      * @throws IllegalArgumentException data is already set
      */
     public void setSource(String source) {
-        if (this.data != null) {
-            throw new IllegalArgumentException("Cannot supply both data & source");
-        }
-        this.source = source;
+        setPhoto(new Photo(source));
     }
 
     /**
-     * Set the data for this post
+     * Set the data for this post (single photo)
      * @param file the file to read from
      * @throws IllegalArgumentException source is already set
      */
     public void setData(File file) {
-        if (source != null) {
-            throw new IllegalArgumentException("Cannot supply both source & data");
-        }
-        this.data = file;
+        setPhoto(new Photo(file));
     }
 
     /**
@@ -108,8 +119,16 @@ public class PhotoPost extends Post {
         details.put("type", "photo");
         details.put("link", link);
         details.put("caption", caption);
-        details.put("source", source);
-        details.put("data", data);
+
+        if (pendingPhotos != null) {
+            for (int i = 0; i < pendingPhotos.size(); i++) {
+                PhotoType type = pendingPhotos.get(0).getType();
+                if (type != null) {
+                    details.put(type.getPrefix() + "[" + i + "]", pendingPhotos.get(i).getDetail());
+                }
+            }
+        }
+
         return details;
     }
 
