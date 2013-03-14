@@ -1,14 +1,17 @@
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.tumblr.jumblr.JumblrClient;
+import com.tumblr.jumblr.exceptions.JumblrException;
 import com.tumblr.jumblr.types.Blog;
 import com.tumblr.jumblr.types.Post;
+import com.tumblr.jumblr.types.TextPost;
 import com.tumblr.jumblr.types.User;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -41,17 +44,20 @@ public class App {
             obj.getAsJsonPrimitive("oauth_token_secret").getAsString()
         );
 
-        // Write a photo post
+        // Write a text post but don't include the necessary details
 
-        Map<String, Integer> options = new HashMap<String, Integer>();
-        options.put("limit", 2);
+        Blog blog = client.blogInfo("seejohnrun.tumblr.com");
+        TextPost post = blog.newPost(TextPost.class);
 
-        User user = client.user();
-        System.out.println(user.getName());
-        for (Blog blog : user.getBlogs()) {
-            System.out.println("\t" + blog.getName());
-            for (Post post : blog.posts(options)) {
-                System.out.println("\t\t" + post.getId());
+        try {
+            post.save();
+        } catch (JumblrException ex) {
+            System.out.println(ex.getMessage());
+            List<String> errors = ex.getErrors();
+            if (errors != null) {
+                for (String error : ex.getErrors()) {
+                    System.out.println("\t" + error);
+                }
             }
         }
 
