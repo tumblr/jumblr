@@ -1,6 +1,7 @@
 package com.tumblr.jumblr.exceptions;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
@@ -68,7 +69,12 @@ public class JumblrException extends RuntimeException {
      * @param object the parsed response object
      */
     private void extractErrors(JsonObject object) {
-        JsonObject response = object.getAsJsonObject("response");
+        JsonObject response;
+        try {
+            response = object.getAsJsonObject("response");
+        } catch (ClassCastException ex) {
+            return; // response is non-object
+        }
         if (response == null) { return; }
 
         JsonArray e = response.getAsJsonArray("errors");
@@ -89,7 +95,7 @@ public class JumblrException extends RuntimeException {
         // Prefer to pull the message out of meta
         JsonObject meta = object.getAsJsonObject("meta");
         if (meta != null) {
-            JsonPrimitive msg = object.getAsJsonPrimitive("msg");
+            JsonPrimitive msg = meta.getAsJsonPrimitive("msg");
             if (msg != null) {
                 this.message = msg.getAsString();
                 return;

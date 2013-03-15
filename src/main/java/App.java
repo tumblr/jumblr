@@ -3,6 +3,7 @@ import com.google.gson.JsonParser;
 import com.tumblr.jumblr.JumblrClient;
 import com.tumblr.jumblr.exceptions.JumblrException;
 import com.tumblr.jumblr.types.Blog;
+import com.tumblr.jumblr.types.PhotoPost;
 import com.tumblr.jumblr.types.Post;
 import com.tumblr.jumblr.types.TextPost;
 import com.tumblr.jumblr.types.User;
@@ -44,13 +45,10 @@ public class App {
             obj.getAsJsonPrimitive("oauth_token_secret").getAsString()
         );
 
-        // Write a text post but don't include the necessary details
-
-        Blog blog = client.blogInfo("seejohnrun.tumblr.com");
-        TextPost post = blog.newPost(TextPost.class);
+        // Generate an error
 
         try {
-            post.save();
+            client.newPost("seejohnrun.tumblr.com", PhotoPost.class).save();
         } catch (JumblrException ex) {
             System.out.println(ex.getMessage());
             List<String> errors = ex.getErrors();
