@@ -26,7 +26,7 @@ public class AudioPostTest extends TypeTest {
 
     @Before
     public void setup() {
-        Map flat = new HashMap<String, String>();
+        Map<String, Object> flat = new HashMap<String, Object>();
         flat.put("type", "audio");
         flat.put("plays", plays);
         flat.put("caption", caption);
@@ -64,7 +64,7 @@ public class AudioPostTest extends TypeTest {
     public void setDataWithoutSource() {
         File file = new File("some_path");
         post.setData(file);
-        Map detail = post.detail();
+        Map<String, Object> detail = post.detail();
         assertEquals(file, detail.get("data"));
         // clear
         post.setData(null);
@@ -80,7 +80,7 @@ public class AudioPostTest extends TypeTest {
     public void setSourceWithoutData() {
         String externalUrl = "external";
         post.setExternalUrl(externalUrl);
-        Map detail = post.detail();
+        Map<String, Object> detail = post.detail();
         assertEquals(externalUrl, detail.get("external_url"));
         // clear
         post.setExternalUrl(null);
@@ -90,7 +90,7 @@ public class AudioPostTest extends TypeTest {
     public void testOtherDetail() {
         post.setCaption("test_caption");
 
-        Map detail = post.detail();
+        Map<String, Object> detail = post.detail();
         assertEquals("audio", detail.get("type"));
         assertEquals("test_caption", detail.get("caption"));
     }

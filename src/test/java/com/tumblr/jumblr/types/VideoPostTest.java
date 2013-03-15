@@ -9,7 +9,6 @@ import java.util.Map;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
-import sun.awt.EmbeddedFrame;
 
 /**
  * VideoPost tests
@@ -24,7 +23,7 @@ public class VideoPostTest extends TypeTest {
 
     @Before
     public void setup() {
-        Map flat = new HashMap<String, String>();
+        Map<String, String> flat = new HashMap<String, String>();
         flat.put("type", "video");
         flat.put("caption", caption);
         flat.put("player", videos);

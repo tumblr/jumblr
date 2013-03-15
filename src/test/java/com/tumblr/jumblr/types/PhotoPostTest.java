@@ -25,7 +25,7 @@ public class PhotoPostTest extends TypeTest {
 
     @Before
     public void setup() {
-        Map flat = new HashMap<String, String>();
+        Map<String, Object> flat = new HashMap<String, Object>();
         flat.put("type", "photo");
         flat.put("caption", caption);
         flat.put("width", width);
@@ -61,7 +61,7 @@ public class PhotoPostTest extends TypeTest {
     public void setDataWithoutSource() {
         File file = new File("some_path");
         post.setData(file);
-        Map detail = post.detail();
+        Map<String, Object> detail = post.detail();
         assertEquals(file, detail.get("data"));
         // clear
         post.setData(null);
@@ -77,7 +77,7 @@ public class PhotoPostTest extends TypeTest {
     public void setSourceWithoutData() {
         String embedCode = "external";
         post.setSource(embedCode);
-        Map detail = post.detail();
+        Map<String, Object> detail = post.detail();
         assertEquals(embedCode, detail.get("source"));
         // clear
         post.setSource(null);
@@ -88,7 +88,7 @@ public class PhotoPostTest extends TypeTest {
         post.setCaption("test_caption");
         post.setLinkUrl("link url");
 
-        Map detail = post.detail();
+        Map<String, Object> detail = post.detail();
         assertEquals("test_caption", detail.get("caption"));
         assertEquals("link url", detail.get("link"));
         assertEquals("photo", detail.get("type"));

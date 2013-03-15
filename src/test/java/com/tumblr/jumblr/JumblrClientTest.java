@@ -24,6 +24,7 @@ public class JumblrClientTest {
     JumblrClient client;
     RequestBuilder builder;
 
+    @SuppressWarnings("unchecked")
     @Before
     public void setup() throws IOException {
         builder = mock(RequestBuilder.class);
@@ -51,7 +52,7 @@ public class JumblrClientTest {
         client.userDashboard();
         verify(builder).get("/user/dashboard", null);
 
-        Map options = getRandomishOptions();
+        Map<String, Object> options = getRandomishOptions();
         client.userDashboard(options);
         verify(builder).get("/user/dashboard", options);
     }
@@ -61,7 +62,7 @@ public class JumblrClientTest {
         client.userFollowing();
         verify(builder).get("/user/following", null);
 
-        Map options = getRandomishOptions();
+        Map<String, Object> options = getRandomishOptions();
         client.userFollowing(options);
         verify(builder).get("/user/following", options);
     }
@@ -71,7 +72,7 @@ public class JumblrClientTest {
         client.userLikes();
         verify(builder).get("/user/likes", null);
 
-        Map options = getRandomishOptions();
+        Map<String, Object> options = getRandomishOptions();
         client.userLikes(options);
         verify(builder).get("/user/likes", options);
     }
@@ -82,7 +83,7 @@ public class JumblrClientTest {
         String reblogKey = "hello";
 
         client.like(id, reblogKey);
-        Map options = new HashMap<String, String>();
+        Map<String, String> options = new HashMap<String, String>();
         options.put("id", id.toString());
         options.put("reblog_key", reblogKey);
         verify(builder).post("/user/like", options);
@@ -94,7 +95,7 @@ public class JumblrClientTest {
         String reblogKey = "hello";
 
         client.unlike(id, reblogKey);
-        Map options = new HashMap<String, String>();
+        Map<String, String> options = new HashMap<String, String>();
         options.put("id", id.toString());
         options.put("reblog_key", reblogKey);
         verify(builder).post("/user/unlike", options);
@@ -103,7 +104,7 @@ public class JumblrClientTest {
     @Test
     public void follow() {
         client.follow("hey.com");
-        Map options = new HashMap<String, String>();
+        Map<String, String> options = new HashMap<String, String>();
         options.put("url", "hey.com");
         verify(builder).post("/user/follow", options);
     }
@@ -111,7 +112,7 @@ public class JumblrClientTest {
     @Test
     public void unfollow() {
         client.unfollow("hey.com");
-        Map options = new HashMap<String, String>();
+        Map<String, String> options = new HashMap<String, String>();
         options.put("url", "hey.com");
         verify(builder).post("/user/unfollow", options);
     }
@@ -146,7 +147,7 @@ public class JumblrClientTest {
         client.blogFollowers("blog_name");
         verify(builder).get("/blog/blog_name.tumblr.com/followers", null);
 
-        Map options = getRandomishOptions();
+        Map<String, Object> options = getRandomishOptions();
         client.blogFollowers("blog_name", options);
         verify(builder).get("/blog/blog_name.tumblr.com/followers", options);
     }
@@ -156,7 +157,7 @@ public class JumblrClientTest {
         client.blogLikes("hey.com");
         verify(builder).get("/blog/hey.com/likes", getApiKeyOptions());
 
-        Map options = getRandomishOptions();
+        Map<String, Object> options = getRandomishOptions();
         client.blogLikes("hey.com", options);
         options.putAll(getApiKeyOptions());
         verify(builder).get("/blog/hey.com/likes", options);
@@ -167,7 +168,7 @@ public class JumblrClientTest {
         client.blogPosts("hey.com");
         verify(builder).get("/blog/hey.com/posts", getApiKeyOptions());
 
-        Map options = getRandomishOptions();
+        Map<String, Object> options = getRandomishOptions();
         client.blogPosts("hey.com", options);
         options.putAll(getApiKeyOptions());
         verify(builder).get("/blog/hey.com/posts", options);
@@ -175,6 +176,7 @@ public class JumblrClientTest {
         options = getRandomishOptions();
         options.put("type", "audio");
         client.blogPosts("hey.com", options);
+        options.remove("type"); // should not be there on the request
         options.putAll(getApiKeyOptions());
         verify(builder).get("/blog/hey.com/posts/audio", options);
     }
@@ -183,7 +185,7 @@ public class JumblrClientTest {
     public void blogPost() {
         Long id = 24L;
         client.blogPost("hey.com", id);
-        Map options = getApiKeyOptions();
+        Map<String, Object> options = getApiKeyOptions();
         options.put("id", id.toString());
         verify(builder).get("/blog/hey.com/posts", options);
     }
@@ -193,7 +195,7 @@ public class JumblrClientTest {
         client.blogQueuedPosts("hey.com");
         verify(builder).get("/blog/hey.com/posts/queue", null);
 
-        Map options = getRandomishOptions();
+        Map<String, Object> options = getRandomishOptions();
         client.blogQueuedPosts("hey.com", options);
         verify(builder).get("/blog/hey.com/posts/queue", options);
     }
@@ -203,7 +205,7 @@ public class JumblrClientTest {
         client.blogDraftPosts("hey.com");
         verify(builder).get("/blog/hey.com/posts/draft", null);
 
-        Map options = getRandomishOptions();
+        Map<String, Object> options = getRandomishOptions();
         client.blogDraftPosts("hey.com", options);
         verify(builder).get("/blog/hey.com/posts/draft", options);
     }
@@ -213,7 +215,7 @@ public class JumblrClientTest {
         client.blogSubmissions("hey.com");
         verify(builder).get("/blog/hey.com/posts/submission", null);
 
-        Map options = getRandomishOptions();
+        Map<String, Object> options = getRandomishOptions();
         client.blogSubmissions("hey.com", options);
         verify(builder).get("/blog/hey.com/posts/submission", options);
     }
@@ -225,7 +227,7 @@ public class JumblrClientTest {
     @Test
     public void postDelete() {
         client.postDelete("hey.com", 42L);
-        Map options = new HashMap<String, String>();
+        Map<String, String> options = new HashMap<String, String>();
         options.put("id", "42");
         verify(builder).post("/blog/hey.com/post/delete", options);
     }
@@ -233,7 +235,7 @@ public class JumblrClientTest {
     @Test
     public void postReblog() {
         client.postReblog("hey.com", 42L, "key");
-        Map options = new HashMap<String, String>();
+        Map<String, Object> options = new HashMap<String, Object>();
         options.put("id", "42");
         options.put("reblog_key", "key");
         verify(builder).post("/blog/hey.com/post/reblog", options);
@@ -247,15 +249,15 @@ public class JumblrClientTest {
 
     @Test
     public void postEdit() throws IOException {
-        Map options = getRandomishOptions();
+        Map<String, Object> options = getRandomishOptions();
         client.postEdit("hey.com", 42L, options);
-        options.put("id", "42");
+        options.put("id", 42L);
         verify(builder).postMultipart("/blog/hey.com/post/edit", options);
     }
 
     @Test
     public void postCreate() throws IOException {
-        Map options = getRandomishOptions();
+        Map<String, Object> options = getRandomishOptions();
         client.postCreate("hey.com", options);
         verify(builder).postMultipart("/blog/hey.com/post", options);
     }
@@ -269,13 +271,14 @@ public class JumblrClientTest {
         String tag = "coolio";
 
         client.tagged(tag);
-        Map map = getApiKeyOptions();
+        Map<String, Object> map = getApiKeyOptions();
         map.put("tag", tag);
         verify(builder).get("/tagged", map);
 
-        Map options = getRandomishOptions();
+        Map<String, Object> options = getRandomishOptions();
         client.tagged(tag, options);
         options.putAll(getApiKeyOptions());
+        options.put("tag", tag);
         verify(builder).get("/tagged", options);
     }
 
@@ -300,14 +303,14 @@ public class JumblrClientTest {
      * Helper methods
      */
 
-    private Map getApiKeyOptions() {
-        Map<String, String> map = new HashMap<String, String>();
+    private Map<String, Object> getApiKeyOptions() {
+        Map<String, Object> map = new HashMap<String, Object>();
         map.put("api_key", "ck");
         return map;
     }
 
-    private Map getRandomishOptions() {
-        Map<String, String> map = new HashMap<String, String>();
+    private Map<String, Object> getRandomishOptions() {
+        Map<String, Object> map = new HashMap<String, Object>();
         map.put("hello", "world");
         return map;
     }

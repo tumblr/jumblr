@@ -76,7 +76,7 @@ public class BlogTest extends TypeTest {
         blog.followers();
         verify(client).blogFollowers(name, null);
 
-        Map options = new HashMap<String, String>();
+        Map<String, String> options = new HashMap<String, String>();
         blog.followers(options);
         verify(client).blogFollowers(name, options);
     }
@@ -86,7 +86,7 @@ public class BlogTest extends TypeTest {
         blog.posts();
         verify(client).blogPosts(name, null);
 
-        Map options = new HashMap<String, String>();
+        Map<String, String> options = new HashMap<String, String>();
         blog.posts(options);
         verify(client).blogPosts(name, options);
     }
@@ -102,7 +102,7 @@ public class BlogTest extends TypeTest {
         blog.likedPosts();
         verify(client).blogLikes(name, null);
 
-        Map options = new HashMap<String, String>();
+        Map<String, String> options = new HashMap<String, String>();
         blog.likedPosts(options);
         verify(client).blogLikes(name, options);
     }
@@ -124,7 +124,7 @@ public class BlogTest extends TypeTest {
         blog.queuedPosts();
         verify(client).blogQueuedPosts(name, null);
 
-        Map options = new HashMap<String, String>();
+        Map<String, String> options = new HashMap<String, String>();
         blog.queuedPosts(options);
         verify(client).blogQueuedPosts(name, options);
     }
@@ -134,7 +134,7 @@ public class BlogTest extends TypeTest {
         blog.draftPosts();
         verify(client).blogDraftPosts(name, null);
 
-        Map options = new HashMap<String, String>();
+        Map<String, String> options = new HashMap<String, String>();
         blog.draftPosts(options);
         verify(client).blogDraftPosts(name, options);
     }
@@ -144,7 +144,7 @@ public class BlogTest extends TypeTest {
         blog.submissions();
         verify(client).blogSubmissions(name, null);
 
-        Map options = new HashMap<String, String>();
+        Map<String, String> options = new HashMap<String, String>();
         blog.submissions(options);
         verify(client).blogSubmissions(name, options);
     }

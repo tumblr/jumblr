@@ -45,19 +45,12 @@ public class App {
             obj.getAsJsonPrimitive("oauth_token_secret").getAsString()
         );
 
-        // Generate an error
+        // Usage
 
-        try {
-            client.newPost("seejohnrun.tumblr.com", PhotoPost.class).save();
-        } catch (JumblrException ex) {
-            System.out.println(ex.getMessage());
-            List<String> errors = ex.getErrors();
-            if (errors != null) {
-                for (String error : ex.getErrors()) {
-                    System.out.println("\t" + error);
-                }
-            }
-        }
+        Map<String, Integer> options = new HashMap<String, Integer>();
+        options.put("limit", 2);
+        List<Post> likes = client.blogLikes("seejohnrun", options);
+        System.out.println(likes.size());
 
     }
 
