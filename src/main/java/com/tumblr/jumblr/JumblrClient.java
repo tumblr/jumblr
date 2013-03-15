@@ -93,13 +93,12 @@ public class JumblrClient {
      * @param options the options for the call (or null)
      * @return a list of posts
      */
-    public List<Post> tagged(String tag, Map<String, ?> options) {
+    public List<Post> tagged(String tag, Map<String, Object> options) {
         if (options == null) {
-            options = new HashMap<String, String>();
+            options = new HashMap<String, Object>();
         }
-        Map<String, String> soptions = (Map<String, String>) options;
-        soptions.put("api_key", apiKey);
-        soptions.put("tag", tag);
+        options.put("api_key", apiKey);
+        options.put("tag", tag);
         return requestBuilder.get("/tagged", options).getTaggedPosts();
     }
 
@@ -135,12 +134,11 @@ public class JumblrClient {
      * @param options the options for this call (or null)
      * @return a List of posts
      */
-    public List<Post> blogLikes(String blogName, Map<String, ?> options) {
+    public List<Post> blogLikes(String blogName, Map<String, Object> options) {
         if (options == null) {
-            options = new HashMap<String, String>();
+            options = new HashMap<String, Object>();
         }
-        Map<String, String> soptions = (Map<String, String>)options;
-        soptions.put("api_key", this.apiKey);
+        options.put("api_key", this.apiKey);
         return requestBuilder.get(JumblrClient.blogPath(blogName, "/likes"), options).getLikedPosts();
     }
 
@@ -154,12 +152,11 @@ public class JumblrClient {
      * @param options the options for this call (or null)
      * @return a List of posts
      */
-    public List<Post> blogPosts(String blogName, Map<String, ?> options) {
+    public List<Post> blogPosts(String blogName, Map<String, Object> options) {
         if (options == null) {
-            options = new HashMap<String, String>();
+            options = new HashMap<String, Object>();
         }
-        Map<String, String> soptions = (Map<String, String>) options;
-        soptions.put("api_key", apiKey);
+        options.put("api_key", apiKey);
 
         String path = "/posts";
         if (options.containsKey("type")) {
@@ -180,7 +177,7 @@ public class JumblrClient {
      * @return the Post or null
      */
     public Post blogPost(String blogName, Long postId) {
-        HashMap<String, String> options = new HashMap<String, String>();
+        HashMap<String, Object> options = new HashMap<String, Object>();
         options.put("id", postId.toString());
         List<Post> posts = this.blogPosts(blogName, options);
         return posts.size() > 0 ? posts.get(0) : null;
@@ -316,13 +313,12 @@ public class JumblrClient {
      * @param reblogKey the reblog_key of the post
      * @param options Additional options (or null)
      */
-    public Post postReblog(String blogName, Long postId, String reblogKey, Map<String, ?> options) {
+    public Post postReblog(String blogName, Long postId, String reblogKey, Map<String, Object> options) {
         if (options == null) {
-            options = new HashMap<String, String>();
+            options = new HashMap<String, Object>();
         }
-        Map<String, String> soptions = (Map<String, String>)options;
-        soptions.put("id", postId.toString());
-        soptions.put("reblog_key", reblogKey);
+        options.put("id", postId.toString());
+        options.put("reblog_key", reblogKey);
         return requestBuilder.post(JumblrClient.blogPath(blogName, "/post/reblog"), options).getPost();
     }
 
@@ -336,9 +332,8 @@ public class JumblrClient {
      * @param id the Post id
      * @param detail The detail to save
      */
-    public void postEdit(String blogName, Long id, Map<String, ?> detail) throws IOException {
-        Map<String, String> sdetail = (Map<String, String>)detail;
-        sdetail.put("id", id.toString());
+    public void postEdit(String blogName, Long id, Map<String, Object> detail) throws IOException {
+        detail.put("id", id.toString());
         requestBuilder.postMultipart(JumblrClient.blogPath(blogName, "/post/edit"), detail);
     }
 

@@ -47,17 +47,11 @@ public class App {
 
         // Generate an error
 
-        try {
-            client.newPost("seejohnrun.tumblr.com", PhotoPost.class).save();
-        } catch (JumblrException ex) {
-            System.out.println(ex.getMessage());
-            List<String> errors = ex.getErrors();
-            if (errors != null) {
-                for (String error : ex.getErrors()) {
-                    System.out.println("\t" + error);
-                }
-            }
-        }
+        Map<String, Object> options = new HashMap<String, Object>();
+        options.put("limit", 2);
+        List<Post> posts = client.blogLikes("seejohnrun.tumblr.com", options);
+
+        System.out.println(posts.size());
 
     }
 

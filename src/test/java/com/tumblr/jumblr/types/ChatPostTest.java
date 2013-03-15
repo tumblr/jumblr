@@ -23,7 +23,7 @@ public class ChatPostTest extends TypeTest {
 
     @Before
     public void setup() {
-        Map flat = new HashMap<String, String>();
+        Map<String, Object> flat = new HashMap<String, Object>();
         flat.put("type", "chat");
         flat.put("title", title);
         flat.put("body", body);

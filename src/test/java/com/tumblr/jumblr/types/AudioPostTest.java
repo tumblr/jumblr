@@ -26,7 +26,7 @@ public class AudioPostTest extends TypeTest {
 
     @Before
     public void setup() {
-        Map flat = new HashMap<String, String>();
+        Map<String, Object> flat = new HashMap<String, Object>();
         flat.put("type", "audio");
         flat.put("plays", plays);
         flat.put("caption", caption);

@@ -25,7 +25,7 @@ public class PhotoPostTest extends TypeTest {
 
     @Before
     public void setup() {
-        Map flat = new HashMap<String, String>();
+        Map<String, Object> flat = new HashMap<String, Object>();
         flat.put("type", "photo");
         flat.put("caption", caption);
         flat.put("width", width);

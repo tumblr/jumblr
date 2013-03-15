@@ -109,7 +109,7 @@ public class Blog extends Resource {
      * @param options a map of options (or null)
      * @return A List of posts
      */
-    public List<Post> posts(Map<String, ?> options) {
+    public List<Post> posts(Map<String, Object> options) {
         return client.blogPosts(name, options);
     }
 
@@ -131,7 +131,7 @@ public class Blog extends Resource {
      * @param options a map of options (or null)
      * @return A List of posts
      */
-    public List<Post> likedPosts(Map<String, ?> options) {
+    public List<Post> likedPosts(Map<String, Object> options) {
         return client.blogLikes(this.name, options);
     }
 

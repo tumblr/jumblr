@@ -164,7 +164,7 @@ public class Post extends Resource {
      * @param options options to reblog with (or null)
      * @return reblogged post
      */
-    public Post reblog(String blogName, Map<String, ?> options) {
+    public Post reblog(String blogName, Map<String, Object> options) {
         return client.postReblog(blogName, id, reblog_key, options);
     }
 

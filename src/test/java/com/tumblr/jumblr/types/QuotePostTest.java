@@ -22,7 +22,7 @@ public class QuotePostTest extends TypeTest {
 
     @Before
     public void setup() {
-        Map flat = new HashMap<String, String>();
+        Map<String, Object> flat = new HashMap<String, Object>();
         flat.put("type", "quote");
         flat.put("source", source);
         flat.put("text", text);
@@ -44,7 +44,7 @@ public class QuotePostTest extends TypeTest {
 
     @Test
     public void detail() {
-        Map detail = post.detail();
+        Map<String, Object> detail = post.detail();
         assertEquals(post.getSource(), detail.get("source").toString());
         assertEquals(post.getText(), detail.get("quote").toString());
         assertEquals("quote", detail.get("type"));
