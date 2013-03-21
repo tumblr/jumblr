@@ -122,7 +122,9 @@ public class RequestBuilder {
     }
 
     private void sign(OAuthRequest request) {
-        service.signRequest(token, request);
+        if (token != null) {
+            service.signRequest(token, request);
+        }
     }
 
     public static OAuthRequest convertToMultipart(OAuthRequest request, Map<String, ?> bodyMap) throws IOException {
