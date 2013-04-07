@@ -31,6 +31,8 @@ public class Post extends Resource {
     private String source_url, source_title;
     private Boolean liked;
     private String slug;
+    private Long reblogged_from_id;
+    private String reblogged_from_name;
 
     /**
      * Get whether or not this post is liked
@@ -149,6 +151,22 @@ public class Post extends Resource {
      */
     public String getReblogKey() {
         return this.reblog_key;
+    }
+    
+    /**
+     * Get the ID of the post that this post reblogged
+     * @return the ID
+     */
+    public Long getRebloggedFromId() {
+        return reblogged_from_id;
+    }
+    
+    /**
+     * Get name of the blog that this post reblogged
+     * @return the blog name for the post that this post reblogged
+     */
+    public String getRebloggedFromName() {
+        return reblogged_from_name;
     }
 
     /**
