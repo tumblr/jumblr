@@ -61,7 +61,7 @@ public class MultipartConverter {
 
     private void addResponsePiece(StringBuilder builder) {
         responsePieces.add(builder);
-        bodyLength += builder.toString().length();
+        bodyLength += builder.toString().getBytes().length;
     }
 
     private void computeBody(Map<String, ?> bodyMap) throws IOException {
