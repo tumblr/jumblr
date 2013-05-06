@@ -15,7 +15,7 @@
     <packaging>jar</packaging>
 
     <name>jumblr</name>
-    <description></description>
+    <description>Official Java wrapper for the Tumblr V2 API</description>
     <url>https://github.com/tumblr/jumblr</url>
 
     <licenses>
