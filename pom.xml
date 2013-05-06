@@ -26,12 +26,11 @@
         </license>
     </licenses>
 
-    <!-- TODO -->
     <developers>
         <developer>
-            <id></id>
-            <name></name>
-            <email></email>
+            <id>seejohnrun</id>
+            <name>John Crepezzi</name>
+            <email>jc@tumblr.com</email>
         </developer>
     </developers>
 
