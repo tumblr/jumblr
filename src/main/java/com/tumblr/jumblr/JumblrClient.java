@@ -176,7 +176,7 @@ public class JumblrClient {
     /**
      * Get an individual post by id
      * @param blogName the name of the blog
-     * @param id the id of the post to get
+     * @param postId the id of the post to get
      * @return the Post or null
      */
     public Post blogPost(String blogName, Long postId) {

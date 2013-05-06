@@ -2,13 +2,20 @@
 
     <modelVersion>4.0.0</modelVersion>
 
+    <parent>
+        <groupId>org.sonatype.oss</groupId>
+        <artifactId>oss-parent</artifactId>
+        <version>7</version>
+    </parent>
+
     <groupId>com.tumblr</groupId>
     <artifactId>jumblr</artifactId>
-    <version>0.0.1</version>
+    <version>0.0.6-SNAPSHOT</version>
 
     <packaging>jar</packaging>
 
     <name>jumblr</name>
+    <description>Official Java wrapper for the Tumblr V2 API</description>
     <url>https://github.com/tumblr/jumblr</url>
 
     <licenses>
@@ -19,7 +26,17 @@
         </license>
     </licenses>
 
+    <developers>
+        <developer>
+            <id>seejohnrun</id>
+            <name>John Crepezzi</name>
+            <email>jc@tumblr.com</email>
+        </developer>
+    </developers>
+
     <scm>
+        <connection>scm:git:git://github.com/tumblr/jumblr.git</connection>
+        <developerConnection>scm:git:git@github.com:tumblr/jumblr.git</developerConnection>
         <url>https://github.com/tumblr/jumblr</url>
     </scm>
 
@@ -48,6 +65,32 @@
                         <descriptorRef>jar-with-dependencies</descriptorRef>
                     </descriptorRefs>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>2.2.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.9</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
@@ -86,4 +129,32 @@
         </dependency>
     </dependencies>
 
+    <profiles>
+        <profile>
+            <id>release-sign-artifacts</id>
+            <activation>
+                <property>
+                    <name>performRelease</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-gpg-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>sign-artifacts</id>
+                                <phase>verify</phase>
+                                <goals>
+                                    <goal>sign</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
