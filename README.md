@@ -178,6 +178,16 @@ catch (JumblrException ex) {
 }
 ```
 
+## Maven
+
+``` xml
+<dependency>
+  <groupId>com.tumblr</groupId>
+  <artifactId>jumblr</artifactId>
+  <version>0.0.6</version>
+</dependency>
+```
+
 ## Runnings Tests
 
 `mvn test`
