@@ -82,10 +82,6 @@ public class ResponseWrapper {
         return l;
     }
 
-    /**
-     **
-     **/
-
     private <T extends Resource> T get(String field, Class<T> k) {
         Gson gson = gsonParser();
         JsonObject object = (JsonObject) response;

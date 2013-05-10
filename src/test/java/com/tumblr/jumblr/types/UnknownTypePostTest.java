@@ -16,7 +16,7 @@ import org.junit.Test;
 public class UnknownTypePostTest extends TypeTest {
 
     private Post post;
-    private Long id = 123L;
+    private long id = 123L;
 
     @Before
     public void setup() {

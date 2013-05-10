@@ -20,7 +20,7 @@ public class UserTest extends TypeTest {
 
     private String blogs = "[{ \"name\": \"name\" }]";
     private String name = "name";
-    private Integer following = 12, likes = 12;
+    private int following = 12, likes = 12;
     private String default_post_format = "markdown"; // duh
 
     @Before

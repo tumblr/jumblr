@@ -20,7 +20,7 @@ public class MultipartConverter {
     private String boundary;
     private OAuthRequest originalRequest;
 
-    private Integer bodyLength = 0;
+    private int bodyLength = 0;
     private List<byte[]> responsePieces;
 
     public MultipartConverter(OAuthRequest request, Map<String, ?> bodyMap) throws IOException {
@@ -33,7 +33,7 @@ public class MultipartConverter {
         OAuthRequest request = new OAuthRequest(originalRequest.getVerb(), originalRequest.getUrl());
         request.addHeader("Authorization", originalRequest.getHeaders().get("Authorization"));
         request.addHeader("Content-Type", "multipart/form-data, boundary=" + boundary);
-        request.addHeader("Content-length", bodyLength.toString());
+        request.addHeader("Content-length", Integer.toString(bodyLength));
         request.addPayload(complexPayload());
         return request;
     }

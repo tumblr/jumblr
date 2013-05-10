@@ -17,7 +17,7 @@ import org.junit.Test;
 public class PhotoPostTest extends TypeTest {
 
     private String caption = "hello";
-    private Integer width = 300, height = 500;
+    private int width = 300, height = 500;
 
     private String photos = "[{\"caption\":\"caption1\",\"alt_sizes\":[{\"url\":\"url\",\"width\":400,\"height\":401}]}]";
 

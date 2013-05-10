@@ -15,30 +15,30 @@ import org.apache.commons.lang3.StringUtils;
  * This class is the base of all post types on Tumblr
  * @author jc
  */
-public class Post extends Resource {
+public abstract class Post extends Resource {
 
     private Long id;
     private String reblog_key;
     private String blog_name;
     private String post_url;
     private String type;
-    private Long timestamp;
+    private long timestamp;
     private String state;
     private String format;
     private String date;
     private List<String> tags;
-    private Boolean bookmarklet, mobile;
+    private boolean bookmarklet, mobile;
     private String source_url;
-    private Boolean liked;
+    private boolean liked;
     private String slug;
-    private Long reblogged_from_id;
+    private long reblogged_from_id;
     private String reblogged_from_name;
 
     /**
      * Get whether or not this post is liked
      * @return boolean
      */
-    public Boolean isLiked() {
+    public boolean isLiked() {
         return liked;
     }
 
@@ -54,7 +54,7 @@ public class Post extends Resource {
      * Get whether or not this post was from mobile
      * @return boolean
      */
-    public Boolean isMobile() {
+    public boolean isMobile() {
         return mobile;
     }
 
@@ -62,7 +62,7 @@ public class Post extends Resource {
      * Get whether or not this post was from the bookmarklet
      * @return boolean
      */
-    public Boolean isBookmarklet() {
+    public boolean isBookmarklet() {
         return bookmarklet;
     }
 
@@ -110,7 +110,7 @@ public class Post extends Resource {
      * Get the timestamp of this post
      * @return timestamp since epoch
      */
-    public Long getTimestamp() {
+    public long getTimestamp() {
         return timestamp;
     }
 
@@ -126,7 +126,7 @@ public class Post extends Resource {
      * Get this post's ID
      * @return the ID
      */
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
@@ -150,7 +150,7 @@ public class Post extends Resource {
      * Get the ID of the post that this post reblogged
      * @return the ID
      */
-    public Long getRebloggedFromId() {
+    public long getRebloggedFromId() {
         return reblogged_from_id;
     }
     

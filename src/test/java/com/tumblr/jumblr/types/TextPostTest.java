@@ -19,7 +19,7 @@ public class TextPostTest extends TypeTest {
 
     private String title = "hello";
     private String body = "body";
-    private Long rebloggedFromId = 123L;
+    private long rebloggedFromId = 123L;
     private String rebloggedFromName = "name";
 
     @Before

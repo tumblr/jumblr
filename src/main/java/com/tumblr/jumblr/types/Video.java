@@ -6,7 +6,7 @@ package com.tumblr.jumblr.types;
  */
 public class Video {
 
-    private Integer width;
+    private int width;
     private String embed_code;
 
     /**

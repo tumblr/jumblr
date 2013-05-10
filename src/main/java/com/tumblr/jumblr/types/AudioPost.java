@@ -10,9 +10,9 @@ import java.util.Map;
 public class AudioPost extends Post {
 
     private String caption, player;
-    private Integer plays;
+    private int plays;
     private String album_art, artist, album, track_name;
-    private Integer track_number, year;
+    private int track_number, year;
 
     private File data;
     private String external_url;
@@ -21,7 +21,7 @@ public class AudioPost extends Post {
      * Get the play count for this post
      * @return the play count
      */
-    public Integer getPlayCount() {
+    public int getPlayCount() {
         return plays;
     }
 
@@ -61,7 +61,7 @@ public class AudioPost extends Post {
      * Get the year for this post
      * @return the year
      */
-    public Integer getYear() {
+    public int getYear() {
         return year;
     }
 
@@ -69,7 +69,7 @@ public class AudioPost extends Post {
      * Get the track number for this post
      * @return the track number
      */
-    public Integer getTrackNumber() {
+    public int getTrackNumber() {
         return track_number;
     }
 

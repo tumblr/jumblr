@@ -13,7 +13,7 @@ public class Blog extends Resource {
     private String title;
     private String description;
     private int posts, likes;
-    private Long updated;
+    private long updated;
     private boolean ask, ask_anon;
 
     /**
@@ -60,7 +60,7 @@ public class Blog extends Resource {
      * Get the time of the most recent post (in seconds since epoch)
      * @return Long of time
      */
-    public Long getUpdated() {
+    public long getUpdated() {
         return updated;
     }
 

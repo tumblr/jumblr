@@ -22,7 +22,7 @@ public class BlogTest extends TypeTest {
 
     private String name = "name.com", title = "title", description = "desc";
     private Integer posts = 10, likes = 11;
-    private Long updated = 123456L;
+    private long updated = 123456L;
     private Boolean ask = false, ask_anon = true;
 
     @Before

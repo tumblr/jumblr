@@ -19,7 +19,7 @@ public class AudioPostTest extends TypeTest {
     private String caption = "hello";
     private String trackName = "basketcase", albumName = "dookie";
     private String artistName = "green day", albumArtUrl = "http://google.com";
-    private Integer plays = 24, year = 1997, trackNumber = 2;
+    private int plays = 24, year = 1997, trackNumber = 2;
     private String embedCode = "<code>is</code>";
 
     private AudioPost post;
