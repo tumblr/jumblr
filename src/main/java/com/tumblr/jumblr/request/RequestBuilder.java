@@ -73,8 +73,8 @@ public class RequestBuilder {
         String url = "http://api.tumblr.com/v2" + path;
         OAuthRequest request = new OAuthRequest(Verb.GET, url);
         if (queryParams != null) {
-            for (String key : queryParams.keySet()) {
-                request.addQuerystringParameter(key, queryParams.get(key).toString());
+            for (Map.Entry<String, ?> entry : queryParams.entrySet()) {
+                request.addQuerystringParameter(entry.getKey(), queryParams.get(entry.getValue()).toString());
             }
         }
         return request;
@@ -84,10 +84,11 @@ public class RequestBuilder {
         String url = "http://api.tumblr.com/v2" + path;
         OAuthRequest request = new OAuthRequest(Verb.POST, url);
 
-        for (String key : bodyMap.keySet()) {
-            if (bodyMap.get(key) == null) { continue; }
-            if (bodyMap.get(key) instanceof File) { continue; }
-            request.addBodyParameter(key, bodyMap.get(key).toString());
+        for (Map.Entry<String, ?> entry : bodyMap.entrySet()) {
+        	String key = entry.getKey();
+        	Object value = entry.getValue();
+        	if (value == null || value instanceof File) { continue; }
+            request.addBodyParameter(key,value.toString());
         }
         return request;
     }

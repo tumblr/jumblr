@@ -22,15 +22,15 @@ public class App {
         // Read in the JSON data for the credentials
         FileReader fr = new FileReader("credentials.json");
         BufferedReader br = new BufferedReader(fr);
-        String json = "";
+        StringBuilder json = new StringBuilder();
         try {
-        	while (br.ready()) { json += br.readLine(); }
+        	while (br.ready()) { json.append(br.readLine()); }
         } finally {
         	br.close();
         }
         // Parse the credentials
         JsonParser parser = new JsonParser();
-        JsonObject obj = (JsonObject) parser.parse(json);
+        JsonObject obj = (JsonObject) parser.parse(json.toString());
 
         // Create a client
         JumblrClient client = new JumblrClient(
