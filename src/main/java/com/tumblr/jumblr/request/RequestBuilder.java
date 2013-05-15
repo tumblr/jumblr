@@ -19,6 +19,7 @@ import org.scribe.model.OAuthRequest;
 import org.scribe.model.Response;
 import org.scribe.model.Token;
 import org.scribe.model.Verb;
+import org.scribe.model.Verifier;
 import org.scribe.oauth.OAuthService;
 
 /**
@@ -29,6 +30,7 @@ public class RequestBuilder {
 
     private OAuthService service;
     private Token token;
+    private Token requestToken;
 
     private JumblrClient client;
 
@@ -97,10 +99,27 @@ public class RequestBuilder {
         provider(TumblrApi.class).
         apiKey(consumerKey).apiSecret(consumerSecret).
         build();
+        requestToken = service.getRequestToken();
+    }
+
+    private void setToken(Token token) {
+        this.token = token;
     }
 
     public void setToken(String token, String tokenSecret) {
-        this.token = new Token(token, tokenSecret);
+        setToken(new Token(token, tokenSecret));
+    }
+
+    private void verify(Verifier verifier) {
+        setToken(service.getAccessToken(requestToken, verifier));
+    }
+
+    public void verify(String verifier) {
+        verify(new Verifier(verifier));
+    }
+
+    public String getAuthorizationUrl() {
+        return service.getAuthorizationUrl(requestToken);
     }
 
     private ResponseWrapper clear(Response response) {
