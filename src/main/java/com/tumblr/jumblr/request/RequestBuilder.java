@@ -121,6 +121,11 @@ public class RequestBuilder {
     public String getAuthorizationUrl() {
         return service.getAuthorizationUrl(requestToken);
     }
+    
+    public void authenticate() throws IOException {
+        Token verifier = CallbackServer.tumblrAuthenticate(service);
+        setToken(verifier);
+    }
 
     private ResponseWrapper clear(Response response) {
         if (response.getCode() == 200 || response.getCode() == 201) {

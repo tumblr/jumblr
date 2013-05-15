@@ -381,6 +381,10 @@ public class JumblrClient {
     public void setRequestBuilder(RequestBuilder builder) {
         this.requestBuilder = builder;
     }
+    
+    public void authenticate() throws IOException {
+        requestBuilder.authenticate();
+    }
 
     private static Map<String, Object> safeOptionMap(Map<String, ?> map) {
         Map<String, Object> mod = new HashMap<String, Object>();

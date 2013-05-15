@@ -5,12 +5,17 @@ import java.io.*;
 import java.net.InetSocketAddress;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.utils.URLEncodedUtils;
 import org.scribe.model.Token;
 import org.scribe.model.Verifier;
 import org.scribe.oauth.OAuthService;
 import com.sun.net.httpserver.*;
 import com.tumblr.jumblr.JumblrClient;
-//import com.google.common.collect.MultiMap;
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.ListMultimap;
+import com.google.common.collect.Multimap;
 
 /**
  * An HTTP server.
@@ -26,16 +31,20 @@ public class CallbackServer {
     private HttpServer server;
     private static final int PORT = 8004; // This port is set in the app settings in Tumblr and can't easily be changed
 
-    public static Token tumblrAuthenticate(JumblrClient client, OAuthService service) throws IOException {
+    public static Token tumblrAuthenticate(OAuthService service) throws IOException {
         Token request = service.getRequestToken();
         openBrowser(service.getAuthorizationUrl(request));
 
         CallbackServer s = new CallbackServer(PORT);
-        String response = s.getQuery().replaceAll("oauth_token=\\w+&oauth_verifier=(\\w+)", "$1");
-
+        //String response = s.getQuery();
+        //response = response.replaceAll("oauth_token=\\w+&oauth_verifier=(\\w+)", "$1");
+        List<String> parameters = s.getUrlParameters().get("oauth_verifier");
+        assert parameters.size() == 1;
+        String response = parameters.get(0);
+        System.out.printf("Verifier: %s%n", response);
+        
         Token access = service.getAccessToken(request, new Verifier(response));
         System.out.printf("Access token: %s%n", access);
-        client.setToken(access.getToken(), access.getSecret());
 
         return access;
     }
@@ -111,19 +120,19 @@ public class CallbackServer {
         return request.getQuery();
     }
     
-    /*
-    Multimap<String, String> getUrlParameters(String url) {
-        try {
-            Multimap<String, String> ret = ArrayListMultimap.create();
-            for (NameValuePair param : URLEncodedUtils.parse(new URI(url), "UTF-8")) {
-                ret.put(param.getName(), param.getValue());
-            }
-            return ret;
-        } catch (URISyntaxException e) {
-            throw new RuntimeException(e);
-        }
+    public ListMultimap<String, String> getUrlParameters() {
+        waitForQuery();
+        return getUrlParameters(request);
     }
-     */
+    
+    private static ListMultimap<String, String> getUrlParameters(URI url) {
+        ListMultimap<String, String> ret = ArrayListMultimap.create();
+        for (NameValuePair param : URLEncodedUtils.parse(url, "UTF-8")) {
+            ret.put(param.getName(), param.getValue());
+        }
+        return ret;
+    }
+     
     
     public static void openBrowser(String url) throws IOException {
         System.out.println(Desktop.isDesktopSupported());
