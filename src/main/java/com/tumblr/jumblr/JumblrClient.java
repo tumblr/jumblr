@@ -382,8 +382,13 @@ public class JumblrClient {
         this.requestBuilder = builder;
     }
     
-    public void authenticate() throws IOException {
-        requestBuilder.authenticate();
+    public boolean authenticate() {
+        try {
+            requestBuilder.authenticate();
+            return true;
+        } catch (IOException e) {
+            return false;
+        }
     }
 
     private static Map<String, Object> safeOptionMap(Map<String, ?> map) {

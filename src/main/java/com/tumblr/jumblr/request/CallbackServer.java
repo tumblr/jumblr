@@ -36,14 +36,12 @@ public class CallbackServer {
         openBrowser(service.getAuthorizationUrl(request));
 
         CallbackServer s = new CallbackServer(PORT);
-        //String response = s.getQuery();
-        //response = response.replaceAll("oauth_token=\\w+&oauth_verifier=(\\w+)", "$1");
         List<String> parameters = s.getUrlParameters().get("oauth_verifier");
         assert parameters.size() == 1;
-        String response = parameters.get(0);
-        System.out.printf("Verifier: %s%n", response);
+        String verifier = parameters.get(0);
+        System.out.printf("Verifier: %s%n", verifier);
         
-        Token access = service.getAccessToken(request, new Verifier(response));
+        Token access = service.getAccessToken(request, new Verifier(verifier));
         System.out.printf("Access token: %s%n", access);
 
         return access;
@@ -114,11 +112,6 @@ public class CallbackServer {
         }
         server.stop(1);
     }
-
-    public String getQuery() {
-        waitForQuery();
-        return request.getQuery();
-    }
     
     public ListMultimap<String, String> getUrlParameters() {
         waitForQuery();
@@ -132,7 +125,6 @@ public class CallbackServer {
         }
         return ret;
     }
-     
     
     public static void openBrowser(String url) throws IOException {
         System.out.println(Desktop.isDesktopSupported());
