@@ -196,6 +196,9 @@ catch (JumblrException ex) {
 
 Pop out that JavaDoc - full documentation awaits.
 
+Or you can use our hosted copy at:
+http://tumblr.github.io/jumblr/javadoc/
+
 Also see the documentation for the
 [Tumblr API](http://www.tumblr.com/docs/en/api/v2) itself.
 
