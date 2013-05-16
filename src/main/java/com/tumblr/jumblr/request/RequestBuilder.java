@@ -99,7 +99,6 @@ public class RequestBuilder {
         provider(TumblrApi.class).
         apiKey(consumerKey).apiSecret(consumerSecret).
         build();
-        requestToken = service.getRequestToken();
     }
 
     private void setToken(Token token) {
@@ -111,7 +110,7 @@ public class RequestBuilder {
     }
 
     private void verify(Verifier verifier) {
-        setToken(service.getAccessToken(requestToken, verifier));
+        setToken(service.getAccessToken(service.getRequestToken(), verifier));
     }
 
     public void verify(String verifier) {
@@ -123,7 +122,7 @@ public class RequestBuilder {
     }
     
     public void authenticate() throws IOException {
-        Token verifier = CallbackServer.tumblrAuthenticate(service);
+        Token verifier = CallbackServer.authenticate(service, "oauth_verifier", 8004);
         setToken(verifier);
     }
 
