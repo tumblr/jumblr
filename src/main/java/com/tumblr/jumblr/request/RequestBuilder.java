@@ -12,6 +12,7 @@ import com.tumblr.jumblr.responses.ResponseWrapper;
 import java.io.File;
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.net.URI;
 import java.util.Map;
 import org.scribe.builder.ServiceBuilder;
 import org.scribe.builder.api.TumblrApi;
@@ -31,7 +32,7 @@ public class RequestBuilder {
     private OAuthService service;
     private Token token;
     private Token requestToken;
-    private static final String callbackUrl = "http://127.0.0.1:8004/callback";
+    private URI callbackUrl;
 
     private JumblrClient client;
 
@@ -94,12 +95,16 @@ public class RequestBuilder {
         }
         return request;
     }
-
+    
+    public void setCallback(URI callbackUrl) {
+        this.callbackUrl = callbackUrl;
+    }
+    
     public void setConsumer(String consumerKey, String consumerSecret) {
         service = new ServiceBuilder().
         provider(TumblrApi.class).
         apiKey(consumerKey).apiSecret(consumerSecret).
-        callback(callbackUrl).
+        callback(callbackUrl.toString()).
         build();
     }
 
@@ -124,7 +129,7 @@ public class RequestBuilder {
     }
     
     public void authenticate() throws IOException {
-        Token verifier = CallbackServer.authenticate(service, "oauth_verifier", 8004);
+        Token verifier = CallbackServer.authenticate(service, "oauth_verifier", callbackUrl);
         setToken(verifier);
     }
 
