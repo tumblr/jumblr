@@ -31,6 +31,7 @@ public class RequestBuilder {
     private OAuthService service;
     private Token token;
     private Token requestToken;
+    private static final String callbackUrl = "http://127.0.0.1:8004/callback";
 
     private JumblrClient client;
 
@@ -98,6 +99,7 @@ public class RequestBuilder {
         service = new ServiceBuilder().
         provider(TumblrApi.class).
         apiKey(consumerKey).apiSecret(consumerSecret).
+        callback(callbackUrl).
         build();
     }
 
