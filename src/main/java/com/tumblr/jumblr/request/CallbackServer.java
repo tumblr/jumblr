@@ -1,8 +1,6 @@
 package com.tumblr.jumblr.request;
 
 import com.sun.net.httpserver.*;
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.ListMultimap;
 import java.io.*;
 import java.net.InetSocketAddress;
 import java.net.URI;
@@ -10,8 +8,6 @@ import java.net.URISyntaxException;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.utils.URLEncodedUtils;
 
 /**
  * An HTTP server that returns a static page.
@@ -76,8 +72,6 @@ public class CallbackServer {
         }
 
         public void handle(HttpExchange t) throws IOException {
-            String response = readResource("callback_response_page.html");
-
             t.sendResponseHeaders(200, response.length());
             OutputStream os = t.getResponseBody();
             os.write(response.getBytes());
@@ -88,7 +82,6 @@ public class CallbackServer {
     }
 
     private void addRequest(URI uri) {
-        
         requests.add(uri);
     }
     
@@ -107,19 +100,6 @@ public class CallbackServer {
         server.stop(1);
     }
     
-    /**
-     * Get all the parameters from a given URI.
-     * @param url the url to get the parameters from
-     * @return all the parameters and values
-     */
-    static ListMultimap<String, String> getUrlParameters(URI url) {
-        ListMultimap<String, String> ret = ArrayListMultimap.create();
-        for (NameValuePair param : URLEncodedUtils.parse(url, "UTF-8")) {
-            ret.put(param.getName(), param.getValue());
-        }
-        return ret;
-    }
-
     /**
      * Reads the given resource, even in jar packaging.
      * @param name the name of the resource
