@@ -422,6 +422,7 @@ public class JumblrClient {
             requestBuilder.authenticate();
             return true;
         } catch (IOException e) {
+            e.printStackTrace();
             return false;
         }
     }

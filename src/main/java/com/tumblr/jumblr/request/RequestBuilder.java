@@ -129,7 +129,7 @@ public class RequestBuilder {
     }
     
     public void authenticate() throws IOException {
-        Token verifier = CallbackServer.authenticate(service, "oauth_verifier", callbackUrl);
+        Token verifier = Authenticator.autoAuthenticate(service, "oauth_verifier", callbackUrl);
         setToken(verifier);
     }
 
