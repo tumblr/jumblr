@@ -28,6 +28,7 @@ public class App {
         BufferedReader br = new BufferedReader(fr);
         String json = "";
         while (br.ready()) { json += br.readLine(); }
+        br.close();
 
         // Parse the credentials
         JsonParser parser = new JsonParser();
@@ -39,19 +40,22 @@ public class App {
             obj.getAsJsonPrimitive("consumer_secret").getAsString()
         );
 
-        // Give it a token
-        client.setToken(
-            obj.getAsJsonPrimitive("oauth_token").getAsString(),
-            obj.getAsJsonPrimitive("oauth_token_secret").getAsString()
-        );
+        client.authenticate();
 
         // Usage
+        User user = client.user();
+        System.out.printf("User %s has these blogs:%n", user.getName());
 
-        Map<String, Integer> options = new HashMap<String, Integer>();
-        options.put("limit", 2);
-        List<Post> likes = client.blogLikes("seejohnrun", options);
-        System.out.println(likes.size());
-
+        // And list their blogs
+        for (Blog blog : user.getBlogs()) {
+            System.out.printf("\t%s (%s)%n", blog.getName(), blog.getTitle());
+        }
+        
+        System.out.println("They are following these blogs:");
+        List<Blog> blogs = client.userFollowing();
+        for (Blog blog : blogs) {
+            System.out.printf("\t%s (%s)%n", blog.getName(), blog.getTitle());
+        }
     }
 
 }
