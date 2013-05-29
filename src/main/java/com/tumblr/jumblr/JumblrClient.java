@@ -417,14 +417,13 @@ public class JumblrClient {
         this.requestBuilder = builder;
     }
     
+    /**
+     * Attempts to authenticate by opening the browser and starting a server to handle the callback.
+     * 
+     * @return true on success, false on failure
+     */
     public boolean authenticate() {
-        try {
-            requestBuilder.authenticate();
-            return true;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
+        return requestBuilder.authenticate();
     }
 
     private static Map<String, Object> safeOptionMap(Map<String, ?> map) {

@@ -128,9 +128,21 @@ public class RequestBuilder {
         return service.getAuthorizationUrl(requestToken);
     }
     
-    public void authenticate() throws IOException {
-        Token verifier = Authenticator.autoAuthenticate(service, "oauth_verifier", callbackUrl);
+    public boolean authenticate() {
+        Token verifier;
+        try {
+            verifier = Authenticator.autoAuthenticate(service, "oauth_verifier", callbackUrl);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+        
+        if (verifier == null) {
+            return false;
+        }
+        
         setToken(verifier);
+        return true;
     }
 
     private ResponseWrapper clear(Response response) {

@@ -3,7 +3,7 @@ package com.tumblr.jumblr.request;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ListMultimap;
 import java.awt.Desktop;
-import java.io.IOException;
+import java.io.*;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -17,8 +17,7 @@ public class Authenticator {
     private final OAuthService service;
     private final Token request;
     private final String verifierParameter;
-    private final URI callbackUrl;
-    private CallbackServer s;
+    private final StaticServer s;
     private Token access;
 
     /**
@@ -29,49 +28,85 @@ public class Authenticator {
      * @return The newly created access token
      * @throws IOException
      */
-    public static Token autoAuthenticate(OAuthService service, String verifierParameter, URI callbackUrl) 
-        throws IOException {
-        
-        Authenticator a = new Authenticator(service, verifierParameter, callbackUrl);
-        a.startServer();
-        a.openBrowser();
-        a.handleRequest();
-        return a.getAccessToken();
+    public static Token autoAuthenticate(OAuthService service, String verifierParameter, URI callbackUrl) throws IOException {
+        return new Authenticator(service, verifierParameter, callbackUrl).autoAuthenticate();
     }
     
     public Authenticator(OAuthService service, String verifierParameter, URI callbackUrl) throws IOException {
         this.service = service;
         this.request = service.getRequestToken();
         this.verifierParameter = verifierParameter;
-        this.callbackUrl = callbackUrl;
+        String responsePage = readResource("callback_response_page.html");
+        this.s = new StaticServer(callbackUrl, responsePage);
     }
     
-    public void startServer() throws IOException {
-        this.s = new CallbackServer(callbackUrl);
+    public Token autoAuthenticate() {
+        if (!this.openBrowser() || !this.handleRequest()) {
+            return null;
+        }
+        return this.getAccessToken();
     }
     
-    public void openBrowser() {
-        openBrowser(getAuthorizationUrl());
+    /**
+     * Reads the given resource, even in jar packaging.
+     * @param name the name of the resource
+     * @return the entire text of the resource
+     * @throws IOException
+     */
+    private static String readResource(String name) throws IOException {
+        InputStream is = ClassLoader.getSystemResourceAsStream(name);
+        Reader r = new BufferedReader(new InputStreamReader(is));
+    
+        StringBuffer sb = new StringBuffer();
+        while (r.ready()) {
+            sb.append((char) r.read());
+        }
+        r.close();
+    
+        return sb.toString();
+    }
+
+    public boolean openBrowser() {
+        try {
+            return openBrowser(getAuthorizationUrl());
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
     
-    public void handleRequest() {
+    /**
+     * Opens the browser to the given url
+     * @param url url to open the browser to
+     * @throws URISyntaxException 
+     */
+    private static boolean openBrowser(String url) throws URISyntaxException {
+        return openBrowser(new URI(url));
+    }
+    
+    private static boolean openBrowser(URI url) {
+        if(!Desktop.isDesktopSupported()) {
+            return false;
+        }
+        Desktop d = Desktop.getDesktop();
+        try {
+            d.browse(url);
+        } catch (IOException e) {
+            return false;
+        }
+        return true;
+    }
+
+    public boolean handleRequest() {
         URI requestUrl = s.waitForNextRequest();
         s.stop();
-        List<String> possibleVerifiers = Authenticator.getUrlParameters(requestUrl).get(verifierParameter);
-        if (possibleVerifiers.size() != 1) {
-            throw new RuntimeException(String.format("There were %d parameters with the given name," +
-                        " when exactly one was expected.", possibleVerifiers.size()));
+        List<String> possibleVerifiers = getUrlParameters(requestUrl).get(verifierParameter);
+        if (possibleVerifiers.size() == 0) { // The user denied the request.
+            return false;
         }
         String verifier = possibleVerifiers.get(0);
         access = service.getAccessToken(request, new Verifier(verifier));
-    }
-
-    public Token getAccessToken() {
-        return access;
-    }
-    
-    public String getAuthorizationUrl() {
-        return service.getAuthorizationUrl(request);
+        return true;
     }
 
     /**
@@ -87,24 +122,11 @@ public class Authenticator {
         return ret;
     }
 
-    /**
-     * Opens the browser to the given url
-     * @param url url to open the browser to
-     */
-    static void openBrowser(String url) {
-        if(!Desktop.isDesktopSupported()) {
-            throw new RuntimeException("Can't open browser: desktop not supported");
-        }
-        Desktop d = Desktop.getDesktop();
-        URI uri;
-        try {
-            uri = new URI(url);
-            d.browse(uri);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
+    public Token getAccessToken() {
+        return access;
     }
     
+    public String getAuthorizationUrl() {
+        return service.getAuthorizationUrl(request);
+    }    
 }

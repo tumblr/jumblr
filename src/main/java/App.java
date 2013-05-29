@@ -34,8 +34,12 @@ public class App {
             obj.getAsJsonPrimitive("consumer_secret").getAsString()
         );
 
-        client.authenticate();
-
+        boolean b = client.authenticate();
+        if (!b) {
+            System.out.println("Failed to authenticate. This could be due to network errors, or " +
+            		"the user denying the access request.");
+        }
+        
         // Usage
         User user = client.user();
         System.out.printf("User %s has these blogs:%n", user.getName());
