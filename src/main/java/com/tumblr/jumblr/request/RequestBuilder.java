@@ -160,6 +160,4 @@ public class RequestBuilder {
     public static OAuthRequest convertToMultipart(OAuthRequest request, Map<String, ?> bodyMap) throws IOException {
         return new MultipartConverter(request, bodyMap).getRequest();
     }
-
-
 }

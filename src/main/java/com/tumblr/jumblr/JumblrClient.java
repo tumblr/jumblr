@@ -21,7 +21,17 @@ public class JumblrClient {
 
     private RequestBuilder requestBuilder;
     private String apiKey;
-    
+    private static final URI defaultCallbackUrl;
+    static {
+        URI url = null;
+        try {
+            url = new URI("http://127.0.0.1:8000/callback");
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        defaultCallbackUrl = url;
+    }
+
     public JumblrClient() {
         this.requestBuilder = new RequestBuilder(this);
     }
@@ -57,7 +67,7 @@ public class JumblrClient {
      * @param consumerSecret The consumer secret for the client
      */
     public JumblrClient(String consumerKey, String consumerSecret) {
-        this(consumerKey, consumerSecret, getDefaultCallbackUrl());
+        this(consumerKey, consumerSecret, defaultCallbackUrl);
     }
 
     /**
@@ -70,15 +80,6 @@ public class JumblrClient {
     public JumblrClient(String consumerKey, String consumerSecret, String token, String tokenSecret) {
         this(consumerKey, consumerSecret);
         this.setToken(token, tokenSecret);
-    }
-
-    private static URI getDefaultCallbackUrl() {
-        try {
-            return new URI("http://127.0.0.1:8000/callback");
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-            return null;
-        }
     }
 
     /**

@@ -5,16 +5,9 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
-
-import org.apache.http.NameValuePair;
-import org.apache.http.client.utils.URLEncodedUtils;
 import org.scribe.model.Token;
 import org.scribe.model.Verifier;
 import org.scribe.oauth.OAuthService;
-
-import com.google.common.collect.ArrayListMultimap;
-import com.google.common.collect.ListMultimap;
-
 
 public class Authenticator {
     private final OAuthService service;
@@ -61,7 +54,7 @@ public class Authenticator {
     public void handleRequest() {
         URI requestUrl = s.waitForNextRequest();
         s.stop();
-        List<String> possibleVerifiers = Authenticator.getUrlParameters(requestUrl).get(verifierParameter);
+        List<String> possibleVerifiers = CallbackServer.getUrlParameters(requestUrl).get(verifierParameter);
         if (possibleVerifiers.size() != 1) {
             throw new RuntimeException(String.format("There were %d parameters with the given name," +
                         " when exactly one was expected.", possibleVerifiers.size()));
@@ -76,19 +69,6 @@ public class Authenticator {
     
     public String getAuthorizationUrl() {
         return service.getAuthorizationUrl(request);
-    }
-
-    /**
-     * Get all the parameters from a given URI.
-     * @param url the url to get the parameters from
-     * @return all the parameters and values
-     */
-    private static ListMultimap<String, String> getUrlParameters(URI url) {
-        ListMultimap<String, String> ret = ArrayListMultimap.create();
-        for (NameValuePair param : URLEncodedUtils.parse(url, "UTF-8")) {
-            ret.put(param.getName(), param.getValue());
-        }
-        return ret;
     }
 
     /**
@@ -110,5 +90,4 @@ public class Authenticator {
             e.printStackTrace();
         }
     }
-    
 }
