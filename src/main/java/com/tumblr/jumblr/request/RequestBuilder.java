@@ -105,12 +105,8 @@ public class RequestBuilder {
         OAuthRequest request = new OAuthRequest(Verb.POST, url);
 
         for (String key : bodyMap.keySet()) {
-            if (bodyMap.get(key) == null) {
-                continue;
-            }
-            if (bodyMap.get(key) instanceof File) {
-                continue;
-            }
+            if (bodyMap.get(key) == null) { continue; }
+            if (bodyMap.get(key) instanceof File) { continue; }
             request.addBodyParameter(key, bodyMap.get(key).toString());
         }
         return request;
@@ -125,11 +121,10 @@ public class RequestBuilder {
     public void setConsumer(String consumerKey, String consumerSecret) {
         String callbackUrlString = callbackUrl.toString();
         service = new ServiceBuilder().
-                provider(TumblrApi.class).
-                apiKey(consumerKey).
-                apiSecret(consumerSecret).
-                callback(callbackUrlString).
-                build();
+        provider(TumblrApi.class).
+        apiKey(consumerKey).apiSecret(consumerSecret).
+        callback(callbackUrlString).
+        build();
     }
 
     private void setToken(Token token) {
@@ -171,8 +166,9 @@ public class RequestBuilder {
         if (response.getCode() == 200 || response.getCode() == 201) {
             String json = response.getBody();
             try {
-                Gson gson = new GsonBuilder().registerTypeAdapter(JsonElement.class, new JsonElementDeserializer())
-                        .create();
+                Gson gson = new GsonBuilder().
+                        registerTypeAdapter(JsonElement.class, new JsonElementDeserializer()).
+                        create();
                 ResponseWrapper wrapper = gson.fromJson(json, ResponseWrapper.class);
                 wrapper.setClient(client);
                 return wrapper;
@@ -193,4 +189,6 @@ public class RequestBuilder {
     public static OAuthRequest convertToMultipart(OAuthRequest request, Map<String, ?> bodyMap) throws IOException {
         return new MultipartConverter(request, bodyMap).getRequest();
     }
+    
+    
 }

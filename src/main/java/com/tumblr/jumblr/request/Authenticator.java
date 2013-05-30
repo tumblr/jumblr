@@ -91,7 +91,7 @@ public class Authenticator {
      * @throws IOException
      */
     public Authenticator(OAuthService service, String verifierParameter, URI callbackUrl) throws IOException {
-        this(service, verifierParameter, readResource("callback_response_page.html"), callbackUrl);
+        this(service, verifierParameter, readResource("close_page.html"), callbackUrl);
     }
 
     /**
