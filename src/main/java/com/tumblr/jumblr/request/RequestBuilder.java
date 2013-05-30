@@ -12,8 +12,6 @@ import com.tumblr.jumblr.responses.ResponseWrapper;
 import java.io.File;
 import java.io.IOException;
 import java.net.HttpURLConnection;
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -46,7 +44,6 @@ public class RequestBuilder {
             ServerSocket s = new ServerSocket(0);
             int port = s.getLocalPort();
             s.close();
-            String localhost = "127.0.0.1";
             callbackUrl = new URI("http", null, "127.0.0.1", port, "/", null, null);
         } catch (IOException e) {
             e.printStackTrace();
