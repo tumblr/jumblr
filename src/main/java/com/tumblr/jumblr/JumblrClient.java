@@ -30,6 +30,15 @@ public class JumblrClient {
      * Instantiate a new Jumblr Client with no token
      * @param consumerKey The consumer key for the client
      * @param consumerSecret The consumer secret for the client
+     */
+    public JumblrClient(String consumerKey, String consumerSecret) {
+        this(consumerKey, consumerSecret, (URI) null);
+    }
+
+    /**
+     * Instantiate a new Jumblr Client with no token
+     * @param consumerKey The consumer key for the client
+     * @param consumerSecret The consumer secret for the client
      * @param callbackUrl The callbackUrl for authentication requests
      */
     public JumblrClient(String consumerKey, String consumerSecret, URI callbackUrl) {
@@ -38,7 +47,6 @@ public class JumblrClient {
         this.requestBuilder.setConsumer(consumerKey, consumerSecret);
         this.apiKey = consumerKey;
     }
-
 
     /**
      * Instantiate a new Jumblr Client with no token
@@ -49,24 +57,6 @@ public class JumblrClient {
      */
     public JumblrClient(String consumerKey, String consumerSecret, String callbackUrl) throws URISyntaxException {
         this(consumerKey, consumerSecret, new URI(callbackUrl));
-    }
-
-    /**
-     * Instantiate a new Jumblr Client with no token
-     * @param consumerKey The consumer key for the client
-     * @param consumerSecret The consumer secret for the client
-     */
-    public JumblrClient(String consumerKey, String consumerSecret) {
-        this(consumerKey, consumerSecret, (URI) null);
-    }
-    
-    private static URI getDefaultCallbackUrl() {
-        try {
-            return new URI("http://127.0.0.1:8000/callback");
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-            return null;
-        }
     }
 
     /**
@@ -418,7 +408,6 @@ public class JumblrClient {
     
     /**
      * Attempts to authenticate by opening the browser and starting a server to handle the callback.
-     * 
      * @return true on success, false on failure
      */
     public boolean authenticate() {
