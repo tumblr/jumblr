@@ -21,32 +21,11 @@ public class JumblrClient {
 
     private RequestBuilder requestBuilder;
     private String apiKey;
-    private static final URI defaultCallbackUrl;
-    static {
-        URI url = null;
-        try {
-            url = new URI("http://127.0.0.1:8000/callback");
-        } catch (URISyntaxException e) {
-            e.printStackTrace();
-        }
-        defaultCallbackUrl = url;
-    }
 
     public JumblrClient() {
         this.requestBuilder = new RequestBuilder(this);
     }
 
-    /**
-     * Instantiate a new Jumblr Client with no token
-     * @param consumerKey The consumer key for the client
-     * @param consumerSecret The consumer secret for the client
-     * @param callbackUrl The callbackUrl for authentication requests
-     * @throws URISyntaxException 
-     */
-    public JumblrClient(String consumerKey, String consumerSecret, String callbackUrl) throws URISyntaxException {
-        this(consumerKey, consumerSecret, new URI(callbackUrl));
-    }
-    
     /**
      * Instantiate a new Jumblr Client with no token
      * @param consumerKey The consumer key for the client
@@ -65,9 +44,29 @@ public class JumblrClient {
      * Instantiate a new Jumblr Client with no token
      * @param consumerKey The consumer key for the client
      * @param consumerSecret The consumer secret for the client
+     * @param callbackUrl The callbackUrl for authentication requests
+     * @throws URISyntaxException 
+     */
+    public JumblrClient(String consumerKey, String consumerSecret, String callbackUrl) throws URISyntaxException {
+        this(consumerKey, consumerSecret, new URI(callbackUrl));
+    }
+
+    /**
+     * Instantiate a new Jumblr Client with no token
+     * @param consumerKey The consumer key for the client
+     * @param consumerSecret The consumer secret for the client
      */
     public JumblrClient(String consumerKey, String consumerSecret) {
-        this(consumerKey, consumerSecret, defaultCallbackUrl);
+        this(consumerKey, consumerSecret, (URI) null);
+    }
+    
+    private static URI getDefaultCallbackUrl() {
+        try {
+            return new URI("http://127.0.0.1:8000/callback");
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     /**

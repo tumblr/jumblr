@@ -36,8 +36,7 @@ public class App {
 
         boolean b = client.authenticate();
         if (!b) {
-            System.out.println("Failed to authenticate. This could be due to network errors, or " +
-            		"the user denying the access request.");
+            System.out.println("Failed to authenticate.");
         }
         
         // Usage

@@ -12,7 +12,11 @@ import com.tumblr.jumblr.responses.ResponseWrapper;
 import java.io.File;
 import java.io.IOException;
 import java.net.HttpURLConnection;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.ServerSocket;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Map;
 import org.scribe.builder.ServiceBuilder;
 import org.scribe.builder.api.TumblrApi;
@@ -38,6 +42,18 @@ public class RequestBuilder {
 
     public RequestBuilder(JumblrClient client) {
         this.client = client;
+        try {
+            ServerSocket s = new ServerSocket(0);
+            int port = s.getLocalPort();
+            s.close();
+            String localhost = "127.0.0.1";
+            callbackUrl = new URI("http", null, "127.0.0.1", port, "/", null, null);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        System.out.println(callbackUrl);
     }
 
     public String getRedirectUrl(String path) {
@@ -89,23 +105,31 @@ public class RequestBuilder {
         OAuthRequest request = new OAuthRequest(Verb.POST, url);
 
         for (String key : bodyMap.keySet()) {
-            if (bodyMap.get(key) == null) { continue; }
-            if (bodyMap.get(key) instanceof File) { continue; }
+            if (bodyMap.get(key) == null) {
+                continue;
+            }
+            if (bodyMap.get(key) instanceof File) {
+                continue;
+            }
             request.addBodyParameter(key, bodyMap.get(key).toString());
         }
         return request;
     }
-    
+
     public void setCallback(URI callbackUrl) {
-        this.callbackUrl = callbackUrl;
+        if (callbackUrl != null) {
+            this.callbackUrl = callbackUrl;
+        }
     }
-    
+
     public void setConsumer(String consumerKey, String consumerSecret) {
+        String callbackUrlString = callbackUrl.toString();
         service = new ServiceBuilder().
-        provider(TumblrApi.class).
-        apiKey(consumerKey).apiSecret(consumerSecret).
-        callback(callbackUrl.toString()).
-        build();
+                provider(TumblrApi.class).
+                apiKey(consumerKey).
+                apiSecret(consumerSecret).
+                callback(callbackUrlString).
+                build();
     }
 
     private void setToken(Token token) {
@@ -127,7 +151,7 @@ public class RequestBuilder {
     public String getAuthorizationUrl() {
         return service.getAuthorizationUrl(requestToken);
     }
-    
+
     public boolean authenticate() {
         Token verifier;
         try {
@@ -136,11 +160,9 @@ public class RequestBuilder {
             e.printStackTrace();
             return false;
         }
-        
-        if (verifier == null) {
-            return false;
-        }
-        
+
+        if (verifier == null) { return false; }
+
         setToken(verifier);
         return true;
     }
@@ -149,9 +171,8 @@ public class RequestBuilder {
         if (response.getCode() == 200 || response.getCode() == 201) {
             String json = response.getBody();
             try {
-                Gson gson = new GsonBuilder().
-                        registerTypeAdapter(JsonElement.class, new JsonElementDeserializer()).
-                        create();
+                Gson gson = new GsonBuilder().registerTypeAdapter(JsonElement.class, new JsonElementDeserializer())
+                        .create();
                 ResponseWrapper wrapper = gson.fromJson(json, ResponseWrapper.class);
                 wrapper.setClient(client);
                 return wrapper;
