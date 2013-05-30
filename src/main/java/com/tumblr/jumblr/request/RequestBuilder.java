@@ -116,11 +116,10 @@ public class RequestBuilder {
     }
 
     public void setConsumer(String consumerKey, String consumerSecret) {
-        String callbackUrlString = callbackUrl.toString();
         service = new ServiceBuilder().
         provider(TumblrApi.class).
         apiKey(consumerKey).apiSecret(consumerSecret).
-        callback(callbackUrlString).
+        callback(callbackUrl.toString()).
         build();
     }
 
