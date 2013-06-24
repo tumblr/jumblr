@@ -202,6 +202,12 @@ http://tumblr.github.io/jumblr/javadoc/
 Also see the documentation for the
 [Tumblr API](http://www.tumblr.com/docs/en/api/v2) itself.
 
+## Builds
+
+We supply some JAR builds you can use if you're not a fan of mvn.
+You can grab them with (or without) dependencies from
+[http://tumblr.github.io/jumblr](the project page).
+
 ## Reporting issues
 
 Please refer to the GitHub issue tracker at:
