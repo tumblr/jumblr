@@ -178,6 +178,16 @@ catch (JumblrException ex) {
 }
 ```
 
+## Maven
+
+``` xml
+<dependency>
+  <groupId>com.tumblr</groupId>
+  <artifactId>jumblr</artifactId>
+  <version>0.0.6</version>
+</dependency>
+```
+
 ## Runnings Tests
 
 `mvn test`
@@ -186,8 +196,17 @@ catch (JumblrException ex) {
 
 Pop out that JavaDoc - full documentation awaits.
 
+Or you can use our hosted copy at:
+http://tumblr.github.io/jumblr/javadoc/
+
 Also see the documentation for the
 [Tumblr API](http://www.tumblr.com/docs/en/api/v2) itself.
+
+## Builds
+
+We supply some JAR builds you can use if you're not a fan of mvn.
+You can grab them with (or without) dependencies from
+[the project page](http://tumblr.github.io/jumblr).
 
 ## Reporting issues
 
