@@ -155,6 +155,7 @@ public class Post extends Resource {
         return this.reblog_key;
     }
     
+
     /**
      * Get the ID of the post that this post reblogged
      * @return the ID
@@ -162,7 +163,7 @@ public class Post extends Resource {
     public Long getRebloggedFromId() {
         return reblogged_from_id;
     }
-    
+
     /**
      * Get name of the blog that this post reblogged
      * @return the blog name for the post that this post reblogged
@@ -179,7 +180,7 @@ public class Post extends Resource {
     public Note[] getNotes() {
         return Arrays.copyOf(notes, notes.length);
     }
-    
+
     /**
      * Delete this post
      */
