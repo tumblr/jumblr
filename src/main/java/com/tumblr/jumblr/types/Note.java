@@ -48,8 +48,3 @@ public class Note {
 	}
 	
 }
-
-/*
-{"timestamp":"1372604990","blog_name":"faarwell","blog_url":"http:\/\/faarwell.tumblr.com\/","type":"like"},
-{"timestamp":"1372603452","blog_name":"feedthecrows","blog_url":"http:\/\/www.feedthecrows.com\/","post_id":"54260668896","type":"reblog"},
-*/

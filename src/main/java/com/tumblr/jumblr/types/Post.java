@@ -170,7 +170,7 @@ public class Post extends Resource {
     public String getRebloggedFromName() {
         return reblogged_from_name;
     }
-    
+
     /**
      * Get the notes on this post. You must set "notes_info" to "true" in the
      * options map for this to work.
