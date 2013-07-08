@@ -177,7 +177,7 @@ public class Post extends Resource {
      * @return a copy of the array of the notes on this post
      */
     public Note[] getNotes() {
-    	return Arrays.copyOf(notes, notes.length);
+        return Arrays.copyOf(notes, notes.length);
     }
     
     /**
