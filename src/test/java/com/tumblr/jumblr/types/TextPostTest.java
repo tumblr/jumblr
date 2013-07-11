@@ -55,7 +55,7 @@ public class TextPostTest extends TypeTest {
 
     @Test
     public void detail() {
-        Map detail = post.detail();
+        Map<String, Object> detail = post.detail();
         assertEquals(post.getTitle(), detail.get("title").toString());
         assertEquals(post.getBody(), detail.get("body").toString());
         assertEquals("text", detail.get("type"));

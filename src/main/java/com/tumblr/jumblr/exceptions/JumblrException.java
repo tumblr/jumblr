@@ -1,14 +1,15 @@
 package com.tumblr.jumblr.exceptions;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.scribe.model.Response;
+
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
-import java.util.ArrayList;
-import java.util.List;
-import org.scribe.model.Response;
 
 /**
  * This exception class is for any connection issue, it attempts to pull
@@ -16,8 +17,9 @@ import org.scribe.model.Response;
  * @author jc
  */
 public class JumblrException extends RuntimeException {
-
-    private final int responseCode;
+	private static final long serialVersionUID = 1L;
+	
+	private final int responseCode;
     private String message;
     private List<String> errors;
 

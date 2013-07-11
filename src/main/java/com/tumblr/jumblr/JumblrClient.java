@@ -5,6 +5,7 @@ import com.tumblr.jumblr.types.Blog;
 import com.tumblr.jumblr.types.Post;
 import com.tumblr.jumblr.types.User;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -95,7 +96,7 @@ public class JumblrClient {
      */
     public List<Post> tagged(String tag, Map<String, ?> options) {
         if (options == null) {
-            options = new HashMap<String, String>();
+            options = Collections.emptyMap();
         }
         Map<String, Object> soptions = JumblrClient.safeOptionMap(options);
         soptions.put("api_key", apiKey);
@@ -137,7 +138,7 @@ public class JumblrClient {
      */
     public List<Post> blogLikes(String blogName, Map<String, ?> options) {
         if (options == null) {
-            options = new HashMap<String, String>();
+            options = Collections.emptyMap();
         }
         Map<String, Object> soptions = JumblrClient.safeOptionMap(options);
         soptions.put("api_key", this.apiKey);
@@ -156,7 +157,7 @@ public class JumblrClient {
      */
     public List<Post> blogPosts(String blogName, Map<String, ?> options) {
         if (options == null) {
-            options = new HashMap<String, String>();
+            options = Collections.emptyMap();
         }
         Map<String, Object> soptions = JumblrClient.safeOptionMap(options);
         soptions.put("api_key", apiKey);
@@ -383,9 +384,7 @@ public class JumblrClient {
 
     private static Map<String, Object> safeOptionMap(Map<String, ?> map) {
         Map<String, Object> mod = new HashMap<String, Object>();
-        for (String key : map.keySet()) {
-            mod.put(key, map.get(key));
-        }
+        mod.putAll(map);
         return mod;
     }
 

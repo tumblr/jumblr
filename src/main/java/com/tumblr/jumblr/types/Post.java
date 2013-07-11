@@ -28,7 +28,7 @@ public class Post extends Resource {
     private String date;
     private List<String> tags;
     private Boolean bookmarklet, mobile;
-    private String source_url, source_title;
+    private String source_url;
     private Boolean liked;
     private String slug;
     private Long reblogged_from_id;
@@ -40,13 +40,6 @@ public class Post extends Resource {
      */
     public Boolean isLiked() {
         return liked;
-    }
-
-    /**
-     * Get the source title for this post
-     * @return source title
-    public String getSourceTitle() {
-        return source_title;
     }
 
     /**

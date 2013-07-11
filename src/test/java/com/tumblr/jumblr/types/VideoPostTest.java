@@ -50,7 +50,7 @@ public class VideoPostTest extends TypeTest {
     public void setDataWithoutEmbedCode() {
         File file = new File("some_path");
         post.setData(file);
-        Map detail = post.detail();
+        Map<String, Object> detail = post.detail();
         assertEquals(file, detail.get("data"));
         // clear
         post.setData(null);
@@ -66,7 +66,7 @@ public class VideoPostTest extends TypeTest {
     public void setEmbedCodeWithoutData() {
         String embedCode = "external";
         post.setEmbedCode(embedCode);
-        Map detail = post.detail();
+        Map<String, Object> detail = post.detail();
         assertEquals(embedCode, detail.get("embed"));
         // clear
         post.setEmbedCode(null);
@@ -76,7 +76,7 @@ public class VideoPostTest extends TypeTest {
     public void testOtherDetail() {
         post.setCaption("test_caption");
 
-        Map detail = post.detail();
+        Map<String, Object> detail = post.detail();
         assertEquals("test_caption", detail.get("caption"));
         assertEquals("video", detail.get("type"));
     }
