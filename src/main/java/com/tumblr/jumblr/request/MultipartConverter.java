@@ -1,11 +1,6 @@
 package com.tumblr.jumblr.request;
 
-import java.io.BufferedInputStream;
-import java.io.DataInputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -72,25 +67,13 @@ public class MultipartConverter {
         for (String key : bodyMap.keySet()) {
             Object object = bodyMap.get(key);
             if (object == null) { continue; }
-            if (object instanceof File) {
-                File f = (File) object;
-                String mime = URLConnection.guessContentTypeFromName(f.getName());
-
-                DataInputStream dis = null;
-                byte[] result = new byte[(int)f.length()];
-
-                try {
-                    dis = new DataInputStream(new BufferedInputStream(new FileInputStream(f)));
-                    dis.readFully(result);
-                } finally {
-                    dis.close();
-                }
-
+            if (object instanceof FileData) {
+                FileData fd = (FileData) object;
                 message.append("--").append(boundary).append("\r\n");
-                message.append("Content-Disposition: form-data; name=\"").append(key).append("\"; filename=\"").append(f.getName()).append("\"\r\n");
-                message.append("Content-Type: ").append(mime).append("\r\n\r\n");
+                message.append("Content-Disposition: form-data; name=\"").append(key).append("\"; filename=\"").append(fd.getName()).append("\"\r\n");
+                message.append("Content-Type: ").append(fd.getMime()).append("\r\n\r\n");
                 this.addResponsePiece(message);
-                this.addResponsePiece(result);
+                this.addResponsePiece(fd.getData());
                 message = new StringBuilder("\r\n");
             } else {
                 message.append("--").append(boundary).append("\r\n");

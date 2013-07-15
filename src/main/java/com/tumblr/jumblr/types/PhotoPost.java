@@ -1,6 +1,13 @@
 package com.tumblr.jumblr.types;
 
+import com.tumblr.jumblr.request.FileData;
+import java.io.BufferedInputStream;
+import java.io.DataInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.net.URLConnection;
 import java.util.List;
 import java.util.Map;
 
@@ -14,7 +21,7 @@ public class PhotoPost extends Post {
     private Integer width, height;
 
     private String source;
-    private File data;
+    private FileData data;
     private String link;
     private List<Photo> photos;
 
@@ -83,11 +90,33 @@ public class PhotoPost extends Post {
      * @param file the file to read from
      * @throws IllegalArgumentException source is already set
      */
-    public void setData(File file) {
+    public void setData(File file) throws FileNotFoundException, IOException {
+        // Get the mime
+        String mime = URLConnection.guessContentTypeFromName(file.getName());
+
+        // And read in the contents
+        DataInputStream dis = null;
+        byte[] fileData = new byte[(int)file.length()];
+        try {
+            dis = new DataInputStream(new BufferedInputStream(new FileInputStream(file)));
+            dis.readFully(fileData);
+        } finally {
+            dis.close();
+        }
+
+        // Then set it up
+        this.setData(fileData, mime, file.getName());
+    }
+
+    public void setData(byte[] data, String mime) {
+        this.setData(data, mime, "Untitled");
+    }
+
+    public void setData(byte[] data, String mime, String name) {
         if (source != null) {
             throw new IllegalArgumentException("Cannot supply both source & data");
         }
-        this.data = file;
+        this.data = new FileData(data, mime, name);
     }
 
     /**
