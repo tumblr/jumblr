@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -178,7 +177,11 @@ public class Post extends Resource {
      * @return a copy of the array of the notes on this post
      */
     public Note[] getNotes() {
-        return Arrays.copyOf(notes, notes.length);
+        if (notes == null)
+            return null;
+        Note[] result = new Note[notes.length];
+        System.arrayCopy(notes, 0, result, 0, notes.length);
+        return result;
     }
 
     /**
