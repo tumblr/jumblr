@@ -180,7 +180,7 @@ public class Post extends Resource {
         if (notes == null)
             return null;
         Note[] result = new Note[notes.length];
-        System.arrayCopy(notes, 0, result, 0, notes.length);
+        System.arraycopy(notes, 0, result, 0, notes.length);
         return result;
     }
 
