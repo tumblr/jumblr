@@ -45,6 +45,7 @@ public class Post extends Resource {
     /**
      * Get the source title for this post
      * @return source title
+     */
     public String getSourceTitle() {
         return source_title;
     }
