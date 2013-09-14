@@ -33,6 +33,7 @@ public class Post extends Resource {
     private String slug;
     private Long reblogged_from_id;
     private String reblogged_from_name;
+    private Note[] notes;
 
     /**
      * Get whether or not this post is liked
@@ -154,6 +155,7 @@ public class Post extends Resource {
         return this.reblog_key;
     }
     
+
     /**
      * Get the ID of the post that this post reblogged
      * @return the ID
@@ -161,13 +163,26 @@ public class Post extends Resource {
     public Long getRebloggedFromId() {
         return reblogged_from_id;
     }
-    
+
     /**
      * Get name of the blog that this post reblogged
      * @return the blog name for the post that this post reblogged
      */
     public String getRebloggedFromName() {
         return reblogged_from_name;
+    }
+
+    /**
+     * Get the notes on this post. You must set "notes_info" to "true" in the
+     * options map for this to work.
+     * @return a copy of the array of the notes on this post
+     */
+    public Note[] getNotes() {
+        if (notes == null)
+            return null;
+        Note[] result = new Note[notes.length];
+        System.arraycopy(notes, 0, result, 0, notes.length);
+        return result;
     }
 
     /**
