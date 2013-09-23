@@ -18,6 +18,7 @@ import org.apache.commons.lang3.StringUtils;
 public class Post extends Resource {
 
     private Long id;
+    private String author;
     private String reblog_key;
     private String blog_name;
     private String post_url;
@@ -33,6 +34,14 @@ public class Post extends Resource {
     private String slug;
     private Long reblogged_from_id;
     private String reblogged_from_name;
+
+    /**
+     * Get the id of the author of the post
+     * @return possibly null author id
+     */
+    public String getAuthorId() {
+        return author;
+    }
 
     /**
      * Get whether or not this post is liked
