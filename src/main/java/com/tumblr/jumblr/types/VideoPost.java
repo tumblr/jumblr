@@ -14,6 +14,33 @@ public class VideoPost extends Post {
     private String caption;
     private String embed;
     private File data;
+    private String thumbnail_url;
+    private int thumbnail_width;
+    private int thumbnail_height;
+
+    /**
+     * Get the thumbnail URL for the video
+     * @return possibly null URL
+     */
+    public String getThumbnailUrl() {
+        return thumbnail_url;
+    }
+
+    /**
+     * Get the thumbnail URL for the video
+     * @return 0 if not set
+     */
+    public int getThumbnailWidth() {
+        return thumbnail_width;
+    }
+
+    /**
+     * Get the thumbnail URL for the video
+     * @return 0 if not set
+     */
+    public int getThumbnailHeight() {
+        return thumbnail_height;
+    }
 
     /**
      * Get the videos from this post
