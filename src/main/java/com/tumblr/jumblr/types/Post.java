@@ -162,7 +162,15 @@ public class Post extends Resource {
     public String getReblogKey() {
         return this.reblog_key;
     }
-    
+
+    /**
+     * Get the slug
+     * @return possibly null reblog key
+     */
+    public String getSlug() {
+        return this.slug;
+    }
+
     /**
      * Get the ID of the post that this post reblogged
      * @return the ID
@@ -170,7 +178,7 @@ public class Post extends Resource {
     public Long getRebloggedFromId() {
         return reblogged_from_id;
     }
-    
+
     /**
      * Get name of the blog that this post reblogged
      * @return the blog name for the post that this post reblogged
