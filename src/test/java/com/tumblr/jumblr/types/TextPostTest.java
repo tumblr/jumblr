@@ -19,6 +19,7 @@ public class TextPostTest extends TypeTest {
 
     private String title = "hello";
     private String body = "body";
+    private Long noteCount = 321L;
     private Long rebloggedFromId = 123L;
     private String rebloggedFromName = "name";
 
@@ -28,6 +29,7 @@ public class TextPostTest extends TypeTest {
         flat.put("type", "text");
         flat.put("title", title);
         flat.put("body", body);
+        flat.put("note_count", noteCount);
         flat.put("reblogged_from_id", rebloggedFromId);
         flat.put("reblogged_from_name", rebloggedFromName);
         Gson gson = new GsonBuilder().registerTypeAdapter(Post.class, new PostDeserializer()).create();
@@ -47,11 +49,15 @@ public class TextPostTest extends TypeTest {
     }
 
     @Test
+    public void testNoteCount() {
+        assertEquals(noteCount, post.getNoteCount());
+    }
+
+    @Test
     public void testReblog() {
         assertEquals(rebloggedFromName, post.getRebloggedFromName());
         assertEquals(rebloggedFromId,   post.getRebloggedFromId());
     }
-
 
     @Test
     public void detail() {
