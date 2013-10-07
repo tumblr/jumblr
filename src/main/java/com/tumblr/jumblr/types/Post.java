@@ -33,6 +33,7 @@ public class Post extends Resource {
     private String slug;
     private Long reblogged_from_id;
     private String reblogged_from_name;
+    private Long note_count;
 
     /**
      * Get whether or not this post is liked
@@ -104,6 +105,14 @@ public class Post extends Resource {
      */
     public List<String> getTags() {
         return tags;
+    }
+
+    /**
+     * Get the note count for this post
+     * @return the note count
+     */
+    public Long getNoteCount() {
+        return note_count;
     }
 
     /**
