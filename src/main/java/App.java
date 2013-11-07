@@ -49,7 +49,7 @@ public class App {
 
         Map<String, Integer> options = new HashMap<String, Integer>();
         options.put("limit", 2);
-        List<Post> likes = client.blogLikes("seejohnrun", options);
+        List<Post> likes = client.userLikes(options);
         System.out.println(likes.size());
 
     }

@@ -12,7 +12,7 @@ public class Blog extends Resource {
     private String name;
     private String title;
     private String description;
-    private int posts, likes;
+    private int posts, likes, followers;
     private Long updated;
     private boolean ask, ask_anon;
 
@@ -91,6 +91,10 @@ public class Blog extends Resource {
 
     public String avatar() {
         return this.avatar(null);
+    }
+
+    public Integer getFollowersCount() {
+        return this.followers;
     }
 
     /**
