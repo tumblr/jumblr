@@ -380,6 +380,10 @@ public class JumblrClient {
     public void setRequestBuilder(RequestBuilder builder) {
         this.requestBuilder = builder;
     }
+    
+    public RequestBuilder getRequestBuilder() {
+    	return requestBuilder;
+    }
 
     private static Map<String, Object> safeOptionMap(Map<String, ?> map) {
         Map<String, Object> mod = new HashMap<String, Object>();
