@@ -46,6 +46,17 @@ public class JumblrClient {
         this(consumerKey, consumerSecret);
         this.setToken(token, tokenSecret);
     }
+    
+    /**
+     * Instantiate a new Jumblr Client and override the default hostname (advanced usage)
+     * @param consumerKey The consumer key for the client
+     * @param consumerSecret The consumer secret for the client
+     * @param hostname The hostname of the API
+     */
+    public JumblrClient(String consumerKey, String consumerSecret, String hostname) {
+        this(consumerKey, consumerSecret);
+        this.requestBuilder.setHostname(hostname);
+    }
 
     /**
      * Set the token for this client
@@ -388,5 +399,16 @@ public class JumblrClient {
         }
         return mod;
     }
-
+    
+    @Override
+    public String toString() {
+    	StringBuilder builder = new StringBuilder();
+    	builder.append("[");
+    	builder.append(this.getClass().getName());
+    	builder.append(" (");
+    	builder.append("hostname:").append(this.requestBuilder.getHostname());
+    	builder.append(")]");
+    	
+    	return builder.toString();
+    }
 }
