@@ -382,7 +382,7 @@ public class JumblrClient {
     }
     
     public RequestBuilder getRequestBuilder() {
-    	return requestBuilder;
+        return requestBuilder;
     }
 
     private static Map<String, Object> safeOptionMap(Map<String, ?> map) {
