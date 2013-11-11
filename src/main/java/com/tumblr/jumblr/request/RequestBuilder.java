@@ -6,7 +6,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonSyntaxException;
 import com.tumblr.jumblr.JumblrClient;
 import com.tumblr.jumblr.exceptions.JumblrException;
-import com.tumblr.jumblr.request.MultipartConverter;
 import com.tumblr.jumblr.responses.JsonElementDeserializer;
 import com.tumblr.jumblr.responses.ResponseWrapper;
 import java.io.File;
@@ -114,7 +113,7 @@ public class RequestBuilder {
                 wrapper.setClient(client);
                 return wrapper;
             } catch (JsonSyntaxException ex) {
-                return null;
+                throw new JumblrException(response);
             }
         } else {
             throw new JumblrException(response);
