@@ -26,6 +26,8 @@ import org.scribe.oauth.OAuthService;
  */
 public class RequestBuilder {
 
+    private Token token;
+    private OAuthService service;
     private String hostname = "api.tumblr.com";
     private final JumblrClient client;
 

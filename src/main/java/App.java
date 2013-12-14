@@ -47,10 +47,9 @@ public class App {
 
         // Usage
 
-        Map<String, Integer> options = new HashMap<String, Integer>();
-        options.put("limit", 2);
-        List<Post> likes = client.userLikes(options);
-        System.out.println(likes.size());
+        for (Blog blog : client.user().getBlogs()) {
+            System.out.println(blog.getName());
+        }
 
     }
 
