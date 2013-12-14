@@ -19,6 +19,8 @@ public class QuotePostTest extends TypeTest {
 
     private String source = "hello";
     private String text = "text";
+    private String author = "john";
+    private String slug = "slug";
 
     @Before
     public void setup() {
@@ -26,6 +28,8 @@ public class QuotePostTest extends TypeTest {
         flat.put("type", "quote");
         flat.put("source", source);
         flat.put("text", text);
+        flat.put("author", author);
+        flat.put("slug", slug);
         Gson gson = new GsonBuilder().registerTypeAdapter(Post.class, new PostDeserializer()).create();
         post = (QuotePost) gson.fromJson(flatSerialize(flat), Post.class);
     }
@@ -34,6 +38,8 @@ public class QuotePostTest extends TypeTest {
     public void testReaders() {
         assertEquals(source, post.getSource());
         assertEquals(text, post.getText());
+        assertEquals(post.getAuthorId(), author);
+        assertEquals(post.getSlug(), slug);
     }
 
     @Test
