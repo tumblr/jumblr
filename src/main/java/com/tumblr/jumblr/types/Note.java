@@ -1,6 +1,7 @@
 package com.tumblr.jumblr.types;
 
 public class Note {
+    
     private Long timestamp;
     private String blog_name;
     private String blog_url;
@@ -9,7 +10,7 @@ public class Note {
 
     /**
      * Get the timestamp of this note
-     * 
+     *
      * @return timestamp since the epoch
      */
     public Long getTimestamp() {
@@ -18,7 +19,7 @@ public class Note {
 
     /**
      * Get the blog name
-     * 
+     *
      * @return the blog name for the note
      */
     public String getBlogName() {
@@ -27,7 +28,7 @@ public class Note {
 
     /**
      * Get the blog URL
-     * 
+     *
      * @return the blog URL for the note
      */
     public String getBlogUrl() {
@@ -36,7 +37,7 @@ public class Note {
 
     /**
      * Get the type of the note. This is either "like" or "reblog"
-     * 
+     *
      * @return the type of the note; either "like" or "reblog"
      */
     public String getType() {
@@ -46,7 +47,7 @@ public class Note {
     /**
      * Get the ID of the reblog. This only exists if this is a reblog; otherwise
      * this returns null.
-     * 
+     *
      * @return the ID of the post
      */
     public Long getPostId() {

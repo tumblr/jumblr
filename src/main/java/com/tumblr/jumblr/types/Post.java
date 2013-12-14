@@ -208,14 +208,6 @@ public class Post extends Resource {
     }
 
     /**
-     * Get the number of notes on this post
-     * @return the number of notes
-     */
-    public Long getNoteCount() {
-        return note_count;
-    }
-
-    /**
      * Delete this post
      */
     public void delete() {
