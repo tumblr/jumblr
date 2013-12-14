@@ -30,6 +30,7 @@ public class Post extends Resource {
     private List<String> tags;
     private Boolean bookmarklet, mobile;
     private String source_url;
+    private String source_title;
     private Boolean liked;
     private String slug;
     private Long reblogged_from_id;
