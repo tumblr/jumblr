@@ -36,6 +36,7 @@ public class Post extends Resource {
     private Long reblogged_from_id;
     private String reblogged_from_name;
     private Long note_count;
+    private List<Note> notes;
 
     /**
      * Get the id of the author of the post
@@ -195,6 +196,23 @@ public class Post extends Resource {
      */
     public String getRebloggedFromName() {
         return reblogged_from_name;
+    }
+
+    /**
+     * Get the notes on this post. You must set "notes_info" to "true" in the
+     * options map for this to work.
+     * @return a copy of the array of the notes on this post
+     */
+    public List<Note> getNotes() {
+        return notes;
+    }
+
+    /**
+     * Get the number of notes on this post
+     * @return the number of notes
+     */
+    public Long getNoteCount() {
+        return note_count;
     }
 
     /**
