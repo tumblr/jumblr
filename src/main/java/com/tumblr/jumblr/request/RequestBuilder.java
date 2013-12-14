@@ -25,11 +25,9 @@ import org.scribe.oauth.OAuthService;
  * @author jc
  */
 public class RequestBuilder {
-    
-    private OAuthService service;
-    private Token token;
-    private JumblrClient client;
+
     private String hostname = "api.tumblr.com";
+    private final JumblrClient client;
 
     public RequestBuilder(JumblrClient client) {
         this.client = client;
@@ -69,7 +67,7 @@ public class RequestBuilder {
     }
 
     private OAuthRequest constructGet(String path, Map<String, ?> queryParams) {
-        String url = "http://" + hostname + "/v2" + path;
+        String url = "https://" + hostname + "/v2" + path;
         OAuthRequest request = new OAuthRequest(Verb.GET, url);
         if (queryParams != null) {
             for (String key : queryParams.keySet()) {
@@ -80,7 +78,7 @@ public class RequestBuilder {
     }
 
     private OAuthRequest constructPost(String path, Map<String, ?> bodyMap) {
-        String url = "http://" + hostname + "/v2" + path;
+        String url = "https://" + hostname + "/v2" + path;
         OAuthRequest request = new OAuthRequest(Verb.POST, url);
 
         for (String key : bodyMap.keySet()) {
@@ -135,11 +133,11 @@ public class RequestBuilder {
     }
 
     /**
-     * Set hostname without protocol 
+     * Set hostname without protocol
      * @param host such as "api.tumblr.com"
      */
     public void setHostname(String host) {
         this.hostname = host;
     }
-    
+
 }
