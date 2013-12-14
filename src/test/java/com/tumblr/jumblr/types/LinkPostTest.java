@@ -23,7 +23,7 @@ public class LinkPostTest extends TypeTest {
 
     @Before
     public void setup() {
-        Map flat = new HashMap<String, String>();
+        Map<String, String> flat = new HashMap<String, String>();
         flat.put("type", "link");
         flat.put("title", title);
         flat.put("description", desc);
@@ -48,7 +48,7 @@ public class LinkPostTest extends TypeTest {
 
     @Test
     public void detail() {
-        Map detail = post.detail();
+        Map<String, Object> detail = post.detail();
         assertEquals(post.getTitle(), detail.get("title").toString());
         assertEquals(post.getLinkUrl(), detail.get("url").toString());
         assertEquals(post.getDescription(), detail.get("description").toString());

@@ -5,11 +5,11 @@ import com.tumblr.jumblr.JumblrClient;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static org.junit.Assert.*;
 
 /**
  * Blog tests
@@ -21,7 +21,7 @@ public class BlogTest extends TypeTest {
     Blog blog;
 
     private String name = "name.com", title = "title", description = "desc";
-    private Integer posts = 10, likes = 11;
+    private Integer posts = 10, likes = 11, followers = 10;
     private Long updated = 123456L;
     private Boolean ask = false, ask_anon = true;
 
@@ -36,6 +36,7 @@ public class BlogTest extends TypeTest {
         flat.put("updated", updated);
         flat.put("ask", ask);
         flat.put("ask_anon", ask_anon);
+        flat.put("followers", followers);
 
         Gson gson = new Gson();
         blog = gson.fromJson(flatSerialize(flat), Blog.class);
@@ -60,6 +61,7 @@ public class BlogTest extends TypeTest {
         assertEquals(updated, blog.getUpdated());
         assertEquals(title, blog.getTitle());
         assertEquals(name, blog.getName());
+        assertEquals(followers, blog.getFollowersCount());
     }
 
     @Test
@@ -76,7 +78,7 @@ public class BlogTest extends TypeTest {
         blog.followers();
         verify(client).blogFollowers(name, null);
 
-        Map options = new HashMap<String, String>();
+        Map<String, String> options = new HashMap<String, String>();
         blog.followers(options);
         verify(client).blogFollowers(name, options);
     }
@@ -86,7 +88,7 @@ public class BlogTest extends TypeTest {
         blog.posts();
         verify(client).blogPosts(name, null);
 
-        Map options = new HashMap<String, String>();
+        Map<String, String> options = new HashMap<String, String>();
         blog.posts(options);
         verify(client).blogPosts(name, options);
     }
@@ -102,7 +104,7 @@ public class BlogTest extends TypeTest {
         blog.likedPosts();
         verify(client).blogLikes(name, null);
 
-        Map options = new HashMap<String, String>();
+        Map<String, String> options = new HashMap<String, String>();
         blog.likedPosts(options);
         verify(client).blogLikes(name, options);
     }
@@ -124,7 +126,7 @@ public class BlogTest extends TypeTest {
         blog.queuedPosts();
         verify(client).blogQueuedPosts(name, null);
 
-        Map options = new HashMap<String, String>();
+        Map<String, String> options = new HashMap<String, String>();
         blog.queuedPosts(options);
         verify(client).blogQueuedPosts(name, options);
     }
@@ -134,7 +136,7 @@ public class BlogTest extends TypeTest {
         blog.draftPosts();
         verify(client).blogDraftPosts(name, null);
 
-        Map options = new HashMap<String, String>();
+        Map<String, String> options = new HashMap<String, String>();
         blog.draftPosts(options);
         verify(client).blogDraftPosts(name, options);
     }
@@ -144,7 +146,7 @@ public class BlogTest extends TypeTest {
         blog.submissions();
         verify(client).blogSubmissions(name, null);
 
-        Map options = new HashMap<String, String>();
+        Map<String, String> options = new HashMap<String, String>();
         blog.submissions(options);
         verify(client).blogSubmissions(name, options);
     }

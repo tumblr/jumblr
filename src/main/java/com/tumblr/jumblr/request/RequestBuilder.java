@@ -6,7 +6,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonSyntaxException;
 import com.tumblr.jumblr.JumblrClient;
 import com.tumblr.jumblr.exceptions.JumblrException;
-import com.tumblr.jumblr.request.MultipartConverter;
 import com.tumblr.jumblr.responses.JsonElementDeserializer;
 import com.tumblr.jumblr.responses.ResponseWrapper;
 import java.io.File;
@@ -27,10 +26,10 @@ import org.scribe.oauth.OAuthService;
  */
 public class RequestBuilder {
 
-    private OAuthService service;
     private Token token;
-
-    private JumblrClient client;
+    private OAuthService service;
+    private String hostname = "api.tumblr.com";
+    private final JumblrClient client;
 
     public RequestBuilder(JumblrClient client) {
         this.client = client;
@@ -70,24 +69,25 @@ public class RequestBuilder {
     }
 
     private OAuthRequest constructGet(String path, Map<String, ?> queryParams) {
-        String url = "http://api.tumblr.com/v2" + path;
+        String url = "https://" + hostname + "/v2" + path;
         OAuthRequest request = new OAuthRequest(Verb.GET, url);
         if (queryParams != null) {
-            for (String key : queryParams.keySet()) {
-                request.addQuerystringParameter(key, queryParams.get(key).toString());
+            for (Map.Entry<String, ?> entry : queryParams.entrySet()) {
+                request.addQuerystringParameter(entry.getKey(), queryParams.get(entry.getValue()).toString());
             }
         }
         return request;
     }
 
     private OAuthRequest constructPost(String path, Map<String, ?> bodyMap) {
-        String url = "http://api.tumblr.com/v2" + path;
+        String url = "https://" + hostname + "/v2" + path;
         OAuthRequest request = new OAuthRequest(Verb.POST, url);
 
-        for (String key : bodyMap.keySet()) {
-            if (bodyMap.get(key) == null) { continue; }
-            if (bodyMap.get(key) instanceof File) { continue; }
-            request.addBodyParameter(key, bodyMap.get(key).toString());
+        for (Map.Entry<String, ?> entry : bodyMap.entrySet()) {
+        	String key = entry.getKey();
+        	Object value = entry.getValue();
+        	if (value == null || value instanceof File) { continue; }
+            request.addBodyParameter(key,value.toString());
         }
         return request;
     }
@@ -114,7 +114,7 @@ public class RequestBuilder {
                 wrapper.setClient(client);
                 return wrapper;
             } catch (JsonSyntaxException ex) {
-                return null;
+                throw new JumblrException(response);
             }
         } else {
             throw new JumblrException(response);
@@ -122,12 +122,25 @@ public class RequestBuilder {
     }
 
     private void sign(OAuthRequest request) {
-        service.signRequest(token, request);
+        if (token != null) {
+            service.signRequest(token, request);
+        }
     }
 
     public static OAuthRequest convertToMultipart(OAuthRequest request, Map<String, ?> bodyMap) throws IOException {
         return new MultipartConverter(request, bodyMap).getRequest();
     }
 
+    public String getHostname() {
+        return hostname;
+    }
+
+    /**
+     * Set hostname without protocol
+     * @param host such as "api.tumblr.com"
+     */
+    public void setHostname(String host) {
+        this.hostname = host;
+    }
 
 }

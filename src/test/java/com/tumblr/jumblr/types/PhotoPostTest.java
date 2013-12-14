@@ -19,13 +19,13 @@ public class PhotoPostTest extends TypeTest {
     private String caption = "hello";
     private Integer width = 300, height = 500;
 
-    private String photos = "[{\"caption\":\"caption1\",\"alt_sizes\":[{\"url\":\"url\",\"width\":400,\"height\":401}]}]";
+    private String photos = "[{\"caption\":\"caption1\",\"alt_sizes\":[{\"url\":\"url\",\"width\":400,\"height\":401}],\"original_size\":{\"width\":1,\"height\":2}}]";
 
     private PhotoPost post;
 
     @Before
     public void setup() {
-        Map flat = new HashMap<String, String>();
+        Map<String, Object> flat = new HashMap<String, Object>();
         flat.put("type", "photo");
         flat.put("caption", caption);
         flat.put("width", width);
@@ -61,7 +61,7 @@ public class PhotoPostTest extends TypeTest {
     public void setDataWithoutSource() {
         File file = new File("some_path");
         post.setData(file);
-        Map detail = post.detail();
+        Map<String, Object> detail = post.detail();
         assertEquals(file, detail.get("data[0]"));
         // clear
         this.setup();
@@ -77,7 +77,7 @@ public class PhotoPostTest extends TypeTest {
     public void setSourceWithoutData() {
         String embedCode = "external";
         post.setSource(embedCode);
-        Map detail = post.detail();
+        Map<String, Object> detail = post.detail();
         assertEquals(embedCode, detail.get("source[0]"));
         // clear
         this.setup();
@@ -88,10 +88,12 @@ public class PhotoPostTest extends TypeTest {
         post.setCaption("test_caption");
         post.setLinkUrl("link url");
 
-        Map detail = post.detail();
+        Map<String, Object> detail = post.detail();
         assertEquals("test_caption", detail.get("caption"));
         assertEquals("link url", detail.get("link"));
         assertEquals("photo", detail.get("type"));
+        assertEquals(1, post.getPhotos().get(0).getOriginalSize().getWidth());
+        assertEquals(2, post.getPhotos().get(0).getOriginalSize().getHeight());
     }
 
 }

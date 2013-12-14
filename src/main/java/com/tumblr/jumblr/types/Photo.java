@@ -28,6 +28,7 @@ public class Photo {
 
     private String caption;
     private List<PhotoSize> alt_sizes;
+    private PhotoSize original_size;
 
     private String source;
     private File file;
@@ -64,6 +65,14 @@ public class Photo {
      */
     public List<PhotoSize> getSizes() {
         return alt_sizes;
+    }
+
+    /**
+     * Get the original sized photo
+     * @return the original sized PhotoSize
+     */
+    public PhotoSize getOriginalSize() {
+        return original_size;
     }
 
     /**

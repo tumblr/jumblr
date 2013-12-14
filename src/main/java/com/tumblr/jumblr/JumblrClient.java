@@ -5,6 +5,7 @@ import com.tumblr.jumblr.types.Blog;
 import com.tumblr.jumblr.types.Post;
 import com.tumblr.jumblr.types.User;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -95,12 +96,12 @@ public class JumblrClient {
      */
     public List<Post> tagged(String tag, Map<String, ?> options) {
         if (options == null) {
-            options = new HashMap<String, String>();
+            options = Collections.emptyMap();
         }
-        Map<String, String> soptions = (Map<String, String>) options;
+        Map<String, Object> soptions = JumblrClient.safeOptionMap(options);
         soptions.put("api_key", apiKey);
         soptions.put("tag", tag);
-        return requestBuilder.get("/tagged", options).getTaggedPosts();
+        return requestBuilder.get("/tagged", soptions).getTaggedPosts();
     }
 
     public List<Post> tagged(String tag) {
@@ -137,11 +138,11 @@ public class JumblrClient {
      */
     public List<Post> blogLikes(String blogName, Map<String, ?> options) {
         if (options == null) {
-            options = new HashMap<String, String>();
+            options = Collections.emptyMap();
         }
-        Map<String, String> soptions = (Map<String, String>)options;
+        Map<String, Object> soptions = JumblrClient.safeOptionMap(options);
         soptions.put("api_key", this.apiKey);
-        return requestBuilder.get(JumblrClient.blogPath(blogName, "/likes"), options).getLikedPosts();
+        return requestBuilder.get(JumblrClient.blogPath(blogName, "/likes"), soptions).getLikedPosts();
     }
 
     public List<Post> blogLikes(String blogName) {
@@ -156,17 +157,17 @@ public class JumblrClient {
      */
     public List<Post> blogPosts(String blogName, Map<String, ?> options) {
         if (options == null) {
-            options = new HashMap<String, String>();
+            options = Collections.emptyMap();
         }
-        Map<String, String> soptions = (Map<String, String>) options;
+        Map<String, Object> soptions = JumblrClient.safeOptionMap(options);
         soptions.put("api_key", apiKey);
 
         String path = "/posts";
-        if (options.containsKey("type")) {
-            path += "/" + options.get("type").toString();
-            options.remove("type");
+        if (soptions.containsKey("type")) {
+            path += "/" + soptions.get("type").toString();
+            soptions.remove("type");
         }
-        return requestBuilder.get(JumblrClient.blogPath(blogName, path), options).getPosts();
+        return requestBuilder.get(JumblrClient.blogPath(blogName, path), soptions).getPosts();
     }
 
     public List<Post> blogPosts(String blogName) {
@@ -176,7 +177,7 @@ public class JumblrClient {
     /**
      * Get an individual post by id
      * @param blogName the name of the blog
-     * @param id the id of the post to get
+     * @param postId the id of the post to get
      * @return the Post or null
      */
     public Post blogPost(String blogName, Long postId) {
@@ -320,10 +321,10 @@ public class JumblrClient {
         if (options == null) {
             options = new HashMap<String, String>();
         }
-        Map<String, String> soptions = (Map<String, String>)options;
+        Map<String, Object> soptions = JumblrClient.safeOptionMap(options);
         soptions.put("id", postId.toString());
         soptions.put("reblog_key", reblogKey);
-        return requestBuilder.post(JumblrClient.blogPath(blogName, "/post/reblog"), options).getPost();
+        return requestBuilder.post(JumblrClient.blogPath(blogName, "/post/reblog"), soptions).getPost();
     }
 
     public Post postReblog(String blogName, Long postId, String reblogKey) {
@@ -337,9 +338,9 @@ public class JumblrClient {
      * @param detail The detail to save
      */
     public void postEdit(String blogName, Long id, Map<String, ?> detail) throws IOException {
-        Map<String, String> sdetail = (Map<String, String>)detail;
-        sdetail.put("id", id.toString());
-        requestBuilder.postMultipart(JumblrClient.blogPath(blogName, "/post/edit"), detail);
+        Map<String, Object> sdetail = JumblrClient.safeOptionMap(detail);
+        sdetail.put("id", id);
+        requestBuilder.postMultipart(JumblrClient.blogPath(blogName, "/post/edit"), sdetail);
     }
 
     /**
@@ -370,8 +371,7 @@ public class JumblrClient {
      */
 
     private static String blogPath(String blogName, String extPath) {
-        String bn = blogName.contains(".") ? blogName : blogName + ".tumblr.com";
-        return "/blog/" + bn + extPath;
+        return "/blog/" + blogUrl(blogName) + extPath;
     }
 
     private static String blogUrl(String blogName) {
@@ -380,6 +380,16 @@ public class JumblrClient {
 
     public void setRequestBuilder(RequestBuilder builder) {
         this.requestBuilder = builder;
+    }
+
+    public RequestBuilder getRequestBuilder() {
+        return requestBuilder;
+    }
+
+    private static Map<String, Object> safeOptionMap(Map<String, ?> map) {
+        Map<String, Object> mod = new HashMap<String, Object>();
+        mod.putAll(map);
+        return mod;
     }
 
 }

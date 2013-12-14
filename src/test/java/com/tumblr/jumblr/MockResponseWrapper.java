@@ -1,16 +1,12 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.tumblr.jumblr;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import com.tumblr.jumblr.responses.ResponseWrapper;
 import com.tumblr.jumblr.types.Blog;
 import com.tumblr.jumblr.types.Post;
-import com.tumblr.jumblr.types.Resource;
 import com.tumblr.jumblr.types.User;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  *

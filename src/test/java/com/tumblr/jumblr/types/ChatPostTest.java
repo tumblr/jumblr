@@ -23,7 +23,7 @@ public class ChatPostTest extends TypeTest {
 
     @Before
     public void setup() {
-        Map flat = new HashMap<String, String>();
+        Map<String, String> flat = new HashMap<String, String>();
         flat.put("type", "chat");
         flat.put("title", title);
         flat.put("body", body);
@@ -51,7 +51,7 @@ public class ChatPostTest extends TypeTest {
 
     @Test
     public void detail() {
-        Map detail = post.detail();
+        Map<String, Object> detail = post.detail();
         assertEquals(post.getTitle(), detail.get("title").toString());
         assertEquals(post.getBody(), detail.get("conversation").toString());
         assertEquals("chat", detail.get("type"));

@@ -19,13 +19,19 @@ public class TextPostTest extends TypeTest {
 
     private String title = "hello";
     private String body = "body";
+    private Long noteCount = 321L;
+    private Long rebloggedFromId = 123L;
+    private String rebloggedFromName = "name";
 
     @Before
     public void setup() {
-        Map flat = new HashMap<String, String>();
+        Map<String, Object> flat = new HashMap<String, Object>();
         flat.put("type", "text");
         flat.put("title", title);
         flat.put("body", body);
+        flat.put("note_count", noteCount);
+        flat.put("reblogged_from_id", rebloggedFromId);
+        flat.put("reblogged_from_name", rebloggedFromName);
         Gson gson = new GsonBuilder().registerTypeAdapter(Post.class, new PostDeserializer()).create();
         post = (TextPost) gson.fromJson(flatSerialize(flat), Post.class);
     }
@@ -43,8 +49,19 @@ public class TextPostTest extends TypeTest {
     }
 
     @Test
+    public void testNoteCount() {
+        assertEquals(noteCount, post.getNoteCount());
+    }
+
+    @Test
+    public void testReblog() {
+        assertEquals(rebloggedFromName, post.getRebloggedFromName());
+        assertEquals(rebloggedFromId,   post.getRebloggedFromId());
+    }
+
+    @Test
     public void detail() {
-        Map detail = post.detail();
+        Map<String, Object> detail = post.detail();
         assertEquals(post.getTitle(), detail.get("title").toString());
         assertEquals(post.getBody(), detail.get("body").toString());
         assertEquals("text", detail.get("type"));

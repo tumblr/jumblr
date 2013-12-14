@@ -24,7 +24,7 @@ public class AnswerPostTest extends TypeTest {
 
     @Before
     public void setup() {
-        Map flat = new HashMap<String, String>();
+        Map<String, String> flat = new HashMap<String, String>();
         flat.put("type", "answer");
         flat.put("asking_url", askingUrl);
         flat.put("asking_name", askingName);

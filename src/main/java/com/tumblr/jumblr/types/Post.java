@@ -1,10 +1,14 @@
 package com.tumblr.jumblr.types;
 
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TimeZone;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -14,6 +18,7 @@ import org.apache.commons.lang3.StringUtils;
 public class Post extends Resource {
 
     private Long id;
+    private String author;
     private String reblog_key;
     private String blog_name;
     private String post_url;
@@ -24,9 +29,21 @@ public class Post extends Resource {
     private String date;
     private List<String> tags;
     private Boolean bookmarklet, mobile;
-    private String source_url, source_title;
+    private String source_url;
+    private String source_title;
     private Boolean liked;
     private String slug;
+    private Long reblogged_from_id;
+    private String reblogged_from_name;
+    private Long note_count;
+
+    /**
+     * Get the id of the author of the post
+     * @return possibly null author id
+     */
+    public String getAuthorId() {
+        return author;
+    }
 
     /**
      * Get whether or not this post is liked
@@ -39,6 +56,7 @@ public class Post extends Resource {
     /**
      * Get the source title for this post
      * @return source title
+     */
     public String getSourceTitle() {
         return source_title;
     }
@@ -100,6 +118,14 @@ public class Post extends Resource {
     }
 
     /**
+     * Get the note count for this post
+     * @return the note count
+     */
+    public Long getNoteCount() {
+        return note_count;
+    }
+
+    /**
      * Get date of this post as String
      * @return date GMT string
      */
@@ -145,6 +171,30 @@ public class Post extends Resource {
      */
     public String getReblogKey() {
         return this.reblog_key;
+    }
+
+    /**
+     * Get the slug
+     * @return possibly null reblog key
+     */
+    public String getSlug() {
+        return this.slug;
+    }
+
+    /**
+     * Get the ID of the post that this post reblogged
+     * @return the ID
+     */
+    public Long getRebloggedFromId() {
+        return reblogged_from_id;
+    }
+
+    /**
+     * Get name of the blog that this post reblogged
+     * @return the blog name for the post that this post reblogged
+     */
+    public String getRebloggedFromName() {
+        return reblogged_from_name;
     }
 
     /**
@@ -214,6 +264,24 @@ public class Post extends Resource {
     }
 
     /**
+     * Set the data as a string
+     * @param dateString the date to set
+     */
+    public void setDate(String dateString) {
+        this.date = dateString;
+    }
+
+    /**
+     * Set the date as a date
+     * @param date the date to set
+     */
+    public void setDate(Date date) {
+        DateFormat df = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        df.setTimeZone(TimeZone.getTimeZone("GMT"));
+        setDate(df.format(date));
+    }
+
+    /**
      * Set the state for this post
      * @param state the state
      */
@@ -266,6 +334,7 @@ public class Post extends Resource {
         map.put("tags", getTagString());
         map.put("format", format);
         map.put("slug", slug);
+        map.put("date", date);
         return map;
     }
 

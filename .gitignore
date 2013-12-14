@@ -5,3 +5,7 @@ target
 credentials.json
 
 javadoc
+
+.classpath
+.project
+.settings/

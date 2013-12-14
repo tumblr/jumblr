@@ -16,6 +16,7 @@ public class PhotoPost extends Post {
     private Integer width, height;
 
     private String link;
+    // TODO: Do not leak the photos member variable to world
     private List<Photo> photos;
 
     protected List<Photo> pendingPhotos;
@@ -34,7 +35,7 @@ public class PhotoPost extends Post {
      * @return boolean
      */
     public boolean isPhotoset() {
-        return photos.size() > 1;
+        return photos != null && photos.size() > 1;
     }
 
     /**

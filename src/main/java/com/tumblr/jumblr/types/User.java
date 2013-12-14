@@ -50,8 +50,10 @@ public class User extends Resource {
      * @return The blog List for this user
      */
     public List<Blog> getBlogs() {
-        for (Blog blog : blogs) {
-            blog.setClient(client);
+        if (blogs != null) {
+            for (Blog blog : blogs) {
+                blog.setClient(client);
+            }
         }
         return this.blogs;
     }

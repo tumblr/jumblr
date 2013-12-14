@@ -10,10 +10,10 @@ import java.lang.reflect.Type;
  *
  * @author jc
  */
-public class JsonElementDeserializer implements JsonDeserializer {
+public class JsonElementDeserializer implements JsonDeserializer<JsonElement> {
 
     @Override
-    public Object deserialize(JsonElement je, Type type, JsonDeserializationContext jdc) throws JsonParseException {
+    public JsonElement deserialize(JsonElement je, Type type, JsonDeserializationContext jdc) throws JsonParseException {
         return je;
     }
 
