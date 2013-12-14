@@ -19,7 +19,7 @@ public class PhotoPostTest extends TypeTest {
     private String caption = "hello";
     private Integer width = 300, height = 500;
 
-    private String photos = "[{\"caption\":\"caption1\",\"alt_sizes\":[{\"url\":\"url\",\"width\":400,\"height\":401}]}]";
+    private String photos = "[{\"caption\":\"caption1\",\"alt_sizes\":[{\"url\":\"url\",\"width\":400,\"height\":401}],\"original_size\":{\"width\":1,\"height\":2}}]";
 
     private PhotoPost post;
 
@@ -92,6 +92,8 @@ public class PhotoPostTest extends TypeTest {
         assertEquals("test_caption", detail.get("caption"));
         assertEquals("link url", detail.get("link"));
         assertEquals("photo", detail.get("type"));
+        assertEquals(1, post.getPhotos().get(0).getOriginalSize().getWidth());
+        assertEquals(2, post.getPhotos().get(0).getOriginalSize().getHeight());
     }
 
 }

@@ -371,8 +371,7 @@ public class JumblrClient {
      */
 
     private static String blogPath(String blogName, String extPath) {
-        String bn = blogName.contains(".") ? blogName : blogName + ".tumblr.com";
-        return "/blog/" + bn + extPath;
+        return "/blog/" + blogUrl(blogName) + extPath;
     }
 
     private static String blogUrl(String blogName) {
@@ -381,6 +380,10 @@ public class JumblrClient {
 
     public void setRequestBuilder(RequestBuilder builder) {
         this.requestBuilder = builder;
+    }
+
+    public RequestBuilder getRequestBuilder() {
+        return requestBuilder;
     }
 
     private static Map<String, Object> safeOptionMap(Map<String, ?> map) {

@@ -1,15 +1,11 @@
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.tumblr.jumblr.JumblrClient;
+import com.tumblr.jumblr.types.Blog;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.tumblr.jumblr.JumblrClient;
-import com.tumblr.jumblr.types.Post;
 
 /**
  * Example usage of Jumblr
@@ -28,6 +24,7 @@ public class App {
         } finally {
         	br.close();
         }
+
         // Parse the credentials
         JsonParser parser = new JsonParser();
         JsonObject obj = (JsonObject) parser.parse(json.toString());
@@ -45,11 +42,9 @@ public class App {
         );
 
         // Usage
-
-        Map<String, Integer> options = new HashMap<String, Integer>();
-        options.put("limit", 2);
-        List<Post> likes = client.blogLikes("seejohnrun", options);
-        System.out.println(likes.size());
+        for (Blog blog : client.user().getBlogs()) {
+            System.out.println(blog.getName());
+        }
 
     }
 

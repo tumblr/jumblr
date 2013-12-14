@@ -5,11 +5,11 @@ import com.tumblr.jumblr.JumblrClient;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
-import static org.junit.Assert.*;
 
 /**
  * Blog tests
@@ -21,7 +21,7 @@ public class BlogTest extends TypeTest {
     Blog blog;
 
     private String name = "name.com", title = "title", description = "desc";
-    private Integer posts = 10, likes = 11;
+    private Integer posts = 10, likes = 11, followers = 10;
     private Long updated = 123456L;
     private Boolean ask = false, ask_anon = true;
 
@@ -36,6 +36,7 @@ public class BlogTest extends TypeTest {
         flat.put("updated", updated);
         flat.put("ask", ask);
         flat.put("ask_anon", ask_anon);
+        flat.put("followers", followers);
 
         Gson gson = new Gson();
         blog = gson.fromJson(flatSerialize(flat), Blog.class);
@@ -60,6 +61,7 @@ public class BlogTest extends TypeTest {
         assertEquals(updated, blog.getUpdated());
         assertEquals(title, blog.getTitle());
         assertEquals(name, blog.getName());
+        assertEquals(followers, blog.getFollowersCount());
     }
 
     @Test

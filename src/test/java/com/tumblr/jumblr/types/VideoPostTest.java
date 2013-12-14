@@ -16,17 +16,22 @@ import org.junit.Test;
  */
 public class VideoPostTest extends TypeTest {
 
+    private int thumbnailHeight = 2;
+    private int thumbnailWidth = 2;
+    private String thumbnailUrl = "url";
     private String caption = "hello";
     private String videos = "[{\"width\":300,\"embed_code\":\"embed\"}]";
-
     private VideoPost post;
 
     @Before
     public void setup() {
-        Map<String, String> flat = new HashMap<String, String>();
+        Map<String, Object> flat = new HashMap<String, Object>();
         flat.put("type", "video");
         flat.put("caption", caption);
         flat.put("player", videos);
+        flat.put("thumbnail_url", thumbnailUrl);
+        flat.put("thumbnail_width", thumbnailWidth);
+        flat.put("thumbnail_height", thumbnailHeight);
         Gson gson = new GsonBuilder().registerTypeAdapter(Post.class, new PostDeserializer()).create();
         post = (VideoPost) gson.fromJson(flatSerialize(flat), Post.class);
     }
@@ -34,6 +39,9 @@ public class VideoPostTest extends TypeTest {
     @Test
     public void testReaders() {
         assertEquals(caption, post.getCaption());
+        assertEquals(thumbnailUrl, post.getThumbnailUrl());
+        assertEquals(thumbnailHeight, post.getThumbnailHeight());
+        assertEquals(thumbnailWidth, post.getThumbnailWidth());
 
         Video video = post.getVideos().get(0);
         assertEquals(new Integer(300), video.getWidth());
