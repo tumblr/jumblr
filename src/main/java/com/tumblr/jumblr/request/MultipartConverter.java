@@ -80,7 +80,9 @@ public class MultipartConverter {
                 try {
                     dis.readFully(result);
                 } finally {
-                    dis.close();
+                    if (dis != null) {
+                        dis.close();
+                    }
                 }
 
                 message.append("--").append(boundary).append("\r\n");
