@@ -2,15 +2,13 @@ package com.tumblr.jumblr;
 
 import com.tumblr.jumblr.exceptions.JumblrException;
 import com.tumblr.jumblr.request.RequestBuilder;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-
 import static org.mockito.Matchers.anyMap;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Mockito.mock;

@@ -380,7 +380,7 @@ public class JumblrClient {
     public void setRequestBuilder(RequestBuilder builder) {
         this.requestBuilder = builder;
     }
-    
+
     public RequestBuilder getRequestBuilder() {
         return requestBuilder;
     }
