@@ -62,9 +62,9 @@ public class PhotoPostTest extends TypeTest {
         File file = new File("some_path");
         post.setData(file);
         Map<String, Object> detail = post.detail();
-        assertEquals(file, detail.get("data"));
+        assertEquals(file, detail.get("data[0]"));
         // clear
-        post.setData(null);
+        this.setup();
     }
 
     @Test(expected=IllegalArgumentException.class)
@@ -78,9 +78,9 @@ public class PhotoPostTest extends TypeTest {
         String embedCode = "external";
         post.setSource(embedCode);
         Map<String, Object> detail = post.detail();
-        assertEquals(embedCode, detail.get("source"));
+        assertEquals(embedCode, detail.get("source[0]"));
         // clear
-        post.setSource(null);
+        this.setup();
     }
 
     @Test
