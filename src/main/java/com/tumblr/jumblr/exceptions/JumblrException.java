@@ -1,15 +1,11 @@
 package com.tumblr.jumblr.exceptions;
 
+import com.google.gson.*;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.scribe.model.Response;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
-import com.google.gson.JsonParser;
-import com.google.gson.JsonPrimitive;
 
 /**
  * This exception class is for any connection issue, it attempts to pull

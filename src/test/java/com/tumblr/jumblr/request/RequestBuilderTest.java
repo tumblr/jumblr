@@ -6,13 +6,13 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import org.scribe.model.Response;
-
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import org.scribe.model.Response;
 
 public class RequestBuilderTest {
-    RequestBuilder rb;
+    
+    private RequestBuilder rb;
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
@@ -31,4 +31,5 @@ public class RequestBuilderTest {
         thrown.expect(JumblrException.class);
         ResponseWrapper got = rb.clear(r);
     }
+    
 }
