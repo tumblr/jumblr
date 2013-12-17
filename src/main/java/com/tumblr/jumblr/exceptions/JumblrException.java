@@ -33,9 +33,14 @@ public class JumblrException extends RuntimeException {
 
         JsonParser parser = new JsonParser();
         try {
-            JsonObject object = parser.parse(body).getAsJsonObject();
-            this.extractMessage(object);
-            this.extractErrors(object);
+            final JsonElement element = parser.parse(body);
+            if (element.isJsonObject()) {
+                JsonObject object = element.getAsJsonObject();
+                this.extractMessage(object);
+                this.extractErrors(object);
+            } else {
+                this.message = body;
+            }
         } catch (JsonParseException ex) {
             this.message = body;
         }
