@@ -68,7 +68,7 @@ public class RequestBuilder {
         return clear(request.send());
     }
 
-    private OAuthRequest constructGet(String path, Map<String, ?> queryParams) {
+    public OAuthRequest constructGet(String path, Map<String, ?> queryParams) {
         String url = "https://" + hostname + "/v2" + path;
         OAuthRequest request = new OAuthRequest(Verb.GET, url);
         if (queryParams != null) {
