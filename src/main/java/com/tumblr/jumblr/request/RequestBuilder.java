@@ -73,7 +73,7 @@ public class RequestBuilder {
         OAuthRequest request = new OAuthRequest(Verb.GET, url);
         if (queryParams != null) {
             for (Map.Entry<String, ?> entry : queryParams.entrySet()) {
-                request.addQuerystringParameter(entry.getKey(), queryParams.get(entry.getValue()).toString());
+                request.addQuerystringParameter(entry.getKey(), queryParams.get(entry.getKey()).toString());
             }
         }
         return request;
