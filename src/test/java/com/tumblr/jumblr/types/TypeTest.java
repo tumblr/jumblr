@@ -15,7 +15,11 @@ public class TypeTest {
             if (!first) { str += ","; }
             str += "\"" + key + "\":";
             if (options.get(key).toString().charAt(0) != '[') {
-                str += "\"" + options.get(key).toString() + "\"";
+                if (options.get(key) instanceof Number) {
+                    str += options.get(key);
+                } else {
+                    str += "\"" + options.get(key).toString() + "\"";
+                }
             } else {
                 str += options.get(key).toString();
             }
