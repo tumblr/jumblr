@@ -2,10 +2,15 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.tumblr.jumblr.JumblrClient;
 import com.tumblr.jumblr.types.Blog;
+import com.tumblr.jumblr.types.PhotoPost;
+import com.tumblr.jumblr.types.Post;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Example usage of Jumblr
@@ -42,8 +47,9 @@ public class App {
         );
 
         // Usage
-        for (Blog blog : client.user().getBlogs()) {
-            System.out.println(blog.getName());
+        List<Post> posts = client.blogPosts("seejohnrun");
+        for (Post post : posts) {
+            System.out.println(post.getShortUrl());
         }
 
     }
