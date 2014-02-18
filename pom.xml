@@ -10,7 +10,7 @@
 
     <groupId>com.tumblr</groupId>
     <artifactId>jumblr</artifactId>
-    <version>0.0.9-SNAPSHOT</version>
+    <version>0.0.9</version>
 
     <packaging>jar</packaging>
 
