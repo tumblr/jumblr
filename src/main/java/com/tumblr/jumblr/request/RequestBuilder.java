@@ -169,7 +169,7 @@ public class RequestBuilder {
             if (values != null && values.length >= 2) {
                 for (String value : values) {
                     final String[] kvp = value.split("=");
-                    if (kvp.length == 2) {
+                    if (kvp != null && kvp.length == 2) {
                         if (kvp[0].equals("oauth_token")) {
                             token = kvp[1];
                         } else if (kvp[0].equals("oauth_token_secret")) {
