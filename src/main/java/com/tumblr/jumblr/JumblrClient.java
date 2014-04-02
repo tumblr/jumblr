@@ -4,13 +4,12 @@ import com.tumblr.jumblr.request.RequestBuilder;
 import com.tumblr.jumblr.types.Blog;
 import com.tumblr.jumblr.types.Post;
 import com.tumblr.jumblr.types.User;
-import org.scribe.model.Token;
-
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.scribe.model.Token;
 
 /**
  * This is the base JumblrClient that is used to make requests to the Tumblr

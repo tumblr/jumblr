@@ -14,6 +14,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import org.scribe.model.OAuthRequest;
 import org.scribe.model.Response;
+import org.scribe.model.Token;
 
 public class RequestBuilderTest {
 
@@ -47,6 +48,48 @@ public class RequestBuilderTest {
 
         assertEquals(request.getUrl(), "https://test.com/v2/path");
         assertEquals(request.getQueryStringParams().asFormUrlEncodedString(), "limit=1");
+    }
+
+    @Test
+    public void testXauthForbidden() {
+        Response r = mock(Response.class);
+        when(r.getCode()).thenReturn(403);
+        when(r.getBody()).thenReturn("");
+
+        thrown.expect(JumblrException.class);
+        rb.clearXAuth(r);
+    }
+
+    @Test
+    public void testXauthSuccess() {
+        Response r = mock(Response.class);
+        when(r.getCode()).thenReturn(200);
+        when(r.getBody()).thenReturn("oauth_token=valueForToken&oauth_token_secret=valueForSecret");
+
+        Token token = rb.clearXAuth(r);
+        assertEquals(token.getToken(), "valueForToken");
+        assertEquals(token.getSecret(), "valueForSecret");
+    }
+
+    @Test
+    public void testXauthSuccessWithExtra() {
+        Response r = mock(Response.class);
+        when(r.getCode()).thenReturn(201);
+        when(r.getBody()).thenReturn("oauth_token=valueForToken&oauth_token_secret=valueForSecret&other=paramisokay");
+
+        Token token = rb.clearXAuth(r);
+        assertEquals(token.getToken(), "valueForToken");
+        assertEquals(token.getSecret(), "valueForSecret");
+    }
+
+    @Test
+    public void testXauthBadResponseGoodCode() {
+        Response r = mock(Response.class);
+        when(r.getCode()).thenReturn(200);
+        when(r.getBody()).thenReturn("");
+
+        thrown.expect(JumblrException.class);
+        rb.clearXAuth(r);
     }
 
 }
