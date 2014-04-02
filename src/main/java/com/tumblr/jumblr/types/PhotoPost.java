@@ -125,9 +125,9 @@ public class PhotoPost extends Post {
 
         if (pendingPhotos != null && pendingPhotos.size() > 0) {
             PhotoType type = pendingPhotos.get(0).getType();
-            if(type == PhotoType.SOURCE) {
-                details.put("source", pendingPhotos.get(0).getDetail());
-            } else if(type == PhotoType.FILE) {
+            if (type == PhotoType.SOURCE) {
+                details.put(type.getPrefix(), pendingPhotos.get(0).getDetail());
+            } else if (type == PhotoType.FILE) {
                 for (int i = 0; i < pendingPhotos.size(); i++) {
                     details.put(type.getPrefix() + "[" + i + "]", pendingPhotos.get(i).getDetail());
                 }
