@@ -62,6 +62,36 @@ public class RequestBuilder {
         return clear(request.send());
     }
 
+    /**
+     * Posts an XAuth request. A new method is needed because the response from the server is not a standard Tumblr
+     * JSON response.
+     * @param email the user's login email.
+     * @param password the user's password.
+     * @return the login token.
+     */
+    public Token postXAuth(final String email, final String password) {
+        OAuthRequest request = constructXAuthPost(email, password);
+        // Empty token is required for Scribe to execute XAuth.
+        setToken("", "");
+        sign(request);
+        return clearXAuth(request.send());
+    }
+
+    private OAuthRequest constructXAuthPost(String email, String password) {
+        // Use the special access token URL.
+        String url = "https://www.tumblr.com/oauth/access_token";
+
+        // Create the request.
+        OAuthRequest request = new OAuthRequest(Verb.POST, url);
+
+        // Add the XAuth parameters.
+        request.addBodyParameter("x_auth_username", email);
+        request.addBodyParameter("x_auth_password", password);
+        request.addBodyParameter("x_auth_mode", "client_auth");
+
+        return request;
+    }
+
     public ResponseWrapper get(String path, Map<String, ?> map) {
         OAuthRequest request = this.constructGet(path, map);
         sign(request);
@@ -103,6 +133,10 @@ public class RequestBuilder {
         this.token = new Token(token, tokenSecret);
     }
 
+    public void setToken(final Token token) {
+        this.token = token;
+    }
+
     /* package-visible for testing */ ResponseWrapper clear(Response response) {
         if (response.getCode() == 200 || response.getCode() == 201) {
             String json = response.getBody();
@@ -119,6 +153,47 @@ public class RequestBuilder {
             } catch (JsonSyntaxException ex) {
                 throw new JumblrException(response);
             }
+        } else {
+            throw new JumblrException(response);
+        }
+    }
+
+    private Token parseXAuthResponse(final Response response) {
+        String responseStr = response.getBody();
+        String token = null;
+        String secret = null;
+
+        if (responseStr != null) {
+            // Response is received in the format "oauth_token=value&oauth_token_secret=value".
+            final String[] values = responseStr.split("&");
+            if (values != null && values.length >= 2) {
+                for (String value : values) {
+                    final String[] kvp = value.split("=");
+                    if (kvp != null && kvp.length == 2) {
+                        if (kvp[0].equals("oauth_token")) {
+                            token = kvp[1];
+                        } else if (kvp[0].equals("oauth_token_secret")) {
+                            secret = kvp[1];
+                        }
+                    }
+                }
+
+                if (token != null && secret != null) {
+                    return new Token(token, secret);
+                } else {
+                    throw new JumblrException(response);
+                }
+            } else {
+                throw new JumblrException(response);
+            }
+        } else {
+            throw new JumblrException(response);
+        }
+    }
+
+    /* package-visible for testing */ Token clearXAuth(Response response) {
+        if (response.getCode() == 200 || response.getCode() == 201) {
+            return parseXAuthResponse(response);
         } else {
             throw new JumblrException(response);
         }

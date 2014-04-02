@@ -299,6 +299,12 @@ public class JumblrClientTest {
         verify(builder).setToken("t1", "t2");
     }
 
+    @Test
+    public void xauth() {
+        client.xauth("email", "pass");
+        verify(builder).postXAuth("email", "pass");
+    }
+
     /**
      * Helper methods
      */
