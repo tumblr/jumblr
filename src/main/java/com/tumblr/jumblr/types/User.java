@@ -10,7 +10,8 @@ public class User extends Resource {
 
     private List<Blog> blogs;
     private String name;
-    private Integer following, likes;
+    private Object following;
+    private Integer likes;
     private String default_post_format;
 
     /**
@@ -42,7 +43,15 @@ public class User extends Resource {
      * @return The following count
      */
     public Integer getFollowingCount() {
-        return this.following;
+        return following instanceof Boolean ? null : ((Double) following).intValue();
+    }
+
+    /**
+     * Determine if this user is following
+     * @return An indication of following
+     */
+    public Boolean isFollowing() {
+        return following instanceof Boolean ? (Boolean) following : null;
     }
 
     /**

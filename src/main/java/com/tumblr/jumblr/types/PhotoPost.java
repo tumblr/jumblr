@@ -79,6 +79,8 @@ public class PhotoPost extends Post {
         PhotoType type = photo.getType();
         if (postType != null && !postType.equals(type)) {
             throw new IllegalArgumentException("Photos must all be the same type (source or data)");
+        } else if (postType == PhotoType.SOURCE && pendingPhotos.size() > 0) {
+            throw new IllegalArgumentException("Only one source URL can be provided");
         }
         pendingPhotos = new ArrayList<Photo>();
         pendingPhotos.add(photo);
@@ -122,10 +124,12 @@ public class PhotoPost extends Post {
         details.put("link", link);
         details.put("caption", caption);
 
-        if (pendingPhotos != null) {
-            for (int i = 0; i < pendingPhotos.size(); i++) {
-                PhotoType type = pendingPhotos.get(0).getType();
-                if (type != null) {
+        if (pendingPhotos != null && pendingPhotos.size() > 0) {
+            PhotoType type = pendingPhotos.get(0).getType();
+            if (type == PhotoType.SOURCE) {
+                details.put(type.getPrefix(), pendingPhotos.get(0).getDetail());
+            } else if (type == PhotoType.FILE) {
+                for (int i = 0; i < pendingPhotos.size(); i++) {
                     details.put(type.getPrefix() + "[" + i + "]", pendingPhotos.get(i).getDetail());
                 }
             }

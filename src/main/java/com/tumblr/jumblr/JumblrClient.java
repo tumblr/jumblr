@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.scribe.model.Token;
 
 /**
  * This is the base JumblrClient that is used to make requests to the Tumblr
@@ -55,6 +56,23 @@ public class JumblrClient {
      */
     public void setToken(String token, String tokenSecret) {
         this.requestBuilder.setToken(token, tokenSecret);
+    }
+
+    /**
+     * Set the token for this client.
+     * @param token The token for the client.
+     */
+    public void setToken(final Token token) {
+        this.requestBuilder.setToken(token);
+    }
+
+    /**
+     * Performs an XAuth authentication.
+     * @param email the user's login email.
+     * @param password the user's login password.
+     */
+    public void xauth(final String email, final String password) {
+        setToken(this.requestBuilder.postXAuth(email, password));
     }
 
     /**

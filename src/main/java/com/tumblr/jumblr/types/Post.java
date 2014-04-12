@@ -21,7 +21,7 @@ public class Post extends Resource {
     private String author;
     private String reblog_key;
     private String blog_name;
-    private String post_url;
+    private String post_url, short_url;
     private String type;
     private Long timestamp;
     private String state;
@@ -108,6 +108,14 @@ public class Post extends Resource {
      */
     public String getPostUrl() {
         return post_url;
+    }
+
+    /**
+     * Get the short URL for this post
+     * @return the URL
+     */
+    public String getShortUrl() {
+        return short_url;
     }
 
     /**

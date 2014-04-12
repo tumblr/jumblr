@@ -78,7 +78,7 @@ public class PhotoPostTest extends TypeTest {
         String embedCode = "external";
         post.setSource(embedCode);
         Map<String, Object> detail = post.detail();
-        assertEquals(embedCode, detail.get("source[0]"));
+        assertEquals(embedCode, detail.get("source"));
         // clear
         this.setup();
     }
