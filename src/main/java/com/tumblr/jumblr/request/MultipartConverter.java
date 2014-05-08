@@ -1,10 +1,6 @@
 package com.tumblr.jumblr.request;
 
-import java.io.BufferedInputStream;
-import java.io.DataInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
@@ -55,10 +51,14 @@ public class MultipartConverter {
         bodyLength += arr.length;
     }
 
-    private void addResponsePiece(StringBuilder builder) {
-    	byte[] bytes = builder.toString().getBytes();
-        responsePieces.add(bytes);
-        bodyLength += bytes.length;
+    private void addResponsePiece(StringBuilder builder) throws IOException {
+        try {
+            byte[] bytes = builder.toString().getBytes("UTF-8");
+            responsePieces.add(bytes);
+            bodyLength += bytes.length;
+        } catch (UnsupportedEncodingException e) {
+            throw new IOException("UTF-8 is not supported", e);
+        }
     }
 
     private void computeBody(Map<String, ?> bodyMap) throws IOException {
