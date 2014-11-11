@@ -24,6 +24,7 @@ public class Post extends Resource {
     private String post_url, short_url;
     private String type;
     private Long timestamp;
+    private Long liked_timestamp;
     private String state;
     private String format;
     private String date;
@@ -149,6 +150,12 @@ public class Post extends Resource {
     public Long getTimestamp() {
         return timestamp;
     }
+
+    /**
+     * Get timestamp of when this post was liked
+     * @return the timestamp of when this post was liked
+     */
+    public Long getLikedTimestamp() { return liked_timestamp; }
 
     /**
      * Get the type of this post
