@@ -30,6 +30,7 @@ public class RequestBuilder {
     private OAuthService service;
     private String hostname = "api.tumblr.com";
     private String xauthEndpoint = "https://www.tumblr.com/oauth/access_token";
+    private String version = "0.0.11";
     private final JumblrClient client;
 
     public RequestBuilder(JumblrClient client) {
@@ -100,6 +101,8 @@ public class RequestBuilder {
                 request.addQuerystringParameter(entry.getKey(), entry.getValue().toString());
             }
         }
+        request.addHeader("User-Agent", "jumblr/" + this.version);
+
         return request;
     }
 
@@ -113,6 +116,8 @@ public class RequestBuilder {
         	if (value == null || value instanceof File) { continue; }
             request.addBodyParameter(key,value.toString());
         }
+        request.addHeader("User-Agent", "jumblr/" + this.version);
+
         return request;
     }
 
