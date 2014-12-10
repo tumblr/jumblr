@@ -21,6 +21,7 @@ public class AudioPostTest extends TypeTest {
     private String artistName = "green day", albumArtUrl = "http://google.com";
     private Integer plays = 24, year = 1997, trackNumber = 2;
     private String embedCode = "<code>is</code>";
+    private String audioUrl = "audioUrl";
 
     private AudioPost post;
 
@@ -37,6 +38,7 @@ public class AudioPostTest extends TypeTest {
         flat.put("year", year);
         flat.put("track_number", trackNumber);
         flat.put("player", embedCode);
+        flat.put("audio_url", audioUrl);
         Gson gson = new GsonBuilder().registerTypeAdapter(Post.class, new PostDeserializer()).create();
         post = (AudioPost) gson.fromJson(flatSerialize(flat), Post.class);
     }
@@ -52,6 +54,7 @@ public class AudioPostTest extends TypeTest {
         assertEquals(year, post.getYear());
         assertEquals(trackNumber, post.getTrackNumber());
         assertEquals(embedCode, post.getEmbedCode());
+        assertEquals(audioUrl, post.getAudioUrl());
     }
 
     @Test(expected=IllegalArgumentException.class)

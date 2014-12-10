@@ -9,13 +9,21 @@ import java.util.Map;
  */
 public class AudioPost extends Post {
 
-    private String caption, player;
+    private String caption, player, audio_url;
     private Integer plays;
     private String album_art, artist, album, track_name;
     private Integer track_number, year;
 
     private File data;
     private String external_url;
+
+    /**
+     * Get the audio URL for this post
+     * @return the audio URL
+     */
+    public String getAudioUrl() {
+        return audio_url;
+    }
 
     /**
      * Get the play count for this post

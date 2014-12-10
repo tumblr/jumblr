@@ -18,6 +18,7 @@ public class VideoPostTest extends TypeTest {
 
     private int thumbnailHeight = 2;
     private int thumbnailWidth = 2;
+    private String permalinkUrl = "permaUrl";
     private String thumbnailUrl = "url";
     private String caption = "hello";
     private String videos = "[{\"width\":300,\"embed_code\":\"embed\"}]";
@@ -32,6 +33,7 @@ public class VideoPostTest extends TypeTest {
         flat.put("thumbnail_url", thumbnailUrl);
         flat.put("thumbnail_width", thumbnailWidth);
         flat.put("thumbnail_height", thumbnailHeight);
+        flat.put("permalink_url", permalinkUrl);
         Gson gson = new GsonBuilder().registerTypeAdapter(Post.class, new PostDeserializer()).create();
         post = (VideoPost) gson.fromJson(flatSerialize(flat), Post.class);
     }
@@ -42,6 +44,7 @@ public class VideoPostTest extends TypeTest {
         assertEquals(thumbnailUrl, post.getThumbnailUrl());
         assertEquals(thumbnailHeight, post.getThumbnailHeight());
         assertEquals(thumbnailWidth, post.getThumbnailWidth());
+        assertEquals(permalinkUrl, post.getPermalinkUrl());
 
         Video video = post.getVideos().get(0);
         assertEquals(new Integer(300), video.getWidth());
