@@ -16,6 +16,13 @@ public class Blog extends Resource {
     private Long updated;
     private boolean ask, ask_anon;
 
+    // fields from /user/info
+    private boolean primary;
+    private String url;
+    private String tweet;
+    private String facebook;
+    private String type;
+
     /**
      * Get the description of this blog
      * @return String description
@@ -211,4 +218,60 @@ public class Blog extends Resource {
         this.name = name;
     }
 
+    // fields from /user/info/
+
+    /**
+     * Get if this blog is the primary blog.
+     *
+     * Part of the return for /user/info
+     *
+     * @return true of primary
+     */
+    public boolean getPrimary() {
+        return primary;
+    }
+
+    /**
+     * Get the url for this blog.
+     *
+     * Part of the return for /user/info
+     *
+     * @return true of primary
+     */
+    public String getUrl() {
+        return url;
+    }
+
+    /**
+     * Get auto-tweet status.
+     *
+     * Part of the return for /user/info
+     *
+     * @return "auto", "Y" or "N"
+     */
+    public String getTweet() {
+        return tweet;
+    }
+
+    /**
+     * Get auto-facebook status.
+     *
+     * Part of the return for /user/info
+     *
+     * @return "auto", "Y" or "N"
+     */
+    public String getFacebook() {
+        return facebook;
+    }
+
+    /**
+     * Get the type.
+     *
+     * Part of the return for /user/info
+     *
+     * @return "public", "private"
+     */
+    public String getType() {
+        return type;
+    }
 }
