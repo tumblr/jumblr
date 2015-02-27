@@ -178,13 +178,19 @@ catch (JumblrException ex) {
 }
 ```
 
+## Gradle
+
+``` groovy
+compile 'com.tumblr:jumblr:0.0.11'
+```
+
 ## Maven
 
 ``` xml
 <dependency>
   <groupId>com.tumblr</groupId>
   <artifactId>jumblr</artifactId>
-  <version>0.0.6</version>
+  <version>0.0.11</version>
 </dependency>
 ```
 
