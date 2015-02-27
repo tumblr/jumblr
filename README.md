@@ -161,7 +161,7 @@ Pagination and additional options are on most calls, and you can just pass them
 to the overloaded form:
 
 ``` java
-Map<String, String> options = new HashMap<String, String>();
+Map<String, Integer> options = new HashMap<String, Integer>();
 options.put("limit", 2);
 options.put("offset", 5);
 List<Post> posts = blog.posts(options);
