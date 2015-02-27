@@ -215,7 +215,7 @@ https://github.com/tumblr/jumblr/issues
 
 ## Copyright and license
 
-Copyright 2013 Tumblr, Inc.
+Copyright 2015 Tumblr, Inc.
 
 Licensed under the Apache License, Version 2.0 (the "License"); you may not
 use this work except in compliance with the License. You may obtain a copy of
