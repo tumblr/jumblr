@@ -9,7 +9,7 @@ import java.util.Map;
  * @author jc
  */
 public class VideoPost extends Post {
-
+    private final PostType type = PostType.VIDEO;
     private List<Video> player;
     private String caption;
     private String embed, permalink_url;
@@ -107,7 +107,7 @@ public class VideoPost extends Post {
         details.put("caption", caption);
         details.put("embed", embed);
         details.put("data", data);
-        details.put("type", "video");
+        details.put("type", type.getValue());
         return details;
     }
 

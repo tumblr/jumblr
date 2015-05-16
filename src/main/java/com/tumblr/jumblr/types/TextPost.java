@@ -7,7 +7,7 @@ import java.util.Map;
  * @author jc
  */
 public class TextPost extends SafePost {
-
+    private final PostType type = PostType.TEXT;
     private String title;
     private String body;
 
@@ -49,10 +49,10 @@ public class TextPost extends SafePost {
      */
     @Override
     protected Map<String, Object> detail() {
-        Map<String, Object> map = super.detail();
+        final Map<String, Object> map = super.detail();
         map.put("title", this.title);
         map.put("body", this.body);
-        map.put("type", "text");
+        map.put("type", this.type.getValue());
         return map;
     }
 

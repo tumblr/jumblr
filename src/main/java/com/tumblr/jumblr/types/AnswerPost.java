@@ -5,7 +5,7 @@ package com.tumblr.jumblr.types;
  * @author jc
  */
 public class AnswerPost extends Post {
-
+    private final PostType type = PostType.ANSWER;
     private String asking_name, asking_url;
     private String question;
     private String answer;

@@ -8,7 +8,7 @@ import java.util.Map;
  * @author jc
  */
 public class ChatPost extends SafePost {
-
+    private final PostType type = PostType.CHAT;
     private String title;
     private String body;
     private List<Dialogue> dialogue;
@@ -62,7 +62,7 @@ public class ChatPost extends SafePost {
         Map<String, Object> details = super.detail();
         details.put("title", title);
         details.put("conversation", body);
-        details.put("type", "chat");
+        details.put("type", type.getValue());
         return details;
     }
 

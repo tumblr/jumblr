@@ -30,7 +30,8 @@ public class Post extends Resource {
         POSTCARD("postcard"),
         QUOTE("quote"),
         VIDEO("video"),
-        UNKNOWN("unknown");
+        UNKNOWN("unknown"),
+        AUDIO("audio");
 
         private final String mType;
 
@@ -38,7 +39,7 @@ public class Post extends Resource {
             this.mType = type;
         }
 
-        public String getType() {
+        public String getValue() {
             return this.mType;
         }
     }
@@ -48,7 +49,7 @@ public class Post extends Resource {
     private String reblog_key;
     private String blog_name;
     private String post_url, short_url;
-    private String type;
+    private PostType type;
     private Long timestamp;
     private Long liked_timestamp;
     private String state;
@@ -184,11 +185,11 @@ public class Post extends Resource {
     public Long getLikedTimestamp() { return liked_timestamp; }
 
     /**
-     * Get the type of this post
+     * Get the type of this post String value
      * @return type as String
      */
     public String getType() {
-        return type;
+        return type.getValue();
     }
 
     /**

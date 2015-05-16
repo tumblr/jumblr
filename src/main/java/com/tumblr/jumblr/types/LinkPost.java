@@ -7,7 +7,7 @@ import java.util.Map;
  * @author jc
  */
 public class LinkPost extends SafePost {
-
+    private final PostType type = PostType.LINK;
     private String title;
     private String url;
     private String description;
@@ -70,7 +70,7 @@ public class LinkPost extends SafePost {
         detail.put("title", title);
         detail.put("url", url);
         detail.put("description", description);
-        detail.put("type", "link");
+        detail.put("type", type.getValue());
         return detail;
     }
 

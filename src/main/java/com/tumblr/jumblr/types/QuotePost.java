@@ -7,7 +7,7 @@ import java.util.Map;
  * @author jc
  */
 public class QuotePost extends SafePost {
-
+    private final PostType type = PostType.QUOTE;
     private String text;
     private String source;
 
@@ -52,7 +52,7 @@ public class QuotePost extends SafePost {
         Map<String, Object> map = super.detail();
         map.put("quote", this.text);
         map.put("source", this.source);
-        map.put("type", "quote");
+        map.put("type", type.getValue());
         return map;
     }
 

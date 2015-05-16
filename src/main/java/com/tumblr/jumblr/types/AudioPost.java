@@ -8,7 +8,7 @@ import java.util.Map;
  * @author jc
  */
 public class AudioPost extends Post {
-
+    private final PostType type = PostType.AUDIO;
     private String caption, player, audio_url;
     private Integer plays;
     private String album_art, artist, album, track_name;
@@ -136,7 +136,7 @@ public class AudioPost extends Post {
     @Override
     public Map<String, Object> detail() {
         Map<String, Object> details = super.detail();
-        details.put("type", "audio");
+        details.put("type", type.getValue());
         details.put("caption", caption);
         details.put("data", data);
         details.put("external_url", external_url);

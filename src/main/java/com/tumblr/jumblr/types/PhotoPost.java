@@ -11,7 +11,7 @@ import java.util.Map;
  * @author jc
  */
 public class PhotoPost extends Post {
-
+    private final PostType type = PostType.PHOTO;
     private String caption;
     private Integer width, height;
 
@@ -119,7 +119,7 @@ public class PhotoPost extends Post {
     @Override
     public Map<String, Object> detail() {
         Map<String, Object> details = super.detail();
-        details.put("type", "photo");
+        details.put("type", type.getValue());
         details.put("link", link);
         details.put("caption", caption);
 
