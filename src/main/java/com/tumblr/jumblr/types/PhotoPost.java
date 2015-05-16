@@ -118,7 +118,7 @@ public class PhotoPost extends Post {
      */
     @Override
     public Map<String, Object> detail() {
-        Map<String, Object> details = super.detail();
+        final Map<String, Object> details = super.detail();
         details.put("link", link);
         details.put("caption", caption);
 

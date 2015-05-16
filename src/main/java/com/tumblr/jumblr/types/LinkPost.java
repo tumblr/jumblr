@@ -66,7 +66,7 @@ public class LinkPost extends SafePost {
      */
     @Override
     public Map<String, Object> detail() {
-        Map<String, Object> detail = super.detail();
+        final Map<String, Object> detail = super.detail();
         detail.put("title", title);
         detail.put("url", url);
         detail.put("description", description);

@@ -59,7 +59,7 @@ public class ChatPost extends SafePost {
      */
     @Override
     public Map<String, Object> detail() {
-        Map<String, Object> details = super.detail();
+        final Map<String, Object> details = super.detail();
         details.put("title", title);
         details.put("conversation", body);
         return details;

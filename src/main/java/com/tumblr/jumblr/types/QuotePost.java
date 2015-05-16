@@ -49,7 +49,7 @@ public class QuotePost extends SafePost {
      */
     @Override
     protected Map<String, Object> detail() {
-        Map<String, Object> map = super.detail();
+        final Map<String, Object> map = super.detail();
         map.put("quote", this.text);
         map.put("source", this.source);
         return map;
