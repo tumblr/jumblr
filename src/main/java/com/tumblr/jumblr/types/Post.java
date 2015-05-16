@@ -188,7 +188,7 @@ public class Post extends Resource {
     public Long getLikedTimestamp() { return liked_timestamp; }
 
     /**
-     * Get the type of this post String value
+     * Get the type of this post
      * @return type as String
      */
     public String getType() {
