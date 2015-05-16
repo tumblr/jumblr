@@ -16,6 +16,32 @@ import org.apache.commons.lang3.StringUtils;
  * @author jc
  */
 public class Post extends Resource {
+    /**
+     * Enum of valid Post types
+     * @author kevintcoughlin
+     */
+    public enum PostType {
+        TEXT("text"),
+        ANSWER("answer"),
+        CHAT("chat"),
+        LINK("link"),
+        PHOTO("photo"),
+        PHOTOSET("photoset"),
+        POSTCARD("postcard"),
+        QUOTE("quote"),
+        VIDEO("video"),
+        UNKNOWN("unknown");
+
+        private final String mType;
+
+        PostType(final String type) {
+            this.mType = type;
+        }
+
+        public String getType() {
+            return this.mType;
+        }
+    }
 
     private Long id;
     private String author;
