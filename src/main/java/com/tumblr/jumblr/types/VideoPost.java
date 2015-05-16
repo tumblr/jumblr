@@ -9,7 +9,6 @@ import java.util.Map;
  * @author jc
  */
 public class VideoPost extends Post {
-    private final PostType type = PostType.VIDEO;
     private List<Video> player;
     private String caption;
     private String embed, permalink_url;
@@ -17,6 +16,10 @@ public class VideoPost extends Post {
     private String thumbnail_url;
     private int thumbnail_width;
     private int thumbnail_height;
+
+    public VideoPost() {
+        type = PostType.VIDEO;
+    }
 
     /**
      * Get the permalink URL for this video
@@ -103,11 +106,10 @@ public class VideoPost extends Post {
      */
     @Override
     public Map<String, Object> detail() {
-        Map<String, Object> details = super.detail();
+        final Map<String, Object> details = super.detail();
         details.put("caption", caption);
         details.put("embed", embed);
         details.put("data", data);
-        details.put("type", type.getValue());
         return details;
     }
 
