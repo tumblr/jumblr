@@ -387,7 +387,7 @@ public class Post extends Resource {
         map.put("format", format);
         map.put("slug", slug);
         map.put("date", date);
-        map.put("type", type.getValue());
+        map.put("type", getType());
         return map;
     }
 
