@@ -10,10 +10,6 @@ public class QuotePost extends SafePost {
     private String text;
     private String source;
 
-    public QuotePost() {
-        type = PostType.QUOTE;
-    }
-
     /**
      * Get the text of this post
      * @return the text
@@ -44,6 +40,11 @@ public class QuotePost extends SafePost {
      */
     public void setSource(String source) {
         this.source = source;
+    }
+
+    @Override
+    public String getType() {
+        return PostType.QUOTE.getValue();
     }
 
     /**

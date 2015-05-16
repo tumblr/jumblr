@@ -29,6 +29,7 @@ public class Post extends Resource {
         AUDIO("audio"),
         VIDEO("video"),
         ANSWER("answer"),
+        POSTCARD("postcard"),
         UNKNOWN("unknown");
 
         private final String mType;
@@ -42,7 +43,7 @@ public class Post extends Resource {
         }
     }
 
-    protected PostType type = PostType.UNKNOWN;
+    protected PostType type;
     private Long id;
     private String author;
     private String reblog_key;
@@ -63,6 +64,10 @@ public class Post extends Resource {
     private String reblogged_from_name;
     private Long note_count;
     private List<Note> notes;
+
+    public Post() {
+        this.type = PostType.UNKNOWN;
+    }
 
     /**
      * Get the id of the author of the post
@@ -187,7 +192,7 @@ public class Post extends Resource {
      * @return type as String
      */
     public String getType() {
-        return type.getValue();
+        return PostType.UNKNOWN.getValue();
     }
 
     /**

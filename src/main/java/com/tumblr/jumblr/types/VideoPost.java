@@ -17,10 +17,6 @@ public class VideoPost extends Post {
     private int thumbnail_width;
     private int thumbnail_height;
 
-    public VideoPost() {
-        type = PostType.VIDEO;
-    }
-
     /**
      * Get the permalink URL for this video
      */
@@ -98,6 +94,11 @@ public class VideoPost extends Post {
      */
     public void setCaption(String caption) {
         this.caption = caption;
+    }
+
+    @Override
+    public String getType() {
+        return PostType.VIDEO.getValue();
     }
 
     /**

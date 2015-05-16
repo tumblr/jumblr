@@ -12,10 +12,6 @@ public class ChatPost extends SafePost {
     private String body;
     private List<Dialogue> dialogue;
 
-    public ChatPost() {
-        type = PostType.CHAT;
-    }
-
     /**
      * Get the dialogues for this post
      * @return an Array[Dialogue]
@@ -54,6 +50,11 @@ public class ChatPost extends SafePost {
      */
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    @Override
+    public String getType() {
+        return PostType.CHAT.getValue();
     }
 
     /**

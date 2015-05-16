@@ -9,10 +9,6 @@ public class AnswerPost extends Post {
     private String question;
     private String answer;
 
-    public AnswerPost() {
-        type = PostType.ANSWER;
-    }
-
     /**
      * Get the asking URL
      * @return String URL
@@ -43,6 +39,11 @@ public class AnswerPost extends Post {
      */
     public String getAnswer() {
         return answer;
+    }
+
+    @Override
+    public String getType() {
+        return PostType.ANSWER.getValue();
     }
 
     /**

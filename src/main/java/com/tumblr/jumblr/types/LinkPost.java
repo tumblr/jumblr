@@ -11,10 +11,6 @@ public class LinkPost extends SafePost {
     private String url;
     private String description;
 
-    public LinkPost() {
-        type = PostType.LINK;
-    }
-
     /**
      * Get the title for this post
      * @return the title
@@ -61,6 +57,11 @@ public class LinkPost extends SafePost {
      */
     public void setLinkUrl(String url) {
         this.url = url;
+    }
+
+    @Override
+    public String getType() {
+        return PostType.LINK.getValue();
     }
 
     /**

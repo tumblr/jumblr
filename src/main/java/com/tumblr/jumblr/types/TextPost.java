@@ -10,10 +10,6 @@ public class TextPost extends SafePost {
     private String title;
     private String body;
 
-    public TextPost() {
-        type = PostType.TEXT;
-    }
-
     /**
      * Get the title of this post
      * @return the title
@@ -44,6 +40,11 @@ public class TextPost extends SafePost {
      */
     public void setBody(String body) {
         this.body = body;
+    }
+
+    @Override
+    public String getType() {
+        return PostType.TEXT.getValue();
     }
 
     /**
