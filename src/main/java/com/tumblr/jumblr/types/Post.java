@@ -15,7 +15,7 @@ import org.apache.commons.lang3.StringUtils;
  * This class is the base of all post types on Tumblr
  * @author jc
  */
-public class Post extends Resource {
+public class Post extends Resource implements Comparable<Post> {
 
     private Long id;
     private String author;
@@ -380,4 +380,19 @@ public class Post extends Resource {
         return "[" + this.getClass().getName() + " (" + blog_name + ":" + id + ")]";
     }
 
+    /**
+     * Compares two {@link Post} objects by id.
+     *
+     * @param   anotherPost   the {@link Post} to be compared.
+     * @return  the value {@code 0} if the id of this {@link Post} is
+     *          equal to the id of the argument {@link Post};
+     *          a value less than {@code 0} if the id of this {@link Post}
+     *          is numerically less than the id of the argument {@link Post};
+     *          and a value greater than {@code 0} if the id of this {@link Post}
+     *          is numerically greater than the id of the argument {@link Post}.
+     */
+    @Override
+    public int compareTo(Post anotherPost) {
+        return id.compareTo(anotherPost.getId());
+    }
 }
