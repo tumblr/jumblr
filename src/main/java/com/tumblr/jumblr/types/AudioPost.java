@@ -136,7 +136,6 @@ public class AudioPost extends Post {
     @Override
     public Map<String, Object> detail() {
         Map<String, Object> details = super.detail();
-        details.put("type", type.getValue());
         details.put("caption", caption);
         details.put("data", data);
         details.put("external_url", external_url);

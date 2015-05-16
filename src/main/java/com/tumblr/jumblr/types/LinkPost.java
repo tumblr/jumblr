@@ -70,7 +70,6 @@ public class LinkPost extends SafePost {
         detail.put("title", title);
         detail.put("url", url);
         detail.put("description", description);
-        detail.put("type", type.getValue());
         return detail;
     }
 

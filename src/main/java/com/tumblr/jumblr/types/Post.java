@@ -381,12 +381,13 @@ public class Post extends Resource {
      * @return the detail
      */
     protected Map<String, Object> detail() {
-        Map<String, Object> map = new HashMap<String, Object>();
+        final Map<String, Object> map = new HashMap<String, Object>();
         map.put("state", state);
         map.put("tags", getTagString());
         map.put("format", format);
         map.put("slug", slug);
         map.put("date", date);
+        map.put("type", type.getValue());
         return map;
     }
 

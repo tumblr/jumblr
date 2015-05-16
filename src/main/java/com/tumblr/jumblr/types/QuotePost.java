@@ -52,7 +52,6 @@ public class QuotePost extends SafePost {
         Map<String, Object> map = super.detail();
         map.put("quote", this.text);
         map.put("source", this.source);
-        map.put("type", type.getValue());
         return map;
     }
 

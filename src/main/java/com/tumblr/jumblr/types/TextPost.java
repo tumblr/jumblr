@@ -52,7 +52,6 @@ public class TextPost extends SafePost {
         final Map<String, Object> map = super.detail();
         map.put("title", this.title);
         map.put("body", this.body);
-        map.put("type", this.type.getValue());
         return map;
     }
 

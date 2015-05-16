@@ -62,7 +62,6 @@ public class ChatPost extends SafePost {
         Map<String, Object> details = super.detail();
         details.put("title", title);
         details.put("conversation", body);
-        details.put("type", type.getValue());
         return details;
     }
 
