@@ -7,10 +7,13 @@ import java.util.Map;
  * @author jc
  */
 public class LinkPost extends SafePost {
-    private final PostType type = PostType.LINK;
     private String title;
     private String url;
     private String description;
+
+    public LinkPost() {
+        type = PostType.LINK;
+    }
 
     /**
      * Get the title for this post

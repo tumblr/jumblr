@@ -8,10 +8,13 @@ import java.util.Map;
  * @author jc
  */
 public class ChatPost extends SafePost {
-    private final PostType type = PostType.CHAT;
     private String title;
     private String body;
     private List<Dialogue> dialogue;
+
+    public ChatPost() {
+        type = PostType.CHAT;
+    }
 
     /**
      * Get the dialogues for this post

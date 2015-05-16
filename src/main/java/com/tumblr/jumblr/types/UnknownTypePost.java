@@ -6,5 +6,7 @@ package com.tumblr.jumblr.types;
  * @author john
  */
 public class UnknownTypePost extends SafePost {
-
+    public UnknownTypePost() {
+        type = PostType.UNKNOWN;
+    }
 }

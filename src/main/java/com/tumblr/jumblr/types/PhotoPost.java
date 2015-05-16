@@ -11,7 +11,6 @@ import java.util.Map;
  * @author jc
  */
 public class PhotoPost extends Post {
-    private final PostType type = PostType.PHOTO;
     private String caption;
     private Integer width, height;
 
@@ -21,6 +20,10 @@ public class PhotoPost extends Post {
 
     protected List<Photo> pendingPhotos;
     protected PhotoType postType = null;
+
+    public PhotoPost() {
+        type = PostType.PHOTO;
+    }
 
     /**
      * Get the Photo collection for this post

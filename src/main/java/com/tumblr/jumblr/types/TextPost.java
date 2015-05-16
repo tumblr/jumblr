@@ -7,9 +7,12 @@ import java.util.Map;
  * @author jc
  */
 public class TextPost extends SafePost {
-    private final PostType type = PostType.TEXT;
     private String title;
     private String body;
+
+    public TextPost() {
+        type = PostType.TEXT;
+    }
 
     /**
      * Get the title of this post

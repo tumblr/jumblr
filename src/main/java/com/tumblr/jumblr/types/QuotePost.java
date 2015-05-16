@@ -7,9 +7,12 @@ import java.util.Map;
  * @author jc
  */
 public class QuotePost extends SafePost {
-    private final PostType type = PostType.QUOTE;
     private String text;
     private String source;
+
+    public QuotePost() {
+        type = PostType.QUOTE;
+    }
 
     /**
      * Get the text of this post

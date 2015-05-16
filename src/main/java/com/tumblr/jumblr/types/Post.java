@@ -28,7 +28,8 @@ public class Post extends Resource {
         CHAT("chat"),
         AUDIO("audio"),
         VIDEO("video"),
-        ANSWER("answer");
+        ANSWER("answer"),
+        UNKNOWN("unknown");
 
         private final String mType;
 
@@ -41,12 +42,12 @@ public class Post extends Resource {
         }
     }
 
+    protected PostType type = PostType.UNKNOWN;
     private Long id;
     private String author;
     private String reblog_key;
     private String blog_name;
     private String post_url, short_url;
-    private PostType type;
     private Long timestamp;
     private Long liked_timestamp;
     private String state;

@@ -8,7 +8,6 @@ import java.util.Map;
  * @author jc
  */
 public class AudioPost extends Post {
-    private final PostType type = PostType.AUDIO;
     private String caption, player, audio_url;
     private Integer plays;
     private String album_art, artist, album, track_name;
@@ -16,6 +15,10 @@ public class AudioPost extends Post {
 
     private File data;
     private String external_url;
+
+    public AudioPost() {
+        type = PostType.AUDIO;
+    }
 
     /**
      * Get the audio URL for this post
