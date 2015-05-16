@@ -22,16 +22,13 @@ public class Post extends Resource {
      */
     public enum PostType {
         TEXT("text"),
-        ANSWER("answer"),
-        CHAT("chat"),
-        LINK("link"),
         PHOTO("photo"),
-        PHOTOSET("photoset"),
-        POSTCARD("postcard"),
         QUOTE("quote"),
+        LINK("link"),
+        CHAT("chat"),
+        AUDIO("audio"),
         VIDEO("video"),
-        UNKNOWN("unknown"),
-        AUDIO("audio");
+        ANSWER("answer");
 
         private final String mType;
 
