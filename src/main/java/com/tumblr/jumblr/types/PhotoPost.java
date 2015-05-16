@@ -111,6 +111,11 @@ public class PhotoPost extends Post {
         this.link = linkUrl;
     }
 
+    @Override
+    public String getType() {
+        return PostType.PHOTO.getValue();
+    }
+
     /**
      * Get the detail for this post (and the base detail)
      * @return the details
