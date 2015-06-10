@@ -16,9 +16,9 @@ import org.apache.commons.lang3.StringUtils;
  * @author jc
  */
 public class Post extends Resource {
+
     /**
-     * Enum of valid Post types
-     * @author kevintcoughlin
+     * Enum of valid post types.
      */
     public enum PostType {
         TEXT("text"),
@@ -66,7 +66,6 @@ public class Post extends Resource {
     private List<Note> notes;
 
     public Post() {
-        this.type = PostType.UNKNOWN;
     }
 
     /**
@@ -191,8 +190,8 @@ public class Post extends Resource {
      * Get the type of this post
      * @return type as String
      */
-    public String getType() {
-        return PostType.UNKNOWN.getValue();
+    public PostType getType() {
+        return PostType.UNKNOWN;
     }
 
     /**
@@ -390,7 +389,7 @@ public class Post extends Resource {
         map.put("format", format);
         map.put("slug", slug);
         map.put("date", date);
-        map.put("type", getType());
+        map.put("type", getType().getValue());
         return map;
     }
 

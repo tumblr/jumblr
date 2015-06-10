@@ -42,8 +42,8 @@ public class AnswerPost extends Post {
     }
 
     @Override
-    public String getType() {
-        return PostType.ANSWER.getValue();
+    public PostType getType() {
+        return PostType.ANSWER;
     }
 
     /**

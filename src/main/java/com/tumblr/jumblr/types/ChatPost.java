@@ -53,8 +53,8 @@ public class ChatPost extends SafePost {
     }
 
     @Override
-    public String getType() {
-        return PostType.CHAT.getValue();
+    public PostType getType() {
+        return PostType.CHAT;
     }
 
     /**

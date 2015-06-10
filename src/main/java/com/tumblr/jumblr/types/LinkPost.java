@@ -60,8 +60,8 @@ public class LinkPost extends SafePost {
     }
 
     @Override
-    public String getType() {
-        return PostType.LINK.getValue();
+    public PostType getType() {
+        return PostType.LINK;
     }
 
     /**

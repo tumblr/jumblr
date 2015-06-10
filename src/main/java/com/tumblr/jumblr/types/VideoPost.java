@@ -97,8 +97,8 @@ public class VideoPost extends Post {
     }
 
     @Override
-    public String getType() {
-        return PostType.VIDEO.getValue();
+    public PostType getType() {
+        return PostType.VIDEO;
     }
 
     /**

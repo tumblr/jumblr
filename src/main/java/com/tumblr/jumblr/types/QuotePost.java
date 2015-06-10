@@ -43,8 +43,8 @@ public class QuotePost extends SafePost {
     }
 
     @Override
-    public String getType() {
-        return PostType.QUOTE.getValue();
+    public PostType getType() {
+        return PostType.QUOTE;
     }
 
     /**

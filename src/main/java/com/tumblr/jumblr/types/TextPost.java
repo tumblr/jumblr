@@ -43,8 +43,8 @@ public class TextPost extends SafePost {
     }
 
     @Override
-    public String getType() {
-        return PostType.TEXT.getValue();
+    public PostType getType() {
+        return PostType.TEXT;
     }
 
     /**

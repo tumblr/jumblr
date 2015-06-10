@@ -128,8 +128,8 @@ public class AudioPost extends Post {
     }
 
     @Override
-    public String getType() {
-        return PostType.AUDIO.getValue();
+    public PostType getType() {
+        return PostType.AUDIO;
     }
 
     /**

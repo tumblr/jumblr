@@ -112,8 +112,8 @@ public class PhotoPost extends Post {
     }
 
     @Override
-    public String getType() {
-        return PostType.PHOTO.getValue();
+    public PostType getType() {
+        return PostType.PHOTO;
     }
 
     /**

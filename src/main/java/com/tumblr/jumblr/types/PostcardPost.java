@@ -61,8 +61,8 @@ public class PostcardPost extends SafePost {
     }
 
     @Override
-    public String getType() {
-        return PostType.POSTCARD.getValue();
+    public PostType getType() {
+        return PostType.POSTCARD;
     }
 
     /**
