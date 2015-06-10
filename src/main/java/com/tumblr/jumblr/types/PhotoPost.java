@@ -11,6 +11,7 @@ import java.util.Map;
  * @author jc
  */
 public class PhotoPost extends Post {
+
     private String caption;
     private Integer width, height;
 

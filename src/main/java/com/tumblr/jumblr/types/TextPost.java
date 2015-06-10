@@ -7,6 +7,7 @@ import java.util.Map;
  * @author jc
  */
 public class TextPost extends SafePost {
+
     private String title;
     private String body;
 

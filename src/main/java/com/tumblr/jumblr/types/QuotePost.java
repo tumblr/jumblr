@@ -7,6 +7,7 @@ import java.util.Map;
  * @author jc
  */
 public class QuotePost extends SafePost {
+
     private String text;
     private String source;
 

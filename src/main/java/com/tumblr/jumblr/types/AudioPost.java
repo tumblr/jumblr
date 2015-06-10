@@ -8,10 +8,12 @@ import java.util.Map;
  * @author jc
  */
 public class AudioPost extends Post {
+
     private String caption, player, audio_url;
     private Integer plays;
     private String album_art, artist, album, track_name;
     private Integer track_number, year;
+
     private File data;
     private String external_url;
 

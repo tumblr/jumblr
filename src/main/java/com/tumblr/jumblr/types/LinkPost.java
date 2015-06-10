@@ -7,6 +7,7 @@ import java.util.Map;
  * @author jc
  */
 public class LinkPost extends SafePost {
+
     private String title;
     private String url;
     private String description;

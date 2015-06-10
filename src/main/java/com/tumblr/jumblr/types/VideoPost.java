@@ -9,6 +9,7 @@ import java.util.Map;
  * @author jc
  */
 public class VideoPost extends Post {
+
     private List<Video> player;
     private String caption;
     private String embed, permalink_url;

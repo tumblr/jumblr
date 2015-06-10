@@ -65,9 +65,6 @@ public class Post extends Resource {
     private Long note_count;
     private List<Note> notes;
 
-    public Post() {
-    }
-
     /**
      * Get the id of the author of the post
      * @return possibly null author id

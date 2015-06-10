@@ -8,6 +8,7 @@ import java.util.Map;
  * @author jc
  */
 public class ChatPost extends SafePost {
+
     private String title;
     private String body;
     private List<Dialogue> dialogue;
