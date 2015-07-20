@@ -7,6 +7,8 @@ public class Note {
     private String blog_url;
     private String type;
     private Long post_id;
+    private String reply_text;
+    private String added_text;
 
     /**
      * Get the timestamp of this note
