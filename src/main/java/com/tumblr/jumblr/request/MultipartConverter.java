@@ -1,15 +1,13 @@
 package com.tumblr.jumblr.request;
 
-import java.io.BufferedInputStream;
-import java.io.DataInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
+import org.scribe.model.OAuthRequest;
+
+import java.io.*;
 import java.net.URLConnection;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import org.scribe.model.OAuthRequest;
 
 /**
  * Convert a OAuthRequest POST into a multi-part OAuthRequest
@@ -56,7 +54,7 @@ public class MultipartConverter {
     }
 
     private void addResponsePiece(StringBuilder builder) {
-    	byte[] bytes = builder.toString().getBytes();
+    	byte[] bytes = builder.toString().getBytes(StandardCharsets.UTF_8);
         responsePieces.add(bytes);
         bodyLength += bytes.length;
     }
