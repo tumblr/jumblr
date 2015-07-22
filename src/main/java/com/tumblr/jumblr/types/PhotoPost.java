@@ -112,14 +112,18 @@ public class PhotoPost extends Post {
         this.link = linkUrl;
     }
 
+    @Override
+    public PostType getType() {
+        return PostType.PHOTO;
+    }
+
     /**
      * Get the detail for this post (and the base detail)
      * @return the details
      */
     @Override
     public Map<String, Object> detail() {
-        Map<String, Object> details = super.detail();
-        details.put("type", "photo");
+        final Map<String, Object> details = super.detail();
         details.put("link", link);
         details.put("caption", caption);
 

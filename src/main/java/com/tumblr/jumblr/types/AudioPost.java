@@ -129,14 +129,18 @@ public class AudioPost extends Post {
         this.caption = caption;
     }
 
+    @Override
+    public PostType getType() {
+        return PostType.AUDIO;
+    }
+
     /**
      * Get the details about this post (along with base details)
      * @return the detail
      */
     @Override
     public Map<String, Object> detail() {
-        Map<String, Object> details = super.detail();
-        details.put("type", "audio");
+        final Map<String, Object> details = super.detail();
         details.put("caption", caption);
         details.put("data", data);
         details.put("external_url", external_url);

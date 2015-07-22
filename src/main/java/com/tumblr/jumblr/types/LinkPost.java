@@ -60,17 +60,21 @@ public class LinkPost extends SafePost {
         this.url = url;
     }
 
+    @Override
+    public PostType getType() {
+        return PostType.LINK;
+    }
+
     /**
      * Get the detail for this post (and the base detail)
      * @return the details
      */
     @Override
     public Map<String, Object> detail() {
-        Map<String, Object> detail = super.detail();
+        final Map<String, Object> detail = super.detail();
         detail.put("title", title);
         detail.put("url", url);
         detail.put("description", description);
-        detail.put("type", "link");
         return detail;
     }
 

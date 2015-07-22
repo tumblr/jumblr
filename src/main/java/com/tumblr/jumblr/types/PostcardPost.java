@@ -60,17 +60,21 @@ public class PostcardPost extends SafePost {
         this.body = body;
     }
 
+    @Override
+    public PostType getType() {
+        return PostType.POSTCARD;
+    }
+
     /**
      * Get the details for this post (and the base details)
      * @return the details
      */
     @Override
     protected Map<String, Object> detail() {
-        Map<String, Object> map = super.detail();
+        final Map<String, Object> map = super.detail();
         map.put("body", body);
         map.put("asking_name", asking_name);
         map.put("asking_url", asking_url);
-        map.put("type", "postcard");
         return map;
     }
 

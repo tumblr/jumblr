@@ -53,16 +53,20 @@ public class ChatPost extends SafePost {
         this.title = title;
     }
 
+    @Override
+    public PostType getType() {
+        return PostType.CHAT;
+    }
+
     /**
      * Get the details for this post (and the base details)
      * @return the detail
      */
     @Override
     public Map<String, Object> detail() {
-        Map<String, Object> details = super.detail();
+        final Map<String, Object> details = super.detail();
         details.put("title", title);
         details.put("conversation", body);
-        details.put("type", "chat");
         return details;
     }
 

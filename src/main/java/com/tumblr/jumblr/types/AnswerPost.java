@@ -42,6 +42,11 @@ public class AnswerPost extends Post {
         return answer;
     }
 
+    @Override
+    public PostType getType() {
+        return PostType.ANSWER;
+    }
+
     /**
      * AnswerPost can not be saved
      * @throws IllegalArgumentException

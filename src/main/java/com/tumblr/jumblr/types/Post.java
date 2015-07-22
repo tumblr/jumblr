@@ -17,12 +17,38 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class Post extends Resource {
 
+    /**
+     * Enum of valid post types.
+     */
+    public enum PostType {
+        TEXT("text"),
+        PHOTO("photo"),
+        QUOTE("quote"),
+        LINK("link"),
+        CHAT("chat"),
+        AUDIO("audio"),
+        VIDEO("video"),
+        ANSWER("answer"),
+        POSTCARD("postcard"),
+        UNKNOWN("unknown");
+
+        private final String mType;
+
+        PostType(final String type) {
+            this.mType = type;
+        }
+
+        public String getValue() {
+            return this.mType;
+        }
+    }
+
+    protected PostType type;
     private Long id;
     private String author;
     private String reblog_key;
     private String blog_name;
     private String post_url, short_url;
-    private String type;
     private Long timestamp;
     private Long liked_timestamp;
     private String state;
@@ -161,8 +187,8 @@ public class Post extends Resource {
      * Get the type of this post
      * @return type as String
      */
-    public String getType() {
-        return type;
+    public PostType getType() {
+        return PostType.UNKNOWN;
     }
 
     /**
@@ -354,12 +380,13 @@ public class Post extends Resource {
      * @return the detail
      */
     protected Map<String, Object> detail() {
-        Map<String, Object> map = new HashMap<String, Object>();
+        final Map<String, Object> map = new HashMap<String, Object>();
         map.put("state", state);
         map.put("tags", getTagString());
         map.put("format", format);
         map.put("slug", slug);
         map.put("date", date);
+        map.put("type", getType().getValue());
         return map;
     }
 

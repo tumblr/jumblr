@@ -43,16 +43,20 @@ public class QuotePost extends SafePost {
         this.source = source;
     }
 
+    @Override
+    public PostType getType() {
+        return PostType.QUOTE;
+    }
+
     /**
      * Get the details for this post (and the base details)
      * @return the details
      */
     @Override
     protected Map<String, Object> detail() {
-        Map<String, Object> map = super.detail();
+        final Map<String, Object> map = super.detail();
         map.put("quote", this.text);
         map.put("source", this.source);
-        map.put("type", "quote");
         return map;
     }
 

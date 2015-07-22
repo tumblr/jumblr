@@ -43,16 +43,20 @@ public class TextPost extends SafePost {
         this.body = body;
     }
 
+    @Override
+    public PostType getType() {
+        return PostType.TEXT;
+    }
+
     /**
      * Get the details of this post (and the base details)
      * @return the details
      */
     @Override
     protected Map<String, Object> detail() {
-        Map<String, Object> map = super.detail();
+        final Map<String, Object> map = super.detail();
         map.put("title", this.title);
         map.put("body", this.body);
-        map.put("type", "text");
         return map;
     }
 

@@ -97,17 +97,21 @@ public class VideoPost extends Post {
         this.caption = caption;
     }
 
+    @Override
+    public PostType getType() {
+        return PostType.VIDEO;
+    }
+
     /**
      * Get the details for this post (in addition to the base details)
      * @return details of this post
      */
     @Override
     public Map<String, Object> detail() {
-        Map<String, Object> details = super.detail();
+        final Map<String, Object> details = super.detail();
         details.put("caption", caption);
         details.put("embed", embed);
         details.put("data", data);
-        details.put("type", "video");
         return details;
     }
 
