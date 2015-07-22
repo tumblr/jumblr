@@ -331,7 +331,7 @@ public class JumblrClient {
 
     /**
      * Reblog a given post
-     * @param blogName the name of the blog the post is in
+     * @param blogName the name of the blog to post to
      * @param postId the id of the post
      * @param reblogKey the reblog_key of the post
      * @param options Additional options (or null)
