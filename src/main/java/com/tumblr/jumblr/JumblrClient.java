@@ -4,12 +4,13 @@ import com.tumblr.jumblr.request.RequestBuilder;
 import com.tumblr.jumblr.types.Blog;
 import com.tumblr.jumblr.types.Post;
 import com.tumblr.jumblr.types.User;
+import org.scribe.model.Token;
+
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.scribe.model.Token;
 
 /**
  * This is the base JumblrClient that is used to make requests to the Tumblr
@@ -330,7 +331,7 @@ public class JumblrClient {
 
     /**
      * Reblog a given post
-     * @param blogName the name of the blog the post is in
+     * @param blogName the name of the blog to post to
      * @param postId the id of the post
      * @param reblogKey the reblog_key of the post
      * @param options Additional options (or null)
@@ -342,7 +343,8 @@ public class JumblrClient {
         Map<String, Object> soptions = JumblrClient.safeOptionMap(options);
         soptions.put("id", postId.toString());
         soptions.put("reblog_key", reblogKey);
-        return requestBuilder.post(JumblrClient.blogPath(blogName, "/post/reblog"), soptions).getPost();
+        final Long reblogId = requestBuilder.post(JumblrClient.blogPath(blogName, "/post/reblog"), soptions).getId();
+        return this.blogPost(blogName, reblogId);
     }
 
     public Post postReblog(String blogName, Long postId, String reblogKey) {
