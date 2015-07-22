@@ -7,6 +7,8 @@ public class Note {
     private String blog_url;
     private String type;
     private Long post_id;
+    private String reply_text;
+    private String added_text;
 
     /**
      * Get the timestamp of this note
@@ -52,6 +54,26 @@ public class Note {
      */
     public Long getPostId() {
         return post_id;
+    }
+
+    /**
+     * Returns the added text of the reblog. This only exists if this is a reblog; otherwise
+     * this returns null.
+     *
+     * @return the added text of the reblog.
+     */
+    public String getAddedText() {
+        return added_text;
+    }
+
+    /**
+     * Returns the reply text of the reply. This only exists if this is a reply; otherwise
+     * this returns null.
+     *
+     * @return the reply text of the reply.
+     */
+    public String getReplyText() {
+        return reply_text;
     }
 
 }
