@@ -11,3 +11,4 @@ javadoc
 .settings/
 .idea/
 *.iml
+bin/
