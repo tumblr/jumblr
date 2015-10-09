@@ -1,5 +1,6 @@
 package com.tumblr.jumblr;
 
+import com.tumblr.j_scholl.jgraphql.JGQLProperty;
 import com.tumblr.jumblr.request.RequestBuilder;
 import com.tumblr.jumblr.types.Blog;
 import com.tumblr.jumblr.types.Post;
@@ -80,6 +81,7 @@ public class JumblrClient {
      * Get the user info for the authenticated User
      * @return The authenticated user
      */
+    @JGQLProperty("user")
     public User user() {
         return requestBuilder.get("/user/info", null).getUser();
     }
