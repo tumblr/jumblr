@@ -12,7 +12,7 @@ public class Blog extends Resource {
     private String name;
     private String title;
     private String description;
-    private int posts, likes, followers, drafts, queue;
+    private int posts, likes, followers;
     private Long updated;
     private boolean ask, ask_anon;
 
@@ -54,22 +54,6 @@ public class Blog extends Resource {
      */
     public Integer getLikeCount() {
         return this.likes;
-    }
-
-    /**
-     * Get the number of drafts for this blog
-     * @return int the number of drafts
-     */
-    public Integer getDraftCount() {
-        return this.drafts;
-    }
-
-    /**
-     * Get the number of Queued Posts for this blog
-     * @return int the number of Queued Posts
-     */
-    public Integer getQueuedCount() {
-        return this.queue;
     }
 
     /**
