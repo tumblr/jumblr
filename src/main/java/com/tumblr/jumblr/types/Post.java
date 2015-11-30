@@ -62,6 +62,8 @@ public class Post extends Resource {
     private String slug;
     private Long reblogged_from_id;
     private String reblogged_from_name;
+    private Long reblogged_root_id;
+    private String reblogged_root_name;
     private Long note_count;
     private List<Note> notes;
 
@@ -239,6 +241,26 @@ public class Post extends Resource {
         return reblogged_from_name;
     }
 
+    /**
+     * Get the ID of the root post that this post reblogged
+     * @return the ID
+     */
+    public Long getRebloggedRootId() {
+        return reblogged_root_id;
+    }
+
+    /**
+     * Get name of the root blog that this post reblogged
+     * @return the root blog name for the post that this post reblogged
+     */
+    public String getRebloggedRootName() {
+        return reblogged_root_name;
+    }
+
+    /**
+     * Get the notes on this post. You must set "notes_info" to "true" in the
+     * options map for this to work.
+     * @return a copy of the array of the notes on this post
     /**
      * Get the notes on this post. You must set "notes_info" to "true" in the
      * options map for this to work.
