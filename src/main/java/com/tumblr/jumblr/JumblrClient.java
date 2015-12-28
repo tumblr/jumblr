@@ -4,7 +4,7 @@ import com.tumblr.jumblr.request.RequestBuilder;
 import com.tumblr.jumblr.types.Blog;
 import com.tumblr.jumblr.types.Post;
 import com.tumblr.jumblr.types.User;
-import org.scribe.model.Token;
+import com.github.scribejava.core.model.Token;
 
 import java.io.IOException;
 import java.util.Collections;

@@ -4,7 +4,7 @@ import com.google.gson.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.scribe.model.Response;
+import com.github.scribejava.core.model.Response;
 
 
 /**

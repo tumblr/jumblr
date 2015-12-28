@@ -12,13 +12,13 @@ import java.io.File;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.Map;
-import org.scribe.builder.ServiceBuilder;
-import org.scribe.builder.api.TumblrApi;
-import org.scribe.model.OAuthRequest;
-import org.scribe.model.Response;
-import org.scribe.model.Token;
-import org.scribe.model.Verb;
-import org.scribe.oauth.OAuthService;
+import com.github.scribejava.core.builder.ServiceBuilder;
+import com.github.scribejava.apis.TumblrApi;
+import com.github.scribejava.core.model.OAuthRequest;
+import com.github.scribejava.core.model.Response;
+import com.github.scribejava.core.model.Token;
+import com.github.scribejava.core.model.Verb;
+import com.github.scribejava.core.oauth.OAuthService;
 
 /**
  * Where requests are made from
@@ -80,7 +80,7 @@ public class RequestBuilder {
 
     // Construct an XAuth request
     private OAuthRequest constructXAuthPost(String email, String password) {
-        OAuthRequest request = new OAuthRequest(Verb.POST, xauthEndpoint);
+        OAuthRequest request = new OAuthRequest(Verb.POST, xauthEndpoint, service);
         request.addBodyParameter("x_auth_username", email);
         request.addBodyParameter("x_auth_password", password);
         request.addBodyParameter("x_auth_mode", "client_auth");
@@ -95,7 +95,7 @@ public class RequestBuilder {
 
     public OAuthRequest constructGet(String path, Map<String, ?> queryParams) {
         String url = "https://" + hostname + "/v2" + path;
-        OAuthRequest request = new OAuthRequest(Verb.GET, url);
+        OAuthRequest request = new OAuthRequest(Verb.GET, url, service);
         if (queryParams != null) {
             for (Map.Entry<String, ?> entry : queryParams.entrySet()) {
                 request.addQuerystringParameter(entry.getKey(), entry.getValue().toString());
@@ -108,7 +108,7 @@ public class RequestBuilder {
 
     private OAuthRequest constructPost(String path, Map<String, ?> bodyMap) {
         String url = "https://" + hostname + "/v2" + path;
-        OAuthRequest request = new OAuthRequest(Verb.POST, url);
+        OAuthRequest request = new OAuthRequest(Verb.POST, url, service);
 
         for (Map.Entry<String, ?> entry : bodyMap.entrySet()) {
         	String key = entry.getKey();
