@@ -181,8 +181,12 @@ public class RequestBuilder {
         throw new JumblrException(response);
     }
 
-    /* package-visible for testing */ Token clearXAuth(Response response) {
-        if (response.getCode() == 200 || response.getCode() == 201) {
+    private Token clearXAuth(Response response) {
+        return clearXAuth(response, response.getCode());
+    }
+
+    /* package-visible for testing */ Token clearXAuth(Response response, int code) {
+        if (code == 200 || code == 201) {
             return parseXAuthResponse(response);
         } else {
             throw new JumblrException(response);
