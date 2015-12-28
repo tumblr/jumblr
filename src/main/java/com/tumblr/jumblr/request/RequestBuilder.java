@@ -136,8 +136,12 @@ public class RequestBuilder {
         this.token = token;
     }
 
-    /* package-visible for testing */ ResponseWrapper clear(Response response) {
-        if (response.getCode() == 200 || response.getCode() == 201) {
+    private ResponseWrapper clear(Response response) {
+        return clear(response, response.getCode());
+    }
+
+    /* package-visible for testing */ ResponseWrapper clear(Response response, int code) {
+        if (code == 200 || code == 201) {
             String json = response.getBody();
             try {
                 Gson gson = new GsonBuilder().

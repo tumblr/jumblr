@@ -31,11 +31,10 @@ public class RequestBuilderTest {
     @Test
     public void testClearEmptyJson() {
         Response r = mock(Response.class);
-        when(r.getCode()).thenReturn(200);
         when(r.getBody()).thenReturn("");
 
         thrown.expect(JumblrException.class);
-        ResponseWrapper got = rb.clear(r);
+        ResponseWrapper got = rb.clear(r, 200);
     }
 
     @Test
