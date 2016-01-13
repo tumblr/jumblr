@@ -376,6 +376,22 @@ public class Post extends Resource {
     }
 
     /**
+     * Set the source title for this post
+     * @param string source title
+     */
+    public void setSourceTitle(String title) {
+        this.source_title = title;
+    }
+
+    /**
+     * Set the source URL for this post
+     * @param string value of the source URL
+     */
+    public void setSourceUrl(String urlString) {
+        this.source_url = urlString;
+    }
+
+    /**
      * Set the state for this post
      * @param state the state
      */
@@ -430,6 +446,8 @@ public class Post extends Resource {
         map.put("slug", slug);
         map.put("date", date);
         map.put("type", getType().getValue());
+        map.put("source_url", source_url);
+        map.put("source_title", source_title);
         return map;
     }
 
