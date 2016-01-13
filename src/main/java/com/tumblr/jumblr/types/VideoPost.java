@@ -12,7 +12,7 @@ public class VideoPost extends Post {
 
     private List<Video> player;
     private String caption;
-    private String embed, permalink_url;
+    private String embed, permalink_url, video_url;
     private File data;
     private String thumbnail_url;
     private int thumbnail_width;
@@ -23,6 +23,13 @@ public class VideoPost extends Post {
      */
     public String getPermalinkUrl() {
         return permalink_url;
+    }
+
+    /**
+     * Get the direct URL for this video
+     */
+    public String getVideoUrl() {
+        return video_url;
     }
 
     /**
