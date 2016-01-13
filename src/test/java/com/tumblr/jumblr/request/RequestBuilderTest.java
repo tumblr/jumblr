@@ -12,9 +12,9 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import org.scribe.model.OAuthRequest;
-import org.scribe.model.Response;
-import org.scribe.model.Token;
+import com.github.scribejava.core.model.OAuthRequest;
+import com.github.scribejava.core.model.Response;
+import com.github.scribejava.core.model.Token;
 
 public class RequestBuilderTest {
 
@@ -31,11 +31,10 @@ public class RequestBuilderTest {
     @Test
     public void testClearEmptyJson() {
         Response r = mock(Response.class);
-        when(r.getCode()).thenReturn(200);
         when(r.getBody()).thenReturn("");
 
         thrown.expect(JumblrException.class);
-        ResponseWrapper got = rb.clear(r);
+        ResponseWrapper got = rb.clear(r, 200);
     }
 
     @Test
@@ -53,20 +52,18 @@ public class RequestBuilderTest {
     @Test
     public void testXauthForbidden() {
         Response r = mock(Response.class);
-        when(r.getCode()).thenReturn(403);
         when(r.getBody()).thenReturn("");
 
         thrown.expect(JumblrException.class);
-        rb.clearXAuth(r);
+        rb.clearXAuth(r, 403);
     }
 
     @Test
     public void testXauthSuccess() {
         Response r = mock(Response.class);
-        when(r.getCode()).thenReturn(200);
         when(r.getBody()).thenReturn("oauth_token=valueForToken&oauth_token_secret=valueForSecret");
 
-        Token token = rb.clearXAuth(r);
+        Token token = rb.clearXAuth(r, 200);
         assertEquals(token.getToken(), "valueForToken");
         assertEquals(token.getSecret(), "valueForSecret");
     }
@@ -74,10 +71,9 @@ public class RequestBuilderTest {
     @Test
     public void testXauthSuccessWithExtra() {
         Response r = mock(Response.class);
-        when(r.getCode()).thenReturn(201);
         when(r.getBody()).thenReturn("oauth_token=valueForToken&oauth_token_secret=valueForSecret&other=paramisokay");
 
-        Token token = rb.clearXAuth(r);
+        Token token = rb.clearXAuth(r, 201);
         assertEquals(token.getToken(), "valueForToken");
         assertEquals(token.getSecret(), "valueForSecret");
     }
@@ -85,11 +81,10 @@ public class RequestBuilderTest {
     @Test
     public void testXauthBadResponseGoodCode() {
         Response r = mock(Response.class);
-        when(r.getCode()).thenReturn(200);
         when(r.getBody()).thenReturn("");
 
         thrown.expect(JumblrException.class);
-        rb.clearXAuth(r);
+        rb.clearXAuth(r, 200);
     }
 
 }
