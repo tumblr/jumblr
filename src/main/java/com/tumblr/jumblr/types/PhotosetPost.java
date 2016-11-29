@@ -1,6 +1,7 @@
 package com.tumblr.jumblr.types;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 /**
@@ -40,7 +41,7 @@ public class PhotosetPost extends PhotoPost {
      * @param file the file to read from
      * @throws IllegalArgumentException source is already set
      */
-    public void addData(File file) {
+    public void addData(File file) throws FileNotFoundException {
         addPhoto(new Photo(file));
     }
 

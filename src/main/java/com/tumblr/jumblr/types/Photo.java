@@ -1,6 +1,14 @@
 package com.tumblr.jumblr.types;
 
+import com.sun.xml.internal.messaging.saaj.util.ByteInputStream;
+import com.tumblr.jumblr.request.InputPair;
+import java.io.BufferedInputStream;
+import java.io.DataInputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+import java.net.URLConnection;
 import java.util.List;
 
 /**
@@ -31,14 +39,16 @@ public class Photo {
     private PhotoSize original_size;
 
     private String source;
-    private File file;
+    private InputPair inputPair;
 
     /**
      * Create a new photo with a data
      * @param file the file for the photo
      */
-    public Photo(File file) {
-        this.file = file;
+    public Photo(File file) throws FileNotFoundException {
+        FileInputStream fis = new FileInputStream(file);
+        String mime = URLConnection.guessContentTypeFromName(file.getName());
+        this.inputPair = new InputPair(fis, file.length(), mime, file.getName());
     }
 
     /**
@@ -50,12 +60,31 @@ public class Photo {
     }
 
     /**
+     * Create a new photo with an InputStream
+     * @param stream the input stream
+     * @param mime the mime type
+     */
+    public Photo(InputStream stream, long length, String mime) {
+        this.inputPair = new InputPair(stream, length, mime);
+    }
+
+    /**
+     * Create a new photo with a byte[]
+     * @param array the byte array
+     * @param mime the mime type
+     */
+    public Photo(byte[] arr, String mime) {
+        ByteInputStream bis = new ByteInputStream(arr, arr.length);
+        this.inputPair = new InputPair(bis, arr.length, mime);
+    }
+
+    /**
      * Get the type of this photo
      * @return PhotoType the type of photo
      */
     public PhotoType getType() {
         if (this.source != null) { return PhotoType.SOURCE; }
-        if (this.file   != null) { return PhotoType.FILE;   }
+        if (this.inputPair != null) { return PhotoType.FILE;   }
         return null;
     }
 
@@ -90,8 +119,8 @@ public class Photo {
     protected Object getDetail() {
         if (this.source != null) {
             return source;
-        } else if (this.file != null) {
-            return file;
+        } else if (this.inputPair != null) {
+            return inputPair;
         } else {
             return null;
         }

@@ -42,7 +42,7 @@ public class MultipartConverter {
         int used = 0;
         byte[] payload = new byte[bodyLength];
         byte[] local;
-        for (Object piece : responsePieces) {  
+        for (Object piece : responsePieces) {
             local = (byte[]) piece;
             System.arraycopy(local, 0, payload, used, local.length);
             used += local.length;
@@ -67,16 +67,15 @@ public class MultipartConverter {
         StringBuilder message = new StringBuilder();
         message.append("Content-Type: multipart/form-data; boundary=").append(boundary).append("\r\n\r\n");
         for (Map.Entry<String, ?> entry : bodyMap.entrySet()) {
-        	String key = entry.getKey();
+            String key = entry.getKey();
             Object object = entry.getValue();
             if (object == null) { continue; }
-            if (object instanceof File) {
-                File f = (File) object;
-                String mime = URLConnection.guessContentTypeFromName(f.getName());
+            if (object instanceof InputPair) {
+                InputPair ip = (InputPair) object;
+                String mime = ip.getMime();
 
-                byte[] result = new byte[(int)f.length()];
-                
-                DataInputStream dis = new DataInputStream(new BufferedInputStream(new FileInputStream(f)));
+                byte[] result = new byte[(int) ip.getLength()];
+                DataInputStream dis = new DataInputStream(new BufferedInputStream(ip.getStream()));
                 try {
                     dis.readFully(result);
                 } finally {
@@ -86,7 +85,7 @@ public class MultipartConverter {
                 }
 
                 message.append("--").append(boundary).append("\r\n");
-                message.append("Content-Disposition: form-data; name=\"").append(key).append("\"; filename=\"").append(f.getName()).append("\"\r\n");
+                message.append("Content-Disposition: form-data; name=\"").append(key).append("\"; filename=\"").append(ip.getName()).append("\"\r\n");
                 message.append("Content-Type: ").append(mime).append("\r\n\r\n");
                 this.addResponsePiece(message);
                 this.addResponsePiece(result);

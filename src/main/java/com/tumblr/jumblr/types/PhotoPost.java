@@ -2,6 +2,7 @@ package com.tumblr.jumblr.types;
 
 import com.tumblr.jumblr.types.Photo.PhotoType;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -100,7 +101,7 @@ public class PhotoPost extends Post {
      * @param file the file to read from
      * @throws IllegalArgumentException source is already set
      */
-    public void setData(File file) {
+    public void setData(File file) throws FileNotFoundException {
         setPhoto(new Photo(file));
     }
 
