@@ -15,8 +15,8 @@ public class VideoPost extends Post {
     private String embed, permalink_url;
     private File data;
     private String thumbnail_url;
-    private int thumbnail_width;
-    private int thumbnail_height;
+    private Object thumbnail_width;
+    private Object thumbnail_height;
 
     /**
      * Get the permalink URL for this video
@@ -38,7 +38,7 @@ public class VideoPost extends Post {
      * @return 0 if not set
      */
     public int getThumbnailWidth() {
-        return thumbnail_width;
+        return (thumbnail_width instanceof Boolean)? 0: (int)Double.parseDouble(thumbnail_width.toString());
     }
 
     /**
@@ -46,7 +46,7 @@ public class VideoPost extends Post {
      * @return 0 if not set
      */
     public int getThumbnailHeight() {
-        return thumbnail_height;
+        return (thumbnail_height instanceof Boolean)? 0: (int)Double.parseDouble(thumbnail_height.toString());
     }
 
     /**
