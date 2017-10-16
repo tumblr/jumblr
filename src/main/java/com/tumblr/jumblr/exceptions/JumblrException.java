@@ -61,7 +61,7 @@ public class JumblrException extends RuntimeException {
 
     /**
      * Get the errors returned from the API
-     * @return List<String> errors (or null if none)
+     * @return the errors (or null if none)
      */
     public List<String> getErrors() {
         return this.errors;

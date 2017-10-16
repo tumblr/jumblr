@@ -49,7 +49,7 @@ public class AnswerPost extends Post {
 
     /**
      * AnswerPost can not be saved
-     * @throws IllegalArgumentException
+     * @throws IllegalArgumentException always throws this exception
      */
     @Override
     public void save() {

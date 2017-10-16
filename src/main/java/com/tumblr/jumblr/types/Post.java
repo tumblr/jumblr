@@ -352,6 +352,7 @@ public class Post extends Resource {
 
     /**
      * Set the slug
+     * @param slug the post url slug
      */
     public void setSlug(String slug) {
         this.slug = slug;
@@ -385,6 +386,7 @@ public class Post extends Resource {
 
     /**
      * Set the tags for this post
+     * @param tags the tags
      */
     public void setTags(List<String> tags) {
         this.tags = tags;
@@ -392,6 +394,7 @@ public class Post extends Resource {
 
     /**
      * Add a tag
+     * @param tag the tag
      */
     public void addTag(String tag) {
         if (this.tags == null) {
@@ -402,6 +405,7 @@ public class Post extends Resource {
 
     /**
      * Remove a tag
+     * @param tag the tag
      */
     public void removeTag(String tag) {
         this.tags.remove(tag);
@@ -409,6 +413,7 @@ public class Post extends Resource {
 
     /**
      * Save this post
+     * @throws IOException if a file in detail cannot be read
      */
     public void save() throws IOException {
         if (id == null) {
