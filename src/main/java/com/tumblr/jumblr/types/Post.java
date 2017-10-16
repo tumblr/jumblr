@@ -124,7 +124,7 @@ public class Post extends Resource {
 
     /**
      * Get the current state for this post
-     * @return the state
+     * @return the state; if set, one of `published`, `queued`, `draft`, or `private`
      */
     public String getState() {
         return state;
@@ -378,7 +378,8 @@ public class Post extends Resource {
 
     /**
      * Set the state for this post
-     * @param state the state
+     * @param state the state; one of `published`, `queued`, `draft`, or `private`.
+     *  Tumblr API defaults to `published` if not specified.
      */
     public void setState(String state) {
         this.state = state;
