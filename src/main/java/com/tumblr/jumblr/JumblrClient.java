@@ -99,6 +99,7 @@ public class JumblrClient {
 
     /**
      * Get the blogs the given user is following
+     * @param options the options
      * @return a List of blogs
      */
     public List<Blog> userFollowing(Map<String, ?> options) {
@@ -141,6 +142,7 @@ public class JumblrClient {
     /**
      * Get the followers for a given blog
      * @param blogName the name of the blog
+     * @param options the options for this call (or null)
      * @return the blog object for this blog
      */
     public List<User> blogFollowers(String blogName, Map<String, ?> options) {
@@ -335,6 +337,7 @@ public class JumblrClient {
      * @param postId the id of the post
      * @param reblogKey the reblog_key of the post
      * @param options Additional options (or null)
+     * @return The created reblog Post or null
      */
     public Post postReblog(String blogName, Long postId, String reblogKey, Map<String, ?> options) {
         if (options == null) {
@@ -347,6 +350,13 @@ public class JumblrClient {
         return this.blogPost(blogName, reblogId);
     }
 
+    /**
+     * Reblog a given post
+     * @param blogName the name of the blog to post to
+     * @param postId the id of the post
+     * @param reblogKey the reblog_key of the post
+     * @return The created reblog Post or null
+     */
     public Post postReblog(String blogName, Long postId, String reblogKey) {
         return this.postReblog(blogName, postId, reblogKey, null);
     }
@@ -356,6 +366,7 @@ public class JumblrClient {
      * @param blogName The blog name of the post
      * @param id the Post id
      * @param detail The detail to save
+     * @throws IOException if any file specified in detail cannot be read
      */
     public void postEdit(String blogName, Long id, Map<String, ?> detail) throws IOException {
         Map<String, Object> sdetail = JumblrClient.safeOptionMap(detail);
@@ -367,6 +378,8 @@ public class JumblrClient {
      * Create a post
      * @param blogName The blog name for the post
      * @param detail the detail to save
+     * @return Long the created post's id
+     * @throws IOException if any file specified in detail cannot be read
      */
     public Long postCreate(String blogName, Map<String, ?> detail) throws IOException {
         return requestBuilder.postMultipart(JumblrClient.blogPath(blogName, "/post"), detail).getId();
@@ -376,7 +389,10 @@ public class JumblrClient {
      * Set up a new post of a given type
      * @param blogName the name of the blog for this post (or null)
      * @param klass the type of Post to instantiate
+     * @param <T> the type of Post to instantiate
      * @return the new post with the client set
+     * @throws IllegalAccessException if class instantiation fails
+     * @throws InstantiationException if class instantiation fails
      */
     public <T extends Post> T newPost(String blogName, Class<T> klass) throws IllegalAccessException, InstantiationException {
         T post = klass.newInstance();

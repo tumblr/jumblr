@@ -20,6 +20,7 @@ public class VideoPost extends Post {
 
     /**
      * Get the permalink URL for this video
+     * @return the permalink url
      */
     public String getPermalinkUrl() {
         return permalink_url;
