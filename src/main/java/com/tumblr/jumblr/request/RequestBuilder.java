@@ -44,7 +44,7 @@ public class RequestBuilder {
         HttpURLConnection.setFollowRedirects(false);
         Response response = request.send();
         HttpURLConnection.setFollowRedirects(presetVal);
-        if (response.getCode() == 301) {
+        if (response.getCode() == 301 || response.getCode() == 302) {
             return response.getHeader("Location");
         } else {
             throw new JumblrException(response);
