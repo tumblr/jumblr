@@ -10,7 +10,6 @@ import com.tumblr.jumblr.responses.JsonElementDeserializer;
 import com.tumblr.jumblr.responses.ResponseWrapper;
 import java.io.File;
 import java.io.IOException;
-import java.net.HttpURLConnection;
 import java.util.Map;
 import org.scribe.builder.ServiceBuilder;
 import org.scribe.builder.api.TumblrApi;
@@ -40,10 +39,8 @@ public class RequestBuilder {
     public String getRedirectUrl(String path) {
         OAuthRequest request = this.constructGet(path, null);
         sign(request);
-        boolean presetVal = HttpURLConnection.getFollowRedirects();
-        HttpURLConnection.setFollowRedirects(false);
+        request.setFollowRedirects(false);
         Response response = request.send();
-        HttpURLConnection.setFollowRedirects(presetVal);
         if (response.getCode() == 301) {
             return response.getHeader("Location");
         } else {
