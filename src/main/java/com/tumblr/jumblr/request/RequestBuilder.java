@@ -30,7 +30,7 @@ public class RequestBuilder {
     private OAuthService service;
     private String hostname = "api.tumblr.com";
     private String xauthEndpoint = "https://www.tumblr.com/oauth/access_token";
-    private String version = "0.0.11";
+    private String version = "0.0.13";
     private final JumblrClient client;
 
     public RequestBuilder(JumblrClient client) {
