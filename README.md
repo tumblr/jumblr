@@ -181,7 +181,7 @@ catch (JumblrException ex) {
 ## Gradle
 
 ``` groovy
-compile 'com.tumblr:jumblr:0.0.13'
+compile 'com.tumblr:jumblr:0.0.11'
 ```
 
 ## Maven
@@ -190,7 +190,7 @@ compile 'com.tumblr:jumblr:0.0.13'
 <dependency>
   <groupId>com.tumblr</groupId>
   <artifactId>jumblr</artifactId>
-  <version>0.0.13</version>
+  <version>0.0.11</version>
 </dependency>
 ```
 
