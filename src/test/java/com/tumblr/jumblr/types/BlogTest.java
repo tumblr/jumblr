@@ -21,7 +21,7 @@ public class BlogTest extends TypeTest {
     Blog blog;
 
     private String name = "name.com", title = "title", description = "desc";
-    private Integer posts = 10, likes = 11, followers = 10;
+    private Integer posts = 10, likes = 11, followers = 10, drafts = 9, queue = 8;
     private Long updated = 123456L;
     private Boolean ask = false, ask_anon = true;
 
@@ -37,6 +37,8 @@ public class BlogTest extends TypeTest {
         flat.put("ask", ask);
         flat.put("ask_anon", ask_anon);
         flat.put("followers", followers);
+        flat.put("drafts", drafts);
+        flat.put("queue", queue);
 
         Gson gson = new Gson();
         blog = gson.fromJson(flatSerialize(flat), Blog.class);
@@ -62,6 +64,8 @@ public class BlogTest extends TypeTest {
         assertEquals(title, blog.getTitle());
         assertEquals(name, blog.getName());
         assertEquals(followers, blog.getFollowersCount());
+        assertEquals(drafts, blog.getDraftCount());
+        assertEquals(queue, blog.getQueuedCount());
     }
 
     @Test
