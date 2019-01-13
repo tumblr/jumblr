@@ -98,7 +98,8 @@ public class RequestBuilder {
         OAuthRequest request = new OAuthRequest(Verb.GET, url);
         if (queryParams != null) {
             for (Map.Entry<String, ?> entry : queryParams.entrySet()) {
-                request.addQuerystringParameter(entry.getKey(), entry.getValue().toString());
+            	if (entry.getValue() != null)
+            		request.addQuerystringParameter(entry.getKey(), entry.getValue().toString());
             }
         }
         request.addHeader("User-Agent", "jumblr/" + this.version);
