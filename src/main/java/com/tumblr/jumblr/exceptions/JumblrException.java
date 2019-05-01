@@ -4,6 +4,7 @@ import com.google.gson.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.tumblr.jumblr.types.JumblrError;
 import org.scribe.model.Response;
 
 
@@ -17,7 +18,7 @@ public class JumblrException extends RuntimeException {
 	
 	private final int responseCode;
     private String message;
-    private List<String> errors;
+    private List<JumblrError> errors;
 
     /**
      * Instantiate a new JumblrException given a bad response to wrap
@@ -63,7 +64,7 @@ public class JumblrException extends RuntimeException {
      * Get the errors returned from the API
      * @return the errors (or null if none)
      */
-    public List<String> getErrors() {
+    public List<JumblrError> getErrors() {
         return this.errors;
     }
 
@@ -72,21 +73,29 @@ public class JumblrException extends RuntimeException {
      * @param object the parsed response object
      */
     private void extractErrors(JsonObject object) {
-        JsonObject response;
+        JsonArray responseErrors;
         try {
-            response = object.getAsJsonObject("response");
+            responseErrors = object.getAsJsonArray("errors");
         } catch (ClassCastException ex) {
-            return; // response is non-object
+            return; // errors is non-array
         }
-        if (response == null) { return; }
-
-        JsonArray e = response.getAsJsonArray("errors");
-        if (e == null) { return; }
+        if (responseErrors == null) { return; }
 
         // Set the errors
-        errors = new ArrayList<String>(e.size());
-        for (int i = 0; i < e.size(); i++) {
-            errors.add(e.get(i).getAsString());
+        errors = new ArrayList<JumblrError>(responseErrors.size());
+        for (int i = 0; i < responseErrors.size(); i++) {
+            JsonElement errorElement = responseErrors.get(i);
+            JumblrError error = new JumblrError();
+            if (errorElement.isJsonObject()) {
+                JsonObject errorJson = errorElement.getAsJsonObject();
+                error.setTitle(errorJson.get("title").getAsString());
+                error.setCode(errorJson.get("code").getAsInt());
+                error.setDetail(errorJson.get("detail").getAsString());
+            }
+            else {
+                error.setDetail(errorElement.getAsString());
+            }
+            errors.add(error);
         }
     }
 
@@ -113,7 +122,7 @@ public class JumblrException extends RuntimeException {
         }
 
         // Otherwise set a default
-        this.message = "Unknown Error";
+        this.message = "Unknown JumblrError";
     }
 
 }
